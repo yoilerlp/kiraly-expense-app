@@ -1,121 +1,213 @@
 import {
-  Dimensions,
-  FlatList,
-  Image,
-  Pressable,
-  StyleSheet,
   Text,
   View,
+  Image,
+  FlatList,
   ViewabilityConfig,
+  Pressable,
 } from 'react-native';
-import React, { useRef } from 'react';
+import React from 'react';
+import {
+  createStyleSheet,
+  useStyles,
+  UnistylesRuntime,
+} from 'react-native-unistyles';
+import { Link } from 'expo-router';
+
+import Button from '@/components/button';
 import { assets } from '@/constants/assets';
 
-const { width } = Dimensions.get('window');
+const onBoardingStepsData = [
+  {
+    key: 1,
+    title: 'Gain total control\nof your money',
+    description: 'Become your own money manager and make every cent count',
+    img: assets.onboarding.gainControlOfYourMoney,
+  },
+  {
+    key: 2,
+    title: 'Know where your money goes',
+    description:
+      'Track your transaction easily, with categories and financial report ',
+    img: assets.onboarding.moneyGoes,
+  },
+  {
+    key: 3,
+    title: 'Planning ahead',
+    description: 'Setup your budget for each category so you in control',
+    img: assets.onboarding.moneyPlan,
+  },
+];
 
-const Item = ({ item }: { item: number }) => {
-  return (
-    <View
-      style={{
-        borderWidth: 1,
-        borderColor: 'black',
-        width,
-        height: 250,
-        alignItems: 'center',
-        flex: 1,
-      }}
-    >
-      <Image
-        source={assets.onboarding.gainControlOfYourMoney}
-        style={{
-          width: 200,
-          height: 200,
-        }}
-      />
-      <Text>Item {item}</Text>
-    </View>
-  );
-};
+export default function OnboardingScreen() {
+  const [currentStep, setCurrentStep] = React.useState(0);
 
-const items = [1, 2, 3, 4, 5, 6];
-const config: ViewabilityConfig = {
-  viewAreaCoveragePercentThreshold: 51,
-};
-export default function MainView() {
-  const [index, setIndex] = React.useState(0);
+  const flashListRef = React.useRef<FlatList>(null);
 
-  const flashListRef = React.useRef<FlatList<number>>(null);
-
-  const configList = useRef(config);
-
-  const clickBullet = (index: number) => {
-    if (flashListRef.current) {
-      flashListRef?.current?.scrollToIndex?.({ index: index, animated: true });
-    }
+  const config: ViewabilityConfig = {
+    viewAreaCoveragePercentThreshold: 51,
   };
 
+  const configList = React.useRef(config);
+
+  const { styles } = useStyles(onBoardingScreenStyles);
+
   return (
-    <View
-      style={{
-        marginTop: 100,
-        height: 400,
-      }}
-    >
-      <FlatList
-        style={{ width: '100%', height: 200 }}
-        horizontal
-        data={items}
-        pagingEnabled={true}
-        onViewableItemsChanged={(a) => {
-          console.log(a.viewableItems);
-          if (a?.viewableItems[0]?.index !== null)
-            setIndex(a?.viewableItems[0]?.index);
+    <View style={styles.container}>
+      <View style={{ marginBottom: 30 }}>
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          viewabilityConfig={configList.current}
+          onViewableItemsChanged={(a) => {
+            const currentSlide = a?.viewableItems[0]?.index;
+            if (currentSlide !== null && typeof currentSlide === 'number')
+              setCurrentStep(currentSlide);
+          }}
+          data={onBoardingStepsData}
+          renderItem={({ item }) => {
+            return <OnboardingStep stepData={item} key={item.key} />;
+          }}
+          ref={flashListRef}
+        />
+      </View>
+      <StepsIndicator
+        totalItems={onBoardingStepsData.length}
+        activeItemIndex={currentStep}
+        onClickStep={(index) => {
+          if (flashListRef.current) {
+            flashListRef?.current?.scrollToIndex?.({ index, animated: true });
+          }
         }}
-        viewabilityConfig={configList.current}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => <Item item={item} />}
-        ref={flashListRef}
       />
 
-      <StepList items={items} indexVisibled={index} onCLick={clickBullet} />
+      <View style={styles.buttonContainer}>
+        <Link href='/register' asChild>
+          <Button size='full' text='Sign Up' />
+        </Link>
+        <Link href='/login' asChild>
+          <Button variant='secondary' size='full' text='Login' />
+        </Link>
+      </View>
     </View>
   );
 }
 
-const StepList = ({
-  items: itemsP,
-  indexVisibled,
-  onCLick,
+function OnboardingStep({
+  stepData,
 }: {
-  items: number[];
-  indexVisibled: number;
-  onCLick?: (number: number) => void;
-}) => {
+  stepData: (typeof onBoardingStepsData)[0];
+}) {
+  const { styles } = useStyles(onBoardingStepStyles);
   return (
-    <View
-      style={{
-        backgroundColor: 'red',
-        marginTop: 100,
-        flexDirection: 'row',
-        gap: 20,
-        justifyContent: 'center',
-      }}
-    >
-      {itemsP.map((item, idx) => (
+    <View style={styles.container}>
+      <View style={styles.img_container}>
+        <Image style={styles.img} source={stepData.img} />
+      </View>
+      <View style={styles.text_container}>
+        <Text numberOfLines={2} style={styles.title}>
+          {stepData.title}
+        </Text>
+        <Text style={styles.description}>{stepData.description}</Text>
+      </View>
+    </View>
+  );
+}
+
+function StepsIndicator({
+  totalItems,
+  activeItemIndex,
+  onClickStep,
+}: {
+  totalItems: number;
+  activeItemIndex: number;
+  onClickStep?: (index: number) => void;
+}) {
+  const { styles: stepsStyles } = useStyles(StepsIndicatorStyles);
+
+  return (
+    <View style={stepsStyles.container}>
+      {[...Array(totalItems)].map((_, index) => (
         <Pressable
+          key={index}
           onPress={() => {
-            onCLick?.(idx);
+            onClickStep?.(index);
           }}
-          key={item}
-          style={{
-            width: 20,
-            height: 20,
-            backgroundColor: indexVisibled === idx ? 'blue' : 'black',
-            borderRadius: 100,
-          }}
-        ></Pressable>
+          style={stepsStyles.indicator(index === activeItemIndex)}
+        />
       ))}
     </View>
   );
-};
+}
+
+const StepsIndicatorStyles = createStyleSheet((theme) => ({
+  container: {
+    flexDirection: 'row',
+    gap: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 33,
+  },
+  indicator(isActive: boolean) {
+    return {
+      width: isActive ? 16 : 8,
+      height: isActive ? 16 : 8,
+      borderRadius: 100,
+      backgroundColor: isActive
+        ? theme.Colors.violet_100
+        : theme.Colors.light_20,
+    };
+  },
+}));
+
+const onBoardingStepStyles = createStyleSheet((theme) => ({
+  container: {
+    width: UnistylesRuntime.screen.width,
+    paddingHorizontal: 20,
+  },
+  img_container: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  img: {
+    maxWidth: 312,
+    maxHeight: 312,
+  },
+  text_container: {
+    alignItems: 'center',
+  },
+  title: {
+    ...theme.Typography.Title1,
+    color: theme.Colors.dark_50,
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    marginBottom: 16,
+  },
+  description: {
+    ...theme.Typography.Body1,
+    color: theme.Colors.light_20,
+    textAlign: 'center',
+    maxWidth: 272,
+  },
+}));
+
+const onBoardingScreenStyles = createStyleSheet((theme) => ({
+  container: {
+    flex: 1,
+    paddingTop: 32,
+    paddingBottom: 8,
+    // paddingHorizontal: 20,
+  },
+  buttonContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    gap: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}));
 

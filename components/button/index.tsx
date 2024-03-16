@@ -1,0 +1,116 @@
+import { View, Text, Pressable, PressableProps } from 'react-native';
+import React, { ComponentProps } from 'react';
+import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+type ButtonProps = Omit<PressableProps, 'children'> & {
+  variant?: 'primary' | 'secondary';
+  size?: 'small' | 'large' | 'full';
+  text: string;
+  iconName?: ComponentProps<typeof Ionicons>['name'];
+};
+
+const Button = React.forwardRef(
+  (
+    {
+      size = 'large',
+      variant = 'primary',
+      text,
+      iconName,
+      ...props
+    }: ButtonProps,
+    ref: ComponentProps<typeof Pressable>['ref']
+  ) => {
+    const buttonStyles = useStyles(styles, {
+      color: variant,
+      size,
+    });
+
+    return (
+      <Pressable
+        {...props}
+        style={(pressableEvent) => {
+          const { style: stylesP } = props;
+          const propsStyles =
+            typeof stylesP === 'function' ? stylesP(pressableEvent) : stylesP;
+          return {
+            ...(propsStyles as any),
+            ...buttonStyles.styles.container({
+              presed: pressableEvent.pressed,
+              disabled: Boolean(props.disabled),
+            }),
+          };
+        }}
+      >
+        {iconName && (
+          <Ionicons
+            name={iconName}
+            size={32}
+            color={
+              (buttonStyles?.styles?.text as unknown as any)?.color || 'white'
+            }
+          />
+        )}
+        <Text style={buttonStyles.styles.text}>{text}</Text>
+      </Pressable>
+    );
+  }
+);
+
+Button.displayName = 'Button';
+
+const styles = createStyleSheet((theme) => ({
+  container: ({ presed, disabled, flexReverse = false }: {
+    presed: boolean;
+    disabled?: boolean;
+    flexReverse?: boolean;
+  }) => {
+    return {
+      height: 56,
+      padding: 8,
+      borderRadius: 16,
+      flexDirection: flexReverse ? 'row-reverse' : 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      opacity: (presed || disabled) ? 0.7 : 1,
+      variants: {
+        color: {
+          primary: {
+            backgroundColor: theme.Colors.violet_100,
+          },
+          secondary: {
+            backgroundColor: theme.Colors.violet_20,
+          },
+        },
+        size: {
+          small: {
+            width: 164,
+          },
+          large: {
+            width: 343,
+          },
+          full: {
+            width: '100%',
+          },
+        },
+      },
+    };
+  },
+  text: {
+    ...theme.Typography.Title3,
+    variants: {
+      color: {
+        primary: {
+          color: theme.Colors.light_80,
+        },
+        secondary: {
+          color: theme.Colors.violet_100,
+        },
+      },
+    },
+  },
+}));
+
+export default Button;
+
