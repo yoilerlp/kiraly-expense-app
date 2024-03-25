@@ -19,4 +19,3 @@ UnistylesRegistry.addBreakpoints(breakpoints)
     adaptiveThemes: false,
     initialTheme: 'light',
   });
-

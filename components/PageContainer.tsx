@@ -1,6 +1,6 @@
-import { View } from 'react-native';
-import React, { PropsWithChildren } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { PropsWithChildren } from 'react';
+import { View } from 'react-native';
 
 export default function PageContainer({ children }: PropsWithChildren) {
   const { top, bottom, left, right } = useSafeAreaInsets();

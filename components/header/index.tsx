@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native';
-import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
+import React from 'react';
 
 type ScreenHeaderProps = {
   title: string;

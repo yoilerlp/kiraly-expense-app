@@ -1,10 +1,13 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { useForm, Controller } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import Toast from 'react-native-toast-message';
+import { Link, useRouter } from 'expo-router';
 import { View, Text } from 'react-native';
-import { Link } from 'expo-router';
 import React from 'react';
 
 import { Button, CustomCheckBox, Input } from '@/components';
+import { createUser } from '@/services/user';
 
 type RegisterData = {
   name: string;
@@ -15,6 +18,9 @@ type RegisterData = {
 };
 
 export default function Register() {
+
+  const router = useRouter();
+
   const { control, formState, handleSubmit } = useForm<RegisterData>({
     defaultValues: {
       name: '',
@@ -26,10 +32,29 @@ export default function Register() {
   });
   const { styles } = useStyles(registerStyles);
 
+  const createUserMutation = useMutation({
+    mutationFn: createUser,
+    onSuccess: (data) => {
+      Toast.show({
+        type: 'success',
+        text1: 'User created successfully',
+        text2: 'Please verify your email',
+      });
+      router.push(`/verify/${data.email}`);
+    },
+    onError: (error: string) => {
+      Toast.show({
+        type: 'error',
+        text1: error,
+      });
+    },
+  });
+
   const { errors } = formState;
 
-  const onSubmit = (data: RegisterData) => {
-    console.log(data);
+  const onSubmit = async (data: RegisterData) => {
+    const { acceptTerms, ...dataToBack } = data;
+    createUserMutation.mutate(dataToBack);
   };
   return (
     <View style={styles.pageContainer}>
@@ -130,6 +155,7 @@ export default function Register() {
         </View>
       </View>
       <Button
+        isLoading={createUserMutation.isPending}
         onPress={handleSubmit(onSubmit)}
         style={{ marginBottom: 40 }}
         size='full'

@@ -1,8 +1,7 @@
-import { View, Text } from 'react-native';
-import React from 'react';
-
-import Checkbox, { CheckboxProps } from 'expo-checkbox';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import Checkbox, { CheckboxProps } from 'expo-checkbox';
+import { View } from 'react-native';
+import React from 'react';
 
 export default function CustomCheckBox({
   ...props

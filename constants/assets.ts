@@ -1,3 +1,4 @@
+// onboarding images
 const gainControlOfYourMoney = require('../assets/images/onboarding/gain_total_control_of_your_money.png');
 const moneyGoes = require('../assets/images/onboarding/money_goes.png');
 const moneyPlan = require('../assets/images/onboarding/plan.png');

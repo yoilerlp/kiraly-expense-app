@@ -1,3 +1,10 @@
+import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import React, { useEffect, useRef, useState } from 'react';
+import { Stack, useLocalSearchParams } from 'expo-router';
+import { useMutation } from '@tanstack/react-query';
+import Toast from 'react-native-toast-message';
+import { useRouter } from 'expo-router';
+
 import {
   View,
   Text,
@@ -5,17 +12,63 @@ import {
   TouchableOpacity,
   Pressable,
   KeyboardAvoidingView,
-  Platform,
   Keyboard,
 } from 'react-native';
-import React, { useRef, useState } from 'react';
-import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import Button from '@/components/button';
 
+import ScreenHeader from '@/components/header';
+import Button from '@/components/button';
+import useTimer from '@/hooks/useTimer';
+
+import { ResendOTPCode, VerifyOTPCode } from '@/services/user';
 export default function VerifyOTPScreen() {
+  const { minutes, seconds, timeIsOver, resumeTimer, resetTimer } = useTimer(5);
+
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
 
   const refs = useRef<TextInput[]>([]);
+
+  const { email } = useLocalSearchParams<{
+    email: string;
+  }>();
+
+  const router = useRouter();
+
+  const verifyOTPMutation = useMutation({
+    mutationFn: VerifyOTPCode,
+    onSuccess: (data) => {
+      Toast.show({
+        type: 'success',
+        text1: data.message,
+      });
+      setTimeout(() => {
+        router.replace('/login');
+      }, 3000);
+    },
+    onError: (error: string) => {
+      Toast.show({
+        type: 'error',
+        text1: error,
+      });
+    },
+  });
+  const reSendOTPMutation = useMutation({
+    mutationFn: ResendOTPCode,
+    onSuccess: (data) => {
+      Toast.show({
+        type: 'success',
+        text1: data.message,
+      });
+      resetTimer();
+      resumeTimer();
+      setOtp(['', '', '', '', '', '']);
+    },
+    onError: (error: string) => {
+      Toast.show({
+        type: 'error',
+        text1: error,
+      });
+    },
+  });
 
   const { styles } = useStyles(verifyStyles);
 
@@ -39,12 +92,28 @@ export default function VerifyOTPScreen() {
     return otp.every((value) => !!value && !isNaN(Number(value)));
   };
 
+  useEffect(() => {
+    resumeTimer();
+  }, [email]);
+
+  const handleResendCode = () => {
+    console.log('email', email);
+    if (!timeIsOver || !email) return;
+    reSendOTPMutation.mutate({ email });
+  };
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={100}
       behavior={'padding'}
       style={styles.pageContainer}
     >
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          header: () => <ScreenHeader title='Verifycation' />,
+        }}
+      />
       <View style={styles.divider}></View>
       <View style={styles.formContainer}>
         <Text style={styles.title}>Enter your {'\n'}Verification Code</Text>
@@ -84,24 +153,45 @@ export default function VerifyOTPScreen() {
             );
           })}
         </View>
+
+        {!timeIsOver && (
+          <View style={styles.timmerContainer}>
+            <Text style={styles.timmerText}>
+              {minutes}:{seconds < 10 ? '0' : ''}
+              {seconds}
+            </Text>
+          </View>
+        )}
+
         <View style={styles.emailTextContainer}>
           <Text style={styles.textContainer}>
             We send verification code to your {'\n'}email{' '}
-            <Text style={styles.emailText}>brajaoma*****@gmail.com</Text>. You
-            can check your inbox.
+            <Text style={styles.emailText}>{email}</Text>. You can check your
+            inbox.
           </Text>
         </View>
         <Pressable
+          disabled={!timeIsOver}
           style={({ pressed }) => ({
-            opacity: pressed ? 0.7 : 1,
+            opacity: pressed || !timeIsOver ? 0.7 : 1,
             marginBottom: 47,
           })}
+          onPress={handleResendCode}
         >
           <Text style={[styles.emailText, { textDecorationLine: 'underline' }]}>
             I didn’t received the code? Send again
           </Text>
         </Pressable>
-        <Button disabled={!isValidInputCode()} size='full' text='Verify' />
+        <Button
+          onPress={() => {
+            const data = { email, otp: otp.join('') };
+            verifyOTPMutation.mutate(data);
+          }}
+          isLoading={verifyOTPMutation.isPending}
+          disabled={!isValidInputCode()}
+          size='full'
+          text='Verify'
+        />
       </View>
     </KeyboardAvoidingView>
   );
@@ -130,7 +220,18 @@ const verifyStyles = createStyleSheet((theme) => ({
     alignItems: 'center',
     gap: 10,
     height: 40,
-    marginBottom: 47,
+    marginBottom: 32,
+  },
+  timmerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    height: 40,
+    marginBottom: 16,
+  },
+  timmerText: {
+    ...theme.Typography.Title3,
+    color: theme.Colors.violet_100,
   },
   otpInputCircle(hasValue: boolean) {
     return {

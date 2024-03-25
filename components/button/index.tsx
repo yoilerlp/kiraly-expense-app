@@ -1,12 +1,18 @@
-import { View, Text, Pressable, PressableProps } from 'react-native';
-import React, { ComponentProps } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { ComponentProps } from 'react';
+import {
+  Text,
+  Pressable,
+  PressableProps,
+  ActivityIndicator,
+} from 'react-native';
 
 type ButtonProps = Omit<PressableProps, 'children'> & {
   variant?: 'primary' | 'secondary';
   size?: 'small' | 'large' | 'full';
   text: string;
+  isLoading?: boolean;
   iconName?: ComponentProps<typeof Ionicons>['name'];
 };
 
@@ -16,6 +22,7 @@ const Button = React.forwardRef(
       size = 'large',
       variant = 'primary',
       text,
+      isLoading = false,
       iconName,
       ...props
     }: ButtonProps,
@@ -29,6 +36,7 @@ const Button = React.forwardRef(
     return (
       <Pressable
         {...props}
+        ref={ref}
         style={(pressableEvent) => {
           const { style: stylesP } = props;
           const propsStyles =
@@ -36,8 +44,8 @@ const Button = React.forwardRef(
           return {
             ...(propsStyles as any),
             ...buttonStyles.styles.container({
-              presed: pressableEvent.pressed,
-              disabled: Boolean(props.disabled),
+              presed: pressableEvent.pressed || isLoading,
+              disabled: Boolean(props.disabled) || isLoading,
             }),
           };
         }}
@@ -51,6 +59,7 @@ const Button = React.forwardRef(
             }
           />
         )}
+        {isLoading ? <ActivityIndicator /> : null}
         <Text style={buttonStyles.styles.text}>{text}</Text>
       </Pressable>
     );
@@ -60,7 +69,11 @@ const Button = React.forwardRef(
 Button.displayName = 'Button';
 
 const styles = createStyleSheet((theme) => ({
-  container: ({ presed, disabled, flexReverse = false }: {
+  container: ({
+    presed,
+    disabled,
+    flexReverse = false,
+  }: {
     presed: boolean;
     disabled?: boolean;
     flexReverse?: boolean;
@@ -73,7 +86,7 @@ const styles = createStyleSheet((theme) => ({
       alignItems: 'center',
       justifyContent: 'center',
       gap: 8,
-      opacity: (presed || disabled) ? 0.7 : 1,
+      opacity: presed || disabled ? 0.7 : 1,
       variants: {
         color: {
           primary: {
