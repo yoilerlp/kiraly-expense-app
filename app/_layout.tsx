@@ -6,12 +6,15 @@ import { Stack } from 'expo-router';
 import { useEffect } from 'react';
 
 import AuthContextProvider from '@/context/authContext/Provider';
+import PageContextProvider from '@/context/pageContext';
 import PageContainer from '@/components/PageContainer';
 import { StorageKeys } from '@/constants/storageKeys';
 import useStorageValue from '@/hooks/useStorageValue';
 import ScreenHeader from '@/components/header';
 import { assets } from '../constants/assets';
 import CustomToast from '@/components/toast';
+import { Colors } from '@/theme/Colors';
+
 import '@/unistyles';
 
 const queryClient = new QueryClient();
@@ -43,57 +46,81 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 function RootLayoutNav() {
   const { value } = useStorageValue(StorageKeys.authToken, '');
 
   const isLogged = !!value;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthContextProvider>
-        <PageContainer>
-          <Stack
-            initialRouteName={isLogged ? '(home)' : 'index'}
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: 'white' },
-            }}
-          >
-            {/* <Stack.Screen name='(auth)/index' /> */}
-            <Stack.Screen name='(home)' options={{ headerShown: false }} />
-            <Stack.Screen
-              options={{
-                headerShown: true,
-                header: () => <ScreenHeader title='Sign Up' />,
-              }}
-              name='(auth)/register'
-            />
-            <Stack.Screen
-              options={{
-                headerShown: true,
-                header: () => <ScreenHeader title='Login' />,
-              }}
-              name='(auth)/login'
-            />
-            <Stack.Screen
-              options={{
-                headerShown: true,
-                header: () => <ScreenHeader title='Reset Password' />,
-              }}
-              name='(auth)/updatePassword/[email]'
-            />
-            <Stack.Screen
-              options={{
-                headerShown: true,
-                header: () => <ScreenHeader title='Forgot Password' />,
-              }}
-              name='(auth)/forgotPassword'
-            />
-          </Stack>
-        </PageContainer>
-        <CustomToast />
-      </AuthContextProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
+          <PageContextProvider>
+            <PageContainer>
+              <Stack
+                initialRouteName={isLogged ? '(home)' : 'index'}
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: 'white' },
+                }}
+              >
+                <Stack.Screen name='(home)' options={{ headerShown: false }} />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                    header: () => <ScreenHeader title='Sign Up' />,
+                  }}
+                  name='(auth)/register'
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                    header: () => <ScreenHeader title='Login' />,
+                  }}
+                  name='(auth)/login'
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                    header: () => <ScreenHeader title='Reset Password' />,
+                  }}
+                  name='(auth)/updatePassword/[email]'
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                    header: () => <ScreenHeader title='Forgot Password' />,
+                  }}
+                  name='(auth)/forgotPassword'
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                    header: () => (
+                      <ScreenHeader
+                        title='Add new account'
+                        bgColor={Colors.violet_100}
+                        textColor='white'
+                      />
+                    ),
+                  }}
+                  name='(auth)/addAccount'
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: false,
+                  }}
+                  name='(auth)/setupAccount'
+                />
+              </Stack>
+            </PageContainer>
+            <CustomToast />
+          </PageContextProvider>
+        </AuthContextProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
 
