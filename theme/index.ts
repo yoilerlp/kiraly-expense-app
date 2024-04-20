@@ -1,6 +1,6 @@
 import { Colors } from './Colors';
 import { fontNames } from '../constants/assets';
-import { Typography } from './Typography';
+import { TypographyList } from './Typography';
 
 export const breakpoints = {
   xs: 0,
@@ -21,7 +21,7 @@ export const margins = {
 
 export const lightTheme = {
   Colors,
-  Typography,
+  Typography: TypographyList,
   FontNames: fontNames,
 } as const;
 

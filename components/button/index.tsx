@@ -1,6 +1,6 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { ComponentProps } from 'react';
+import Icon, { IconName } from '../icon/index';
 import {
   Text,
   Pressable,
@@ -13,7 +13,7 @@ type ButtonProps = Omit<PressableProps, 'children'> & {
   size?: 'small' | 'large' | 'full';
   text: string;
   isLoading?: boolean;
-  iconName?: ComponentProps<typeof Ionicons>['name'];
+  iconName?: IconName
 };
 
 const Button = React.forwardRef(
@@ -51,7 +51,7 @@ const Button = React.forwardRef(
         }}
       >
         {iconName && (
-          <Ionicons
+          <Icon
             name={iconName}
             size={32}
             color={

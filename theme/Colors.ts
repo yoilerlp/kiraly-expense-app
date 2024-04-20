@@ -3,9 +3,10 @@ export const Colors = {
   light_40: '#F2F4F5',
   // light_60: '#F7F9FA',
   light_60: '#F1F1FA',
-  light_80: '#FBFBFB',
+  light_80: '#FCFCFC',
   light_100: '#FFFFFF',
 
+  grayIcon: '#C6C6C6',
 
   dark_25: '#7A7E80',
   dark_50: '#212325',

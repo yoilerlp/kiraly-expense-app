@@ -2,14 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '../useAuth';
 import { AccountService } from '@/services';
 
+export const GET_ALL_ACCOUNTS_BY_USER_KEY = 'get-all-accounts';
+
 export default function useUserAccounts() {
   const { user } = useAuth();
 
   const accountsQuery = useQuery({
-    queryKey: ['userAccounts', user?.id],
+    queryKey: [GET_ALL_ACCOUNTS_BY_USER_KEY],
     queryFn: () => AccountService.GetUserAccounts(),
-    retry: 1,
+    retry: 2,
     enabled: !!user,
+    refetchOnMount: 'always',
   });
 
   return accountsQuery;

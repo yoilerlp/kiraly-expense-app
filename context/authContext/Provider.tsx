@@ -5,6 +5,9 @@ import useStorageValue from '@/hooks/useStorageValue';
 import { setStorageItemAsync } from '@/utils/storage';
 import { useRouter } from 'expo-router';
 import { StorageKeys } from '../../constants/storageKeys';
+import { useQuery } from '@tanstack/react-query';
+import { AccountService } from '@/services';
+import { GET_ALL_ACCOUNTS_BY_USER_KEY } from '@/hooks/data/useUserAccounts';
 
 export default function AuthContextProvider({ children }: PropsWithChildren) {
   const rotuer = useRouter();

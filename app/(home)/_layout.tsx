@@ -1,10 +1,28 @@
-import useUserAccounts from '@/hooks/data/useUserAccounts';
 import { Redirect, Tabs } from 'expo-router';
-export default function HomeLayout() {
-  const { data: accounts, isLoading } = useUserAccounts();
-  if (accounts?.length !== 0 && !isLoading)
-    return <Redirect href={'/(auth)/addAccount'} />;
+import useUserAccounts from '@/hooks/data/useUserAccounts';
+import TabBar from '@/components/navigation/bottomBar/TabBar';
 
-  return <Tabs />;
+export default function HomeLayout() {
+  const { isLoading: loadingAccounts, data: accounts } = useUserAccounts();
+
+  if (accounts && accounts?.length === 0 && !loadingAccounts) {
+    return <Redirect href={'/(auth)/setupAccount'} />;
+  }
+
+  return (
+    <Tabs
+      tabBar={(props) => {
+        return <TabBar {...props} />;
+      }}
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      {/* <Tabs.Screen name='index' />
+      <Tabs.Screen name='otra' />
+      <Tabs.Screen name='boton' />
+      <Tabs.Screen name='test' /> */}
+    </Tabs>
+  );
 }
 

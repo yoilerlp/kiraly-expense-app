@@ -5,7 +5,7 @@ import Toast, {
   InfoToast,
 } from 'react-native-toast-message';
 
-import { Typography } from '@/theme/Typography';
+import { TypographyList as Typography } from '@/theme/Typography';
 import { Colors } from '@/theme/Colors';
 
 const config: ToastConfig = {

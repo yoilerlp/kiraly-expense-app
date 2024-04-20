@@ -3,6 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import { Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import usePageContainer from '@/hooks/usePageContainer';
+import { StatusBar } from 'expo-status-bar';
 
 export default function PageContainer({ children }: PropsWithChildren) {
   const { top, bottom, left, right } = useSafeAreaInsets();
@@ -20,6 +21,10 @@ export default function PageContainer({ children }: PropsWithChildren) {
         paddingRight: right,
       }}
     >
+      <StatusBar
+        style='auto'
+        backgroundColor={statusBarContainerStyles?.backgroundColor}
+      />
       <View
         style={{
           height: top,

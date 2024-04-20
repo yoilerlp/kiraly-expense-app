@@ -12,7 +12,7 @@ type ScreenHeaderProps = {
 
 export default function ScreenHeader({
   title,
-  bgColor = 'transparent',
+  bgColor = 'white',
   textColor,
 }: ScreenHeaderProps) {
   const router = useRouter();

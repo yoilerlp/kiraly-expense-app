@@ -1,7 +1,8 @@
 import { fontNames } from '@/constants/assets';
 import type { TextStyle } from 'react-native';
 
-export const Typography = {
+type a<T extends string> =  T;
+export const TypographyList = {
   TitleX: {
     fontFamily: fontNames.InterBold,
     fontSize: 64,

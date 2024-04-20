@@ -64,9 +64,15 @@ function RootLayoutNav() {
                 screenOptions={{
                   headerShown: false,
                   contentStyle: { backgroundColor: 'white' },
+                  animation: 'fade_from_bottom',
                 }}
               >
-                <Stack.Screen name='(home)' options={{ headerShown: false }} />
+                <Stack.Screen
+                  name='(home)'
+                  options={{
+                    headerShown: false,
+                  }}
+                />
                 <Stack.Screen
                   options={{
                     headerShown: true,
