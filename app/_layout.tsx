@@ -20,7 +20,9 @@ import '@/unistyles';
 const queryClient = new QueryClient();
 
 export { ErrorBoundary } from 'expo-router';
+
 SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     ...assets.fonts,
@@ -60,7 +62,7 @@ function RootLayoutNav() {
           <PageContextProvider>
             <PageContainer>
               <Stack
-                initialRouteName={isLogged ? '(home)' : 'index'}
+                initialRouteName={isLogged ? 'main' : 'index'}
                 screenOptions={{
                   headerShown: false,
                   contentStyle: { backgroundColor: 'white' },
@@ -68,9 +70,17 @@ function RootLayoutNav() {
                 }}
               >
                 <Stack.Screen
-                  name='(home)'
+                  name='main'
                   options={{
                     headerShown: false,
+                    animation: 'fade',
+                  }}
+                />
+                <Stack.Screen
+                  name='transactions'
+                  options={{
+                    headerShown: false,
+                    // animation: 'fade',
                   }}
                 />
                 <Stack.Screen

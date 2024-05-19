@@ -10,6 +10,9 @@ const InterSemiBold = require('../assets/fonts/Inter-SemiBold.ttf');
 const InterMedium = require('../assets/fonts/Inter-Medium.ttf');
 const InterBold = require('../assets/fonts/Inter-Bold.ttf');
 
+// images
+const avatar = require('../assets/images/avatar.jpeg');
+
 const fonts = {
   // InterRegular,
   InterSemiBold,
@@ -34,5 +37,8 @@ export const assets = {
     emailSend,
   },
   fonts,
+  images: {
+    avatar,
+  },
 };
 

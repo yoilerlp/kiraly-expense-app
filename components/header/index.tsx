@@ -1,19 +1,23 @@
+import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import Icon from '../icon';
 
 type ScreenHeaderProps = {
   title: string;
   bgColor?: string;
   textColor?: string;
+  returnUrl?: string;
+  rightIcon?: React.ReactNode;
 };
 
 export default function ScreenHeader({
   title,
   bgColor = 'white',
   textColor,
+  rightIcon,
+  returnUrl,
 }: ScreenHeaderProps) {
   const router = useRouter();
   const { styles, theme } = useStyles(hedaerStyles);
@@ -21,14 +25,20 @@ export default function ScreenHeader({
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
       <View style={styles.rowContent}>
-        <Ionicons
-          name='arrow-back-outline'
+        <Icon
+          name='ArrowBack'
           size={24}
           color={tintColor}
-          onPress={() => router.back()}
+          onPress={() => {
+            if (returnUrl) {
+              router.push(returnUrl as any);
+              return;
+            }
+            router.back();
+          }}
         />
         <Text style={[styles.title, { color: tintColor }]}>{title}</Text>
-        <View />
+        {rightIcon ? rightIcon : <View />}
       </View>
     </View>
   );

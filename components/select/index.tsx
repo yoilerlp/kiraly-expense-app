@@ -3,10 +3,11 @@ import RNPickerSelect, {
   Item,
 } from 'react-native-picker-select';
 
-import { View, Text } from 'react-native';
+import { View, Text, ViewStyle } from 'react-native';
 import React, { useState } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { Ionicons } from '@expo/vector-icons';
+import { IconProps } from '../icon';
 
 type SelectProps<T = string> = {
   value: T;
@@ -17,6 +18,13 @@ type SelectProps<T = string> = {
 
   placeholder?: string;
   error?: string;
+
+  style?: {
+    viewContainer?: ViewStyle;
+    inputContainer?: ViewStyle;
+  };
+
+  iconProps?: Partial<IconProps>;
 } & Pick<PickerSelectProps, 'onOpen' | 'onClose' | 'disabled'>;
 
 export default function Select<T>({
@@ -28,13 +36,15 @@ export default function Select<T>({
   onOpen,
   onClose,
   disabled,
+  style: customStyle = {},
+  iconProps = {},
 }: SelectProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { styles, theme } = useStyles(selectStyles);
 
   return (
-    <View>
+    <View style={styles.container}>
       <RNPickerSelect
         onOpen={() => {
           setIsOpen(true);
@@ -53,16 +63,22 @@ export default function Select<T>({
         Icon={() => (
           <Ionicons
             name={isOpen ? 'chevron-up-outline' : 'chevron-down-outline'}
-            size={32}
-            color={theme.Colors.light_20}
+            size={iconProps?.size || 32}
+            color={iconProps?.color || theme.Colors.light_20}
           />
         )}
         style={{
-          viewContainer: styles.viewContainer,
+          viewContainer: [styles.viewContainer, customStyle?.viewContainer],
           inputIOS: styles.input,
           inputAndroid: styles.input,
-          inputIOSContainer: styles.inputContainer,
-          inputAndroidContainer: styles.inputContainer,
+          inputIOSContainer: [
+            styles.inputContainer,
+            customStyle?.inputContainer,
+          ],
+          inputAndroidContainer: [
+            styles.inputContainer,
+            customStyle?.inputContainer,
+          ],
           iconContainer: styles.iconContainer,
           done: styles.doneText,
           placeholder: {
@@ -81,6 +97,7 @@ export default function Select<T>({
 }
 
 const selectStyles = createStyleSheet((theme) => ({
+  container: {},
   viewContainer: {
     borderRadius: 16,
     padding: 16,
@@ -111,3 +128,4 @@ const selectStyles = createStyleSheet((theme) => ({
     paddingLeft: 8,
   },
 }));
+

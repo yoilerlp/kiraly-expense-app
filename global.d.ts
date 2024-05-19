@@ -8,3 +8,16 @@ declare type ServiceErrorResponse = {
   statusCode: number;
 };
 
+declare type ServicePagination = {
+  page: number;
+  limit: number;
+  total: number;
+};
+
+declare type ServiceResponseWithPagination<T> = {
+  data: {
+    rows: T[];
+    pagination: ServicePagination;
+  };
+};
+

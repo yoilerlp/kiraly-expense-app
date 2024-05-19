@@ -23,5 +23,6 @@ export const lightTheme = {
   Colors,
   Typography: TypographyList,
   FontNames: fontNames,
+  margins,
 } as const;
 

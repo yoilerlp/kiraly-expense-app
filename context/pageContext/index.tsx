@@ -1,3 +1,4 @@
+import { StatusBarProps } from 'expo-status-bar';
 import React, { useState, PropsWithChildren } from 'react';
 
 type PagePartStyles = {
@@ -7,6 +8,7 @@ type PagePartStyles = {
 export type IPageStatusBarStyles = {
   viewBottomContainerStyles: PagePartStyles;
   statusBarContainerStyles: PagePartStyles;
+  statusBarProps?: StatusBarProps;
 };
 
 type IPageContext = {
@@ -25,6 +27,9 @@ export const defaulPagePartStyles: IPageStatusBarStyles = {
   },
   statusBarContainerStyles: {
     backgroundColor: 'transparent',
+  },
+  statusBarProps: {
+    style: 'auto',
   },
 };
 

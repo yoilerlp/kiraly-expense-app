@@ -42,5 +42,11 @@ export const Colors = {
   yellow_60: '#FCCC6F',
   yellow_80: '#FCBB3C',
   yellow_100: '#FCAC12',
+
+  // gradianst
+  yellowGradient: {
+    start: '#FFF6E5',
+    end: 'rgba(255, 246, 229, 0.2)',
+  },
 } as const;
 

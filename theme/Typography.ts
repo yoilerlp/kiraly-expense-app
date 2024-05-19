@@ -1,7 +1,6 @@
 import { fontNames } from '@/constants/assets';
 import type { TextStyle } from 'react-native';
 
-type a<T extends string> =  T;
 export const TypographyList = {
   TitleX: {
     fontFamily: fontNames.InterBold,
@@ -20,6 +19,10 @@ export const TypographyList = {
   Title3: {
     fontFamily: fontNames.InterSemiBold,
     fontSize: 18,
+  },
+  Title4: {
+    fontFamily: fontNames.InterSemiBold,
+    fontSize: 16,
   },
   Body1: {
     fontFamily: fontNames.InterMedium,

@@ -61,7 +61,7 @@ export default function AddAccount() {
         }
       );
 
-      router.replace('/(home)/');
+      router.replace('/main/home');
     },
     onError: (error: string) => {
       console.log({ error });

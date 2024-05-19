@@ -10,9 +10,7 @@ export default function useUserAccounts() {
   const accountsQuery = useQuery({
     queryKey: [GET_ALL_ACCOUNTS_BY_USER_KEY],
     queryFn: () => AccountService.GetUserAccounts(),
-    retry: 2,
     enabled: !!user,
-    refetchOnMount: 'always',
   });
 
   return accountsQuery;

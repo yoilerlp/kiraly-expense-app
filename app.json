@@ -32,7 +32,13 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you save invoice images"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

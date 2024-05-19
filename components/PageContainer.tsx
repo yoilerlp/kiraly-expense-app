@@ -10,8 +10,11 @@ export default function PageContainer({ children }: PropsWithChildren) {
 
   const { statusBarStyles } = usePageContainer();
 
-  const { viewBottomContainerStyles, statusBarContainerStyles } =
-    statusBarStyles;
+  const {
+    viewBottomContainerStyles,
+    statusBarContainerStyles,
+    statusBarProps,
+  } = statusBarStyles;
 
   return (
     <View
@@ -22,7 +25,7 @@ export default function PageContainer({ children }: PropsWithChildren) {
       }}
     >
       <StatusBar
-        style='auto'
+        style={statusBarProps?.style || 'auto'}
         backgroundColor={statusBarContainerStyles?.backgroundColor}
       />
       <View

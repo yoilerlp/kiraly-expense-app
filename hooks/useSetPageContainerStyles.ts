@@ -1,7 +1,8 @@
-import { useLayoutEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IPageStatusBarStyles } from '@/context/pageContext';
 import usePageContainer from './usePageContainer';
+import { useFocusEffect } from 'expo-router';
 
 export default function useSetPageContainerStyles(
   styles: Partial<IPageStatusBarStyles>
@@ -10,13 +11,15 @@ export default function useSetPageContainerStyles(
 
   const stylesMemo = useMemo(() => styles, []);
 
-  useLayoutEffect(() => {
-    if (!styles || Object.keys(styles).length === 0 ) return;
-    setPagePartStyles(styles);
+  useFocusEffect(
+    useCallback(() => {
+      if (!styles || Object.keys(styles).length === 0) return;
+      setPagePartStyles(styles);
 
-    return () => {
-      resetPagePartStyles();
-    };
-  }, [stylesMemo]);
+      return () => {
+        resetPagePartStyles();
+      };
+    }, [stylesMemo])
+  );
 }
 

@@ -9,6 +9,7 @@ import React from 'react';
 import { setStorageItemAsync } from '@/utils/storage';
 import { Input, Button } from '@/components';
 import { LoginUser } from '@/services/user';
+import { API_URL } from '../../constants/api';
 
 export default function LoginScreen() {
   const { control, formState, handleSubmit } = useForm({
@@ -29,7 +30,7 @@ export default function LoginScreen() {
       });
       await setStorageItemAsync('token', data.access_token);
       await setStorageItemAsync('user', JSON.stringify(data.user));
-      router.replace('/(home)');
+      router.replace('/main/home');
     },
     onError: (error: string) => {
       Toast.show({
@@ -40,6 +41,9 @@ export default function LoginScreen() {
   });
 
   const onSubmit = (data: { email: string; password: string }) => {
+    console.log('try login', {
+      API_URL
+    })
     loginMutation.mutate(data);
   };
   return (

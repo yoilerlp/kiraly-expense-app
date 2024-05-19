@@ -19,7 +19,7 @@ type TabScreenData = {
 
 const tabBarItemsLeft: TabScreenData[] = [
   {
-    key: 'index',
+    key: 'home',
     title: 'Home',
     iconName: 'Home',
   },
@@ -61,7 +61,7 @@ export default function TabBar({ navigation, state }: TabBarProps) {
           (name) => name === item.key
         );
         const isActive = routeIndexByName === state.index;
-        console.log({ routeIndexByName, isActive, key: item.key });
+
         return (
           <TabBarItem
             key={item.key}

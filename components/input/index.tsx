@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, ViewStyle, TextStyle } from 'react-native';
 import React, { ComponentProps } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -6,10 +6,14 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 type InputProps = ComponentProps<typeof TextInput> & {
   isPassword?: boolean;
   error?: string;
+  containerStyles?: ViewStyle;
+  errorStyles?: TextStyle;
 };
 export default function Input({
   isPassword = false,
   error,
+  containerStyles,
+  errorStyles,
   ...props
 }: InputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
@@ -22,14 +26,16 @@ export default function Input({
     <View>
       <View
         style={{
-          ...(props.style || ({} as any)),
           ...styles.container(isFocused),
+          ...(containerStyles || ({} as any)),
         }}
       >
         <TextInput
           {...props}
-          placeholderTextColor={theme.Colors.light_20}
-          style={styles.input}
+          placeholderTextColor={
+            props?.placeholderTextColor || theme.Colors.light_20
+          }
+          style={[styles.input, props?.style]}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           secureTextEntry={showPasswordText}
@@ -44,7 +50,7 @@ export default function Input({
           />
         )}
       </View>
-      {error && <Text style={styles.errorMessage}>{error}</Text>}
+      {error && <Text style={[styles.errorMessage, errorStyles]}>{error}</Text>}
     </View>
   );
 }

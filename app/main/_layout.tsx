@@ -2,7 +2,7 @@ import { Redirect, Tabs } from 'expo-router';
 import useUserAccounts from '@/hooks/data/useUserAccounts';
 import TabBar from '@/components/navigation/bottomBar/TabBar';
 
-export default function HomeLayout() {
+export default function MainLayout() {
   const { isLoading: loadingAccounts, data: accounts } = useUserAccounts();
 
   if (accounts && accounts?.length === 0 && !loadingAccounts) {
@@ -17,12 +17,7 @@ export default function HomeLayout() {
       screenOptions={{
         headerShown: false,
       }}
-    >
-      {/* <Tabs.Screen name='index' />
-      <Tabs.Screen name='otra' />
-      <Tabs.Screen name='boton' />
-      <Tabs.Screen name='test' /> */}
-    </Tabs>
+    ></Tabs>
   );
 }
 

@@ -1,19 +1,31 @@
 import Icon from '@/components/icon';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Dimensions, TouchableOpacity, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 const { width, height } = Dimensions.get('window');
 
-export default function ActionButton() {
-  const [showFloatingLinks, setShowFloatingLinks] = useState(true);
+type Props = {};
+
+export default function ActionButton({}: Props) {
+  const [showFloatingLinks, setShowFloatingLinks] = useState(false);
 
   const { styles, theme } = useStyles(ActionButtonStyles);
+
+  const navigation = useNavigation();
+
+  const router = useRouter();
 
   const floatingOpacity = 0.8;
 
   const floatingIconSize = 40;
+
+  const navigateToRoute = (route: string) => {
+    router.push(route as any);
+    setShowFloatingLinks(false);
+  };
 
   return (
     <>
@@ -25,6 +37,7 @@ export default function ActionButton() {
           <TouchableOpacity
             activeOpacity={floatingOpacity}
             style={[styles.floatingLink, styles.floatingTop]}
+            onPress={() => navigateToRoute('/transactions/transfer')}
           >
             <Icon
               name='Transfer'
@@ -35,6 +48,7 @@ export default function ActionButton() {
           <TouchableOpacity
             activeOpacity={floatingOpacity}
             style={[styles.floatingLink, styles.floatingLeft]}
+            onPress={() => navigateToRoute('/transactions/income')}
           >
             <Icon
               name='Income'
@@ -45,6 +59,7 @@ export default function ActionButton() {
           <TouchableOpacity
             activeOpacity={floatingOpacity}
             style={[styles.floatingLink, styles.floatingRight]}
+            onPress={() => navigateToRoute('/transactions/expense')}
           >
             <Icon
               name='Expense'

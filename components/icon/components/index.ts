@@ -8,4 +8,15 @@ export { Eye } from './Eye';
 export { Income } from './Income';
 export { Expense } from './Expense';
 export { Transfer } from './Transfer';
+export { Notification } from './Notification';
+export { Salary } from './Salary';
+export { Shooping } from './Shooping';
+export { Transportation } from './Transportation';
+export { Food } from './Food';
+export { Subscription } from './Subscription';
+export { Attachment } from './Attachment';
+export { Document } from './Document';
+export { Camera } from './Camera';
+export { Image } from './Image';
+export { Trash } from './Trash';
 
