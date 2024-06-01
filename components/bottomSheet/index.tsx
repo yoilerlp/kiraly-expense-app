@@ -11,7 +11,7 @@ type BottomSheetCompProps = PropsWithChildren<
   Pick<BottomSheetProps, 'index' | 'onChange' | 'snapPoints'> & {}
 >;
 
-function BottomSheetComp({
+function CustomBottomSheetComp({
   index,
   onChange,
   snapPoints = ['25%'],
@@ -65,5 +65,5 @@ const StylesSheet = createStyleSheet((theme) => ({
   },
 }));
 
-export default memo(BottomSheetComp);
+export default memo(CustomBottomSheetComp);
 

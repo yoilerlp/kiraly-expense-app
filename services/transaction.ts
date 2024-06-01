@@ -17,7 +17,7 @@ export const GetAllTransactions = async (params: IFilterTransactionParams) => {
   try {
     const token = await getStorageItem(StorageKeys.authToken);
 
-    if ((params as any).currentDateTab) {
+    if ('currentDateTab' in params) {
       const { currentDateTab, ...rest } = params as any;
       params = rest;
     }

@@ -130,11 +130,10 @@ export const generateMinAndMaxDateBasedOnFilters = (
 ) => {
   const format = 'YYYY-MM-DD HH:mm:ss';
 
-  let today = dayjs(new Date());
+  let today = dayjs.utc();
 
   switch (filter) {
     case 'Today':
-      today = today.add(5, 'hour');
       return {
         minDate: today.startOf('day').format(format),
         maxDate: today.endOf('day').format(format),
@@ -157,6 +156,11 @@ export const generateMinAndMaxDateBasedOnFilters = (
         minDate: today.startOf('year').format(format),
         maxDate: today.endOf('year').format(format),
       };
+    case 'All' as any:
+      return {
+        minDate: undefined,
+        maxDate: undefined,
+      };
     default:
       return {
         minDate: today.startOf('month').format(format),
@@ -169,4 +173,6 @@ export const formatDate = (date: string) => {
   const d = dayjs(date).format('dddd D MMMM YYYY HH:mm');
   return capitalizeFirstLetter(d);
 };
+
+export default dayjs;
 

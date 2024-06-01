@@ -19,4 +19,6 @@ export { Document } from './Document';
 export { Camera } from './Camera';
 export { Image } from './Image';
 export { Trash } from './Trash';
+export { Filters } from './Filters';
+export { ArrowRightNavigation } from './ArrowRightNavigation';
 

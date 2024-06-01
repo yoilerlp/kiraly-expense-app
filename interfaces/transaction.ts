@@ -8,6 +8,13 @@ export enum TransactionType {
   TRANSFER = 'TRANSFER',
 }
 
+export enum SortTransactionBy {
+  HIGHEST = 'HIGHEST',
+  LOWEST = 'LOWEST',
+  NEWEST = 'NEWEST',
+  OLDEST = 'OLDEST',
+}
+
 export interface Transaction {
   id: string;
   key: number;
@@ -31,7 +38,7 @@ export type IFilterTransactionParams = {
   page?: number;
   minDate?: string;
   maxDate?: string;
-  orderBy?: 'HIGHEST' | 'LOWEST' | 'NEWEST' | 'OLDEST';
+  orderBy?: SortTransactionBy;
   type?: TransactionType[];
   categories?: string[];
   accounts?: string[];

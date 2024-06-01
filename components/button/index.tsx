@@ -42,11 +42,11 @@ const Button = React.forwardRef(
           const propsStyles =
             typeof stylesP === 'function' ? stylesP(pressableEvent) : stylesP;
           return {
-            ...(propsStyles as any),
             ...buttonStyles.styles.container({
               presed: pressableEvent.pressed || isLoading,
               disabled: Boolean(props.disabled) || isLoading,
             }),
+            ...(propsStyles as any),
           };
         }}
       >

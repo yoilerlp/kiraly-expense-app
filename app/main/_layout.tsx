@@ -17,7 +17,7 @@ export default function MainLayout() {
       screenOptions={{
         headerShown: false,
       }}
-    ></Tabs>
+    />
   );
 }
 

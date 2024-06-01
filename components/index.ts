@@ -6,4 +6,7 @@ export { default as Button } from './button';
 export { default as Select } from './select';
 export { default as Typography } from './typography';
 export { default as InputFile } from './inputFile';
+export { default as Icon } from './icon';
+export { default as LoadingSpinner } from './loaders';
+export { default as CustomBottomSheetComp } from './bottomSheet';
 

@@ -20,14 +20,13 @@ export default function Typography({
   fontSize,
   ...props
 }: TypographyProps) {
-  
+  const styleProp = props?.style ?? {};
+
   const defaulStyle: (typeof props)['style'] = {
     color: color ?? Colors.dark_100,
     textAlign: center ? 'center' : 'left',
-    fontSize,
+    fontSize: fontSize || TypographyList[type].fontSize,
   };
-
-  const styleProp = props?.style ?? {};
 
   const customStyle = Array.isArray(styleProp) ? styleProp : [styleProp];
 

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import useSetPageContainerStyles from '@/hooks/useSetPageContainerStyles';
 import { Typography } from '@/components';
 import TabsBasicDateFilter from '@/components/filters/TabsBasicDateFilter';
-import { BasicDateFiltersList } from '@/utils/filters';
+import { BasicDateFiltersEnum, BasicDateFiltersList } from '@/utils/filters';
 import PillTab from '@/components/ui/PillTab';
 import TransactionCard from '@/components/ui/transaction/TransactionCard';
 import UserBalance from '@/components/screens/home/UserBalance';
@@ -19,7 +19,9 @@ export default function HomeScreen() {
       currentDateTab: string;
     }
   >(() => {
-    const { minDate, maxDate } = generateMinAndMaxDateBasedOnFilters('Today');
+    const { minDate, maxDate } = generateMinAndMaxDateBasedOnFilters(
+      BasicDateFiltersEnum.TODAY
+    );
 
     return {
       page: 1,

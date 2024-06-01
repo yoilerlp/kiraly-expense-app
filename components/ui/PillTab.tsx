@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, TouchableOpacity, ViewStyle } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Typography from '../typography';
 
@@ -12,6 +12,7 @@ type Props = {
   size: Size;
   color: 'violet' | 'yellow';
   isSingle?: boolean;
+  styles?: ViewStyle;
 };
 
 export default function PillTab({
@@ -20,14 +21,19 @@ export default function PillTab({
   isActive = false,
   size = 'medium',
   color = 'yellow',
+  styles: customStyles = {},
 }: Props) {
   const { styles } = useStyles(pillTabStyles, { color, size });
   return (
-    <Pressable style={[styles.itemContainer(isActive)]} onPress={onPressTab}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={[styles.itemContainer(isActive), customStyles]}
+      onPress={onPressTab}
+    >
       <Typography type='Body3' style={[styles.itemText(isActive)]}>
         {label}
       </Typography>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
