@@ -12,11 +12,11 @@ import { generateMonthObject, getMonthsInRange } from '@/utils/date';
 import { numberToTwoDecimals } from '@/utils/number';
 import { useQuery } from '@tanstack/react-query';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-export default function UserBalance() {
+function UserBalance() {
   const { styles, theme } = useStyles(StylesSheet);
 
   const [selectedMonth, setSelectedMonth] = React.useState(
@@ -223,3 +223,4 @@ const StylesSheet = createStyleSheet((theme) => ({
   },
 }));
 
+export default memo(UserBalance)
