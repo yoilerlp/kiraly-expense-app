@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import localeData from 'dayjs/plugin/localeData';
 import 'dayjs/locale/es';
 
 import type { BasicDateFilters } from './filters';
@@ -8,6 +9,7 @@ import { capitalizeFirstLetter, capitalizeText } from './text';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(localeData);
 
 dayjs.locale('es');
 
@@ -173,6 +175,8 @@ export const formatDate = (date: string) => {
   const d = dayjs(date).format('dddd D MMMM YYYY HH:mm');
   return capitalizeFirstLetter(d);
 };
+
+export const monthsList = dayjs.months();
 
 export default dayjs;
 

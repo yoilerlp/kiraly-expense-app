@@ -14,7 +14,6 @@ export default function ActionButton({}: Props) {
 
   const { styles, theme } = useStyles(ActionButtonStyles);
 
-  const navigation = useNavigation();
 
   const router = useRouter();
 

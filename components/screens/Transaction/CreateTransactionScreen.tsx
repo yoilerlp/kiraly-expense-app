@@ -333,9 +333,9 @@ export default function CreateTransactionScreen({
                 );
               }}
             />
-            <Typography type='Body3'>
+            {/* <Typography type='Body3'>
               {JSON.stringify(values.filesToDelete, null, 2)}
-            </Typography>
+            </Typography> */}
           </View>
           <View style={{ paddingBottom: 24 }}>
             <Button

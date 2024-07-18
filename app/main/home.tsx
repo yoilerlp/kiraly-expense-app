@@ -105,12 +105,15 @@ export default function HomeScreen() {
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
-          {isLoading ? <LoadingSpinner /> : <Text>No transactions found</Text>}
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <View style={{ alignItems: 'center', flex: 1, minHeight: 200 }}>
+              <Text>No transactions found</Text>
+            </View>
+          )}
         </View>
       )}
-      ListFooterComponent={
-        <>{isFetchingNextPage ? <LoadingSpinner /> : null}</>
-      }
       ListHeaderComponent={() => (
         <View style={{ marginBottom: 8 }}>
           <UserBalance />
@@ -143,6 +146,9 @@ export default function HomeScreen() {
           </View>
         </View>
       )}
+      ListFooterComponent={
+        <>{isFetchingNextPage ? <LoadingSpinner /> : null}</>
+      }
     />
   );
 }

@@ -21,4 +21,9 @@ export { Image } from './Image';
 export { Trash } from './Trash';
 export { Filters } from './Filters';
 export { ArrowRightNavigation } from './ArrowRightNavigation';
+export { Warning } from './Warning';
+export { Hobby } from './Hobby';
+export { Health } from './Health';
+export { Tech } from './Tech';
+export { Other } from './Other';
 

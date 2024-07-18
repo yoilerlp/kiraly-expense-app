@@ -1,8 +1,11 @@
-import { useMemo } from 'react';
+import { ComponentProps, useMemo } from 'react';
 import * as Icons from './components';
 
 import { SvgProps } from 'react-native-svg';
 import Badge from '../ui/Badge';
+import { TouchableOpacity } from 'react-native';
+
+export const AllIcons = Icons;
 
 export type IconName = keyof typeof Icons;
 
@@ -37,7 +40,24 @@ export const WithBadge = (
   );
 };
 
+export const WithOpacity = ({
+  touchableOpacityProps,
+  ...iconProps
+}: IconComponentProps & {
+  touchableOpacityProps?: ComponentProps<typeof TouchableOpacity>;
+}) => {
+  return (
+    <TouchableOpacity
+      {...touchableOpacityProps}
+      activeOpacity={touchableOpacityProps?.activeOpacity || 0.8}
+    >
+      <Icon {...iconProps} />
+    </TouchableOpacity>
+  );
+};
+
 Icon.WithBadge = WithBadge;
+Icon.WithOpacity = WithOpacity;
 
 export default Icon;
 

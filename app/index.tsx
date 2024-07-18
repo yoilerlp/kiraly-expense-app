@@ -8,9 +8,9 @@ import useAuth from '@/hooks/useAuth';
 export default function ValidateLoginView() {
   const { user, isLoading } = useAuth();
 
-  if (isLoading) return <LoadingScreen />;
+  if (isLoading) return <LoadingScreen />; 
 
-  if (user) return <Redirect href='/main/transaction' />;
+  if (user) return <Redirect href='/main/budget' />;
 
   return <OnboardingScreen />;
 }

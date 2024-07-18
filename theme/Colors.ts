@@ -5,6 +5,7 @@ export const Colors = {
   light_60: '#F1F1FA',
   light_80: '#FCFCFC',
   light_100: '#FFFFFF',
+  white: 'white',
 
   grayIcon: '#C6C6C6',
 

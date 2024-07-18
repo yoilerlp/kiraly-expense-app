@@ -29,7 +29,7 @@ function LineChart({ data, minDate, maxDate }: Props) {
     });
   }, [data, minDate, maxDate]);
 
-  if (!path || data?.length === 0 || !minDate || !maxDate) {
+  if (!path || data?.length < 3 || !minDate || !maxDate) {
     return (
       <View style={[styles.container, { height: HEIGHT / 2 }]}>
         <Typography type='Body1' color={Colors.violet_100}>
