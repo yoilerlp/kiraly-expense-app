@@ -6,6 +6,7 @@ import CategoryTag from '../CategoryTag';
 import Icon from '@/components/icon';
 import Typography from '@/components/typography';
 import ProgressBar from '@/components/graph/ProgressBar';
+import { categoriesColorsConfig } from '@/utils';
 
 type BudgetCardProps = {
   categoryName: string;
@@ -19,6 +20,7 @@ function BudgetCard({
   amount,
   amountUsed,
   categoryName,
+  categoryKey,
   onPress,
 }: BudgetCardProps) {
   const { styles, theme } = useStyles(budgetCardStyles);
@@ -29,10 +31,22 @@ function BudgetCard({
 
   const remainingIsNegative = remainingAmount < 0;
 
+  const categoryColorConfig =
+    categoriesColorsConfig[categoryKey as keyof typeof categoriesColorsConfig];
+
+  const percentageUsed = Math.round((amountUsed / amount) * 100);
+
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.8}
+      onPress={onPress}
+    >
       <View style={styles.categorySection}>
-        <CategoryTag categoryName={categoryName} />
+        <CategoryTag
+          categoryName={categoryName}
+          color={categoryColorConfig?.iconColor}
+        />
         {limitIsExceeded ? (
           <Icon name='Warning' color={theme.Colors.red_100} size={32} />
         ) : null}
@@ -40,7 +54,10 @@ function BudgetCard({
       <Typography type='Title2'>
         Remaining ${remainingIsNegative ? 0 : remainingAmount}
       </Typography>
-      <ProgressBar progress={20} fillColor={theme.Colors.red_100} />
+      <ProgressBar
+        progress={percentageUsed}
+        fillColor={categoryColorConfig?.iconColor || theme.Colors.dark_100}
+      />
       <Typography
         color={theme.Colors.light_20}
         type='Body1'

@@ -10,7 +10,6 @@ type ProgressBarProps = {
 
 export default function ProgressBar({ fillColor, progress }: ProgressBarProps) {
   const progressValue = progress > 100 ? 100 : progress;
-
   return (
     <View>
       <Svg width={'100%'} height={20}>

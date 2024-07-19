@@ -42,3 +42,87 @@ export const GetBudgetsByYearAndMonth = async (data: {
   }
 };
 
+export const CreateBudget = async (
+  data: Omit<Budget, 'id' | 'createdAt' | 'userId' | 'category'>
+) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    const responseBody = await fetch(`${API_URL}/budget`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const responseData: ServiceResponse<Budget> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
+export const UpdateBudget = async (params: {
+  id: string;
+  data: Omit<Budget, 'id' | 'createdAt' | 'userId' | 'category'>;
+}) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+    console.log({
+      params
+    })
+    const responseBody = await fetch(`${API_URL}/budget/${params.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params.data),
+    });
+
+    const responseData: ServiceResponse<Budget> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
+
+export const GetBudgeById = async (id: string) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    const responseBody = await fetch(`${API_URL}/budget/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'GET',
+    });
+
+    const responseData: ServiceResponse<
+      Budget & {
+        transactions: Transaction[];
+      }
+    > = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
+

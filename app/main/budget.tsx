@@ -1,7 +1,7 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { View, FlatList } from 'react-native';
 import React, { useState } from 'react';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 import useSetPageContainerStyles from '@/hooks/useSetPageContainerStyles';
 import SectionRounded from '@/components/screens/SectionRounded';
@@ -9,6 +9,7 @@ import { Button, Icon, LoadingSpinner, Typography } from '@/components';
 import { capitalizeFirstLetter, monthsList } from '@/utils';
 import useBudgets from '@/hooks/data/useBudgets';
 import BudgetCard from '@/components/ui/budget/BudgetCard';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const availableMonths = monthsList.map((month, idx) => ({
   label: capitalizeFirstLetter(month),
@@ -16,6 +17,8 @@ const availableMonths = monthsList.map((month, idx) => ({
 }));
 
 export default function BadgeView() {
+  const router = useRouter();
+
   const [selectedMonth, setSelectedMonth] = useState(() => {
     const currentMonthIdx = new Date().getMonth();
     return availableMonths[currentMonthIdx];
@@ -35,12 +38,13 @@ export default function BadgeView() {
     },
   });
 
-  const {
-    data: budgets,
-    isLoading,
-    error,
-  } = useBudgets({
-    month: selectedMonth.value + 1,
+  const debounceSelectedMonth = useDebounce({
+    value: selectedMonth.value,
+    delay: 300,
+  });
+
+  const { data: budgets, isLoading } = useBudgets({
+    month: debounceSelectedMonth + 1,
     year: new Date().getFullYear(),
   });
 
@@ -55,12 +59,6 @@ export default function BadgeView() {
     if (!previousMonth) return;
     setSelectedMonth(previousMonth);
   };
-
-  console.log({
-    budgets,
-    error,
-  });
-
 
   return (
     <View style={styles.container}>
@@ -95,12 +93,13 @@ export default function BadgeView() {
         style={{ backgroundColor: theme.Colors.light_100, paddingBottom: 24 }}
       >
         <FlatList
-          contentContainerStyle={{ flex: 1 }}
           data={budgets}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}
           scrollEnabled
-          renderItem={({ item, index }) => {
-
+          renderItem={({ item }) => {
             const amountUsed = item?.transactions?.reduce((acc, current) => {
               return acc + current.amount;
             }, 0);
@@ -110,7 +109,10 @@ export default function BadgeView() {
                 amount={item.amount}
                 amountUsed={amountUsed}
                 categoryName={item.category?.name || ''}
-                onPress={() => {}}
+                categoryKey={item.category?.key || ''}
+                onPress={() => {
+                  router.push(`/budget/${item.id}`);
+                }}
               />
             );
           }}
@@ -130,7 +132,10 @@ export default function BadgeView() {
             </View>
           )}
         />
-        <Link href='/budget/createBadget' asChild>
+        <Link
+          href={`/budget/createBadget?month=${selectedMonth.value + 1}` as any}
+          asChild
+        >
           <Button size='full' text='Create a budget' />
         </Link>
       </SectionRounded>
