@@ -74,9 +74,7 @@ export const UpdateBudget = async (params: {
 }) => {
   try {
     const token = await getStorageItem(StorageKeys.authToken);
-    console.log({
-      params
-    })
+
     const responseBody = await fetch(`${API_URL}/budget/${params.id}`, {
       method: 'PATCH',
       headers: {
@@ -115,6 +113,30 @@ export const GetBudgeById = async (id: string) => {
         transactions: Transaction[];
       }
     > = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
+
+export const DeleteBudget = async (id: string) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    const responseBody = await fetch(`${API_URL}/budget/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const responseData: ServiceResponse<any> = await responseBody.json();
 
     if (!responseBody.ok) {
       throw responseData;

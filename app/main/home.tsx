@@ -39,6 +39,9 @@ export default function HomeScreen() {
     statusBarContainerStyles: {
       backgroundColor: theme.Colors.yellowGradient.start,
     },
+    statusBarProps: {
+      style: 'dark',
+    },
     viewBottomContainerStyles: {
       backgroundColor: theme.Colors.light_80,
     },

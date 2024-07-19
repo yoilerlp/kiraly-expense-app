@@ -1,3 +1,4 @@
+import ErrorScreen from '@/components/ErrorScreen';
 import LoadingScreen from '@/components/LoadingScreen';
 import CreateBadgetForm, {
   ICreateBudgetForm,
@@ -10,7 +11,11 @@ import React, { useMemo } from 'react';
 export default function EditBudgetView() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const { data: budget, isLoading } = useQuery({
+  const {
+    data: budget,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['budget', id],
     queryFn: () => BudgetService.GetBudgeById(id),
     enabled: !!id,
@@ -38,6 +43,8 @@ export default function EditBudgetView() {
   }, [budget]);
 
   if (isLoading) return <LoadingScreen />;
+
+  if (isError || !budget) return <ErrorScreen />;
 
   return (
     <>

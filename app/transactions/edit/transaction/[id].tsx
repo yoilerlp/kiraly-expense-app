@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import useTransaction from '@/hooks/data/useTransaction';

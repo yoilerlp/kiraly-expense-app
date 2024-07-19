@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useNavigation, useRouter } from 'expo-router';
 
 import ScreenHeader from '@/components/header';
 import { Colors } from '@/theme/Colors';
@@ -79,7 +79,7 @@ export default function CreateBadgetForm({
         text2: 'Budget created successfully',
       });
 
-      router.replace('/main/budget');
+      router.replace(`/main/budget?month=${month}` as any);
     },
     onError(error: string) {
       Toast.show({
@@ -99,7 +99,7 @@ export default function CreateBadgetForm({
         text2: 'Budget updated successfully',
       });
 
-      router.replace('/main/budget');
+      router.replace(`/main/budget?month=${month}` as any);
     },
     onError(error: string) {
       Toast.show({

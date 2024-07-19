@@ -1,19 +1,27 @@
 import { Button, Icon, Typography } from '@/components';
 import ScreenHeader from '@/components/header';
-import { Link, Stack, useLocalSearchParams } from 'expo-router';
+import { Link, Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { BudgetService } from '@/services';
 import LoadingScreen from '@/components/LoadingScreen';
 import { categoriesColorsConfig } from '@/utils';
 import ProgressBar from '@/components/graph/ProgressBar';
+import ErrorScreen from '@/components/ErrorScreen';
+import BottomSheet from '@/components/bottomSheet';
+import BottomSheetDecision from '@/components/bottomSheet/BottomSheetDecision';
+import Toast from 'react-native-toast-message';
 
 export default function BudgetDetailsView() {
   const { styles, theme } = useStyles(StylesSheet);
 
+  const router = useRouter();
+
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  const [bottomSheetIndex, setBottomSheetIndex] = React.useState(-1);
 
   const {
     data: budget,
@@ -23,6 +31,27 @@ export default function BudgetDetailsView() {
     queryKey: ['budget', id],
     queryFn: () => BudgetService.GetBudgeById(id),
     enabled: !!id,
+  });
+
+  const deleteBudgetMutation = useMutation({
+    mutationFn: BudgetService.DeleteBudget,
+    onSuccess: () => {
+      Toast.show({
+        type: 'success',
+        text1: 'Budget deleted successfully',
+      });
+      setBottomSheetIndex(-1);
+      setTimeout(() => {
+        router.replace(`/main/budget?month=${budget?.month}` as any);
+      }, 1000);
+    },
+    onError: (error: string) => {
+      Toast.show({
+        type: 'error',
+        text1: error,
+        text2: 'Failed to delete budget',
+      });
+    },
   });
 
   const categoryColorConfig = categoriesColorsConfig[budget?.category?.key!];
@@ -50,6 +79,8 @@ export default function BudgetDetailsView() {
 
   if (isLoading) return <LoadingScreen />;
 
+  if (isError || !budget) return <ErrorScreen />;
+
   return (
     <>
       <Stack.Screen
@@ -59,7 +90,14 @@ export default function BudgetDetailsView() {
             return (
               <ScreenHeader
                 title={'Detail Budget'}
-                rightIcon={<Icon.WithOpacity name='Trash' />}
+                rightIcon={
+                  <Icon.WithOpacity
+                    name='Trash'
+                    onPress={() => {
+                      setBottomSheetIndex(0);
+                    }}
+                  />
+                }
               />
             );
           },
@@ -102,11 +140,31 @@ export default function BudgetDetailsView() {
             </Typography>
           </View>
         ) : null}
+
         <View style={styles.buttonContainer}>
           <Link href={`/budget/edit/${id}` as any} asChild>
             <Button text='Edit' size='full' />
           </Link>
         </View>
+        {/* Bottom sheet for delete */}
+
+        <BottomSheet
+          index={bottomSheetIndex}
+          onChange={setBottomSheetIndex}
+          snapPoints={['25%']}
+        >
+          <BottomSheetDecision
+            onConfirm={() => {
+              deleteBudgetMutation.mutate(id);
+            }}
+            onCancel={() => {
+              setBottomSheetIndex(-1);
+            }}
+            isLoading={deleteBudgetMutation.isPending}
+            title='Remove this Budget'
+            subtitle='Are you sure do you wanna remove this budget?'
+          />
+        </BottomSheet>
       </View>
     </>
   );

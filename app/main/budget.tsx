@@ -1,7 +1,12 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { View, FlatList } from 'react-native';
 import React, { useState } from 'react';
-import { Link, useRouter } from 'expo-router';
+import {
+  Link,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from 'expo-router';
 
 import useSetPageContainerStyles from '@/hooks/useSetPageContainerStyles';
 import SectionRounded from '@/components/screens/SectionRounded';
@@ -17,10 +22,19 @@ const availableMonths = monthsList.map((month, idx) => ({
 }));
 
 export default function BadgeView() {
+  const { month } = useLocalSearchParams<{
+    month?: string;
+  }>();
+
   const router = useRouter();
 
   const [selectedMonth, setSelectedMonth] = useState(() => {
-    const currentMonthIdx = new Date().getMonth();
+    const monthParamIsValid = month && !isNaN(Number(month));
+
+    const currentMonthIdx = monthParamIsValid
+      ? Number(month) - 1
+      : new Date().getMonth();
+
     return availableMonths[currentMonthIdx];
   });
 

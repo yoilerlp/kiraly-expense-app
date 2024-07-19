@@ -14,6 +14,7 @@ import { numberToTwoDecimals } from '@/utils/number';
 import { capitalizeFirstLetter } from '@/utils/text';
 import { formatDate } from '@/utils/date';
 import BottomSheet from '@/components/bottomSheet';
+import BottomSheetDecision from '@/components/bottomSheet/BottomSheetDecision';
 
 type Props = {
   type: TransactionType;
@@ -235,41 +236,15 @@ export default function ViewTransactinoScreen({ type, data, onDelete }: Props) {
               onChange={setBottomSheetIndex}
               snapPoints={['30%']}
             >
-              <View style={styles.sheetContent}>
-                <Typography fontSize={18} color={Colors.dark_100} type='Title3'>
-                  Remove this transaction?
-                </Typography>
-                <Typography
-                  center
-                  fontSize={16}
-                  color={Colors.light_20}
-                  type='Title4'
-                >
-                  Are you sure do you wanna remove this transaction?{' '}
-                </Typography>
-                <View style={styles.sheetBtnContainer}>
-                  <View style={{ flex: 1 }}>
-                    <Button
-                      disabled={isLoading}
-                      onPress={() => {
-                        setBottomSheetIndex(-1);
-                      }}
-                      text='No'
-                      size='full'
-                      variant='secondary'
-                    />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Button
-                      disabled={isLoading}
-                      isLoading={isLoading}
-                      onPress={handleDelete}
-                      text='Yes'
-                      size='full'
-                    />
-                  </View>
-                </View>
-              </View>
+              <BottomSheetDecision
+                onConfirm={handleDelete}
+                onCancel={() => {
+                  setBottomSheetIndex(-1);
+                }}
+                isLoading={isLoading}
+                title='Remove this transaction?'
+                subtitle='Are you sure do you wanna remove this transaction?'
+              />
             </BottomSheet>
             <Link href={editUrl as any} asChild replace>
               <Button text='Edit' size='full' />
@@ -364,16 +339,6 @@ const StylesSheet = createStyleSheet((theme) => ({
     flex: 1,
     justifyContent: 'flex-end',
     paddingBottom: 16,
-  },
-  sheetContent: {
-    paddingTop: 10,
-    paddingHorizontal: 16,
-    alignItems: 'center',
-    gap: 16,
-  },
-  sheetBtnContainer: {
-    flexDirection: 'row',
-    gap: 16,
   },
 }));
 
