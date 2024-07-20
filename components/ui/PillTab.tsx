@@ -44,6 +44,7 @@ const pillTabStyles = createStyleSheet((theme) => ({
     alignItems: 'center',
     borderRadius: 16,
     paddingVertical: 8,
+    paddingHorizontal: 12,
     variants: {
       size: {
         small: {

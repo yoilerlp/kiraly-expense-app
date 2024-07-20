@@ -15,6 +15,7 @@ import { capitalizeFirstLetter, monthsList } from '@/utils';
 import useBudgets from '@/hooks/data/useBudgets';
 import BudgetCard from '@/components/ui/budget/BudgetCard';
 import { useDebounce } from '@/hooks/useDebounce';
+import { PillTab } from '@/components/ui';
 
 const availableMonths = monthsList.map((month, idx) => ({
   label: capitalizeFirstLetter(month),
@@ -131,6 +132,23 @@ export default function BadgeView() {
             );
           }}
           keyExtractor={(item) => item.id}
+          ListHeaderComponent={() => (
+            <View>
+              <PillTab
+                isSingle
+                label='See All'
+                size='medium'
+                color='violet'
+                isActive
+                styles={{
+                  alignSelf: 'flex-end',
+                }}
+                onPressTab={() => {
+                  router.push('/budget/list');
+                }}
+              />
+            </View>
+          )}
           ListEmptyComponent={() => (
             <View style={styles.noContentContainer}>
               {isLoading ? (

@@ -148,3 +148,27 @@ export const DeleteBudget = async (id: string) => {
   }
 };
 
+export const GetBudgetHistoryByUser = async () => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    const responseBody = await fetch(`${API_URL}/budget/history`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'GET',
+    });
+
+    const responseData: ServiceResponse<Budget[]> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
+

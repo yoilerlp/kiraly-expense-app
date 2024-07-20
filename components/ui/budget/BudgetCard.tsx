@@ -74,6 +74,34 @@ function BudgetCard({
   );
 }
 
+export function BudgetBasicCard({
+  categoryName,
+  categoryKey,
+  onPress,
+  amount,
+  month,
+}: Omit<BudgetCardProps, 'amountUsed'> & { month: number }) {
+  const { styles } = useStyles(budgetCardStyles);
+  const categoryColorConfig =
+    categoriesColorsConfig[categoryKey as keyof typeof categoriesColorsConfig];
+  return (
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.8}
+      onPress={onPress}
+    >
+      <View style={styles.categorySection}>
+        <CategoryTag
+          categoryName={categoryName}
+          color={categoryColorConfig?.iconColor}
+        />
+        <Typography type='Body1'> Month: {month}</Typography>
+      </View>
+      <Typography type='Title2'>Amount ${amount}</Typography>
+    </TouchableOpacity>
+  );
+}
+
 const budgetCardStyles = createStyleSheet((theme) => ({
   container: {
     padding: 16,
