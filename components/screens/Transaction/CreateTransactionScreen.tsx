@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import React, { useMemo, useEffect } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import SectionRounded from '../SectionRounded';
@@ -236,7 +236,7 @@ export default function CreateTransactionScreen({
                   }}
                   placeholder='$0'
                   style={{
-                    fontSize: 78,
+                    fontSize: Platform.select({ ios: 78, default: 50 }),
                     color: theme.Colors.light_100,
                   }}
                 />
@@ -382,4 +382,3 @@ const stylesSheet = createStyleSheet((theme) => ({
     gap: 16,
   },
 }));
-

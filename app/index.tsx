@@ -10,7 +10,7 @@ export default function ValidateLoginView() {
 
   if (isLoading) return <LoadingScreen />; 
 
-  if (user) return <Redirect href='/main/budget' />;
+  if (user) return <Redirect href='/main/home' />;
 
   return <OnboardingScreen />;
 }

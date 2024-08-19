@@ -3,7 +3,7 @@ import RNPickerSelect, {
   Item,
 } from 'react-native-picker-select';
 
-import { View, Text, ViewStyle } from 'react-native';
+import { View, Text, ViewStyle, Platform } from 'react-native';
 import React, { useState } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { Ionicons } from '@expo/vector-icons';
@@ -46,6 +46,7 @@ export default function Select<T>({
   return (
     <View style={styles.container}>
       <RNPickerSelect
+        fixAndroidTouchableBug
         onOpen={() => {
           setIsOpen(true);
           onOpen && onOpen();
@@ -60,13 +61,17 @@ export default function Select<T>({
           inputLabel: placeholder,
           color: theme.Colors.light_20,
         }}
-        Icon={() => (
-          <Ionicons
-            name={isOpen ? 'chevron-up-outline' : 'chevron-down-outline'}
-            size={iconProps?.size || 32}
-            color={iconProps?.color || theme.Colors.light_20}
-          />
-        )}
+        Icon={
+          Platform.OS === 'android'
+            ? undefined
+            : () => (
+                <Ionicons
+                  name={isOpen ? 'chevron-up-outline' : 'chevron-down-outline'}
+                  size={iconProps?.size || 32}
+                  color={iconProps?.color || theme.Colors.light_20}
+                />
+              )
+        }
         style={{
           viewContainer: [styles.viewContainer, customStyle?.viewContainer],
           inputIOS: styles.input,
@@ -100,7 +105,7 @@ const selectStyles = createStyleSheet((theme) => ({
   container: {},
   viewContainer: {
     borderRadius: 16,
-    padding: 16,
+    padding: Platform.select({ ios: 16, default: 0 }),
     height: 56,
     borderWidth: 1,
     borderColor: theme.Colors.light_60,
@@ -128,4 +133,3 @@ const selectStyles = createStyleSheet((theme) => ({
     paddingLeft: 8,
   },
 }));
-

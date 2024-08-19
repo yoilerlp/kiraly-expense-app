@@ -41,9 +41,6 @@ export default function LoginScreen() {
   });
 
   const onSubmit = (data: { email: string; password: string }) => {
-    console.log('try login', {
-      API_URL
-    })
     loginMutation.mutate(data);
   };
   return (
