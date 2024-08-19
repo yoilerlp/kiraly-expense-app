@@ -109,6 +109,7 @@ const selectStyles = createStyleSheet((theme) => ({
     height: 56,
     borderWidth: 1,
     borderColor: theme.Colors.light_60,
+    minWidth: Platform.select({ android: 160, default: 0 }),
   },
   placeholder: {
     color: theme.Colors.light_20,
