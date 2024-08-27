@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, View } from 'react-native';
-import { Svg, Path } from 'react-native-svg';
+import { Svg, Path, LinearGradient, Defs, Stop } from 'react-native-svg';
 import { memo, useMemo } from 'react';
 
 import { Colors } from '@/theme/Colors';
@@ -42,10 +42,23 @@ function LineChart({ data, minDate, maxDate }: Props) {
   return (
     <View style={styles.container}>
       <Svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
+        <Defs>
+          <LinearGradient id='grad' x1='0%' y1='0%' x2='0%' y2='100%'>
+            <Stop offset='0%' stopColor={Colors.violet_100} stopOpacity={0.7} />
+            <Stop offset='100%' stopColor={Colors.violet_100} stopOpacity={0} />
+          </LinearGradient>
+        </Defs>
+
         <Path
-          d={path!}
+          d={path?.line!}
           fill='none'
           stroke={Colors.violet_100}
+          strokeWidth={6}
+        />
+        <Path
+          d={path?.area!}
+          fill={'url(#grad)'}
+          stroke={'none'}
           strokeWidth={8}
         />
       </Svg>
@@ -61,4 +74,3 @@ const styles = StyleSheet.create({
 });
 
 export default memo(LineChart);
-

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { Stack, useNavigation, useRouter } from 'expo-router';
 
 import ScreenHeader from '@/components/header';
@@ -203,7 +203,7 @@ export default function CreateBadgetForm({
                   }}
                   placeholder='$0'
                   style={{
-                    fontSize: 78,
+                    fontSize: Platform.select({ ios: 78, default: 50 }),
                     color: theme.Colors.light_100,
                   }}
                 />

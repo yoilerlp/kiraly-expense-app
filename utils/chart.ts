@@ -32,8 +32,18 @@ export const generateLineChart = ({
     .line<(typeof data)[number]>()
     .x((d) => x(new Date(d.date)))
     .y((d) => y(d.value))
-    .curve(d3.curveMonotoneX)(data);
+    .curve(d3.curveCardinal.tension(0.5))(data);
 
-  return curvedLine;
+  const areaFn  = d3
+    .area<(typeof data)[number]>()
+    .x((d) => x(new Date(d.date)))
+    .y0(height)
+    .y1((d) => y(d.value))
+    .curve(d3.curveCardinal.tension(0.5))(data);
+
+  return {
+    line: curvedLine,
+    area: areaFn
+  };
 };
 

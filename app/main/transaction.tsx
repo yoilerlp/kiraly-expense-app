@@ -25,18 +25,18 @@ import {
 
 import useTransactions from '@/hooks/data/useTransactions';
 import TransactionFilter from '@/components/filters/TransactionFilter';
-import Badge from '@/components/ui/Badge';
+import { Link } from 'expo-router';
 
 const AllValue = 'All';
 
 const FilterOptionsList = [
   {
-    label: 'Month',
-    value: BasicDateFiltersEnum.MONTH,
-  },
-  {
     label: 'Week',
     value: BasicDateFiltersEnum.WEEK,
+  },
+  {
+    label: 'Month',
+    value: BasicDateFiltersEnum.MONTH,
   },
   {
     label: 'Year',
@@ -188,15 +188,28 @@ function TransactionsListView() {
               </TouchableOpacity>
             </View>
             <View style={{ height: 64, paddingVertical: 8, marginBottom: 8 }}>
-              <TouchableOpacity activeOpacity={0.7} style={styles.seeReportBtn}>
-                <Typography color={theme.Colors.violet_100} type='Body1'>
-                  See your financial report
-                </Typography>
-                <Icon
-                  name='ArrowRightNavigation'
-                  color={theme.Colors.violet_100}
-                />
-              </TouchableOpacity>
+              <Link
+                href={{
+                  pathname: '/reports/slides',
+                  params: {
+                    filter: transactionParams.currentDateTab,
+                  },
+                }}
+                asChild
+              >
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.seeReportBtn}
+                >
+                  <Typography color={theme.Colors.violet_100} type='Body1'>
+                    See your financial report
+                  </Typography>
+                  <Icon
+                    name='ArrowRightNavigation'
+                    color={theme.Colors.violet_100}
+                  />
+                </TouchableOpacity>
+              </Link>
             </View>
           </>
         )}
@@ -295,4 +308,3 @@ const StylesSheet = createStyleSheet((theme) => ({
 }));
 
 export default TransactionsListView;
-

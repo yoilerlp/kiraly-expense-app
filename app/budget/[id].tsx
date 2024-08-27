@@ -13,6 +13,7 @@ import ErrorScreen from '@/components/ErrorScreen';
 import BottomSheet from '@/components/bottomSheet';
 import BottomSheetDecision from '@/components/bottomSheet/BottomSheetDecision';
 import Toast from 'react-native-toast-message';
+import CategoryIconCard from '@/components/ui/CategoryIconCard';
 
 export default function BudgetDetailsView() {
   const { styles, theme } = useStyles(StylesSheet);
@@ -104,7 +105,7 @@ export default function BudgetDetailsView() {
         }}
       />
       <View style={styles.container}>
-        <View style={styles.categorySection}>
+        {/* <View style={styles.categorySection}>
           <View
             style={[
               styles.iconContainer,
@@ -117,7 +118,12 @@ export default function BudgetDetailsView() {
             <Icon name={categoryColorConfig?.name || 'Other'} size={18} />
           </View>
           <Typography type='Title3'>{budget?.category?.name}</Typography>
-        </View>
+        </View> */}
+        <CategoryIconCard
+          containerColor={categoryColorConfig?.containerColor}
+          iconName={categoryColorConfig?.name}
+          categoryName={budget?.category?.name!}
+        />
         <View>
           <Typography center type='Title2'>
             Remaining
