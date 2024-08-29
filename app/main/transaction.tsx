@@ -21,32 +21,14 @@ import {
   groupTransactionsByDate,
   BasicDateFiltersEnum,
   generateMinAndMaxDateBasedOnFilters,
+  FilterOptionsList,
+  AllFilterValue
 } from '@/utils';
 
 import useTransactions from '@/hooks/data/useTransactions';
 import TransactionFilter from '@/components/filters/TransactionFilter';
 import { Link } from 'expo-router';
 
-const AllValue = 'All';
-
-const FilterOptionsList = [
-  {
-    label: 'Week',
-    value: BasicDateFiltersEnum.WEEK,
-  },
-  {
-    label: 'Month',
-    value: BasicDateFiltersEnum.MONTH,
-  },
-  {
-    label: 'Year',
-    value: BasicDateFiltersEnum.YEAR,
-  },
-  {
-    label: 'All',
-    value: AllValue,
-  },
-];
 
 const getInitialFilterParams = () => {
   const { minDate, maxDate } = generateMinAndMaxDateBasedOnFilters(
@@ -124,7 +106,7 @@ function TransactionsListView() {
       value as any
     );
 
-    const usePagination = [BasicDateFiltersEnum.YEAR, AllValue, ''].includes(
+    const usePagination = [BasicDateFiltersEnum.YEAR, AllFilterValue, ''].includes(
       value
     );
 

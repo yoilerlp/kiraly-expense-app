@@ -26,4 +26,7 @@ export { Hobby } from './Hobby';
 export { Health } from './Health';
 export { Tech } from './Tech';
 export { Other } from './Other';
+export { Graph } from './Graph';
+export { DonutChart } from './DonutChart';
+export { BarChart } from './BarChart';
 

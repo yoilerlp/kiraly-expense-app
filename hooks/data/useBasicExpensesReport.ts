@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../useAuth';
-import {ReportService } from '@/services';
+import { ReportService } from '@/services';
 
 export const GET_BASIC_USER_EXPENSES_REPORT_QUERY_KEY =
   'GET_BASIC_USER_EXPENSES_REPORT_QUERY_KEY';
@@ -12,7 +12,12 @@ export default function useBasicExpensesReport(params: {
   const { user } = useAuth();
 
   const reportQuery = useQuery({
-    queryKey: [GET_BASIC_USER_EXPENSES_REPORT_QUERY_KEY],
+    queryKey: [
+      GET_BASIC_USER_EXPENSES_REPORT_QUERY_KEY,
+      user?.id,
+      params.minDate,
+      params.maxDate,
+    ],
     queryFn: () => ReportService.GetUserBasicExpensesReport(params),
     enabled: !!user,
   });

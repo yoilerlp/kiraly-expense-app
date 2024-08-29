@@ -12,3 +12,25 @@ export const BasicDateFiltersList = BasicDateFilters.map((filter) => ({
   label: filter,
 }));
 
+
+export const AllFilterValue = 'All';
+
+export const FilterOptionsList = [
+  {
+    label: 'Week',
+    value: BasicDateFiltersEnum.WEEK,
+  },
+  {
+    label: 'Month',
+    value: BasicDateFiltersEnum.MONTH,
+  },
+  {
+    label: 'Year',
+    value: BasicDateFiltersEnum.YEAR,
+  },
+  {
+    label: 'All',
+    value: AllFilterValue,
+  },
+];
+

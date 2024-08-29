@@ -180,3 +180,12 @@ export const monthsList = dayjs.months();
 
 export default dayjs;
 
+export const getMinAndMaxDate = (dates: string[]) => {
+  const datesObject = dates.map((date) => new Date(date).getTime());
+
+  const minDate = new Date(Math.min(...datesObject))?.toISOString();
+
+  const maxDate = new Date(Math.max(...datesObject))?.toISOString();
+
+  return { minDate, maxDate };
+};

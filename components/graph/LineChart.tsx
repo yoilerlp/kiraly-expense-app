@@ -44,7 +44,7 @@ function LineChart({ data, minDate, maxDate }: Props) {
       <Svg width={WIDTH} height={HEIGHT} viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
         <Defs>
           <LinearGradient id='grad' x1='0%' y1='0%' x2='0%' y2='100%'>
-            <Stop offset='0%' stopColor={Colors.violet_100} stopOpacity={0.7} />
+            <Stop offset='0%' stopColor={Colors.violet_100} stopOpacity={0.24} />
             <Stop offset='100%' stopColor={Colors.violet_100} stopOpacity={0} />
           </LinearGradient>
         </Defs>

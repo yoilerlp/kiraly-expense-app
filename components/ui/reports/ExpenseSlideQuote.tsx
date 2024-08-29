@@ -38,7 +38,7 @@ export default function ExpenseSlideQuote({
           Sorry, there's no quote.
         </Typography>
       )}
-      <Link href={'/'} asChild>
+      <Link href={'/reports/financial'} asChild>
         <Button variant='secondary' size='full' text='See the full detail' />
       </Link>
     </View>

@@ -17,6 +17,7 @@ type SelectProps<T = string> = {
   })[];
 
   placeholder?: string;
+  placeholderDefaultValue?: T;
   error?: string;
 
   style?: {
@@ -38,6 +39,7 @@ export default function Select<T>({
   disabled,
   style: customStyle = {},
   iconProps = {},
+  placeholderDefaultValue,
 }: SelectProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,10 +58,13 @@ export default function Select<T>({
           onClose && onClose(param);
         }}
         placeholder={{
-          value: '',
+          value: placeholderDefaultValue ?? '',
           label: placeholder,
           inputLabel: placeholder,
           color: theme.Colors.light_20,
+        }}
+        pickerProps={{
+          mode: 'dropdown',
         }}
         Icon={
           Platform.OS === 'android'

@@ -123,7 +123,7 @@ export default function ReportSlides() {
       ]}
     >
       <SafeAreasSetting
-        key={currentSlide}
+        key={currentSlideIndice}
         statusBarBgColor={currentBgColor}
         bottomBgColor={currentBgColor}
         statusBarProps={{ style: 'light' }}
