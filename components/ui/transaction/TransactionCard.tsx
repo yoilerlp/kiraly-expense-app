@@ -7,6 +7,7 @@ import { Transaction, TransactionType } from '@/interfaces/transaction';
 import { getTransactionCategoryIcon } from '@/utils/category';
 import { formatTransactionCardDateByFilter } from '@/utils/date';
 import { Link } from 'expo-router';
+import { formatCurrency } from '@/utils/currency';
 
 type TransactionCardProps = {
   transaction: Transaction;
@@ -59,7 +60,7 @@ function TransactionCard({
                 type='Title4'
                 style={styles.transactionAmount(isExpense)}
               >
-                {transactionSign} ${Number(transaction.amount).toFixed(2)}
+                {transactionSign} ${formatCurrency(Number(transaction.amount))}
               </Typography>
             </View>
             {/* DEscription and date */}
@@ -123,4 +124,3 @@ const StylesSheet = createStyleSheet((theme) => ({
 }));
 
 export default memo(TransactionCard);
-

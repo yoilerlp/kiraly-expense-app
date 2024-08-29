@@ -22,10 +22,9 @@ import { TransactionCard } from '@/components/ui';
 import CategoryExpenseBarCard from '@/components/ui/reports/CategoryExpenseBarCard';
 import BarChart from '@/components/graph/BarChart';
 import { generateFinancialReportData } from '@/utils/reports';
-import LoadingScreen from '@/components/LoadingScreen';
-import ErrorScreen from '@/components/ErrorScreen';
 import FetchWrapper from '@/components/FetchWrapper';
 import SafeAreasSetting from '@/components/SafeAreasSetting';
+import { formatCurrency } from '../../utils/currency';
 
 const graphTypesList: {
   icon: IconName;
@@ -113,7 +112,7 @@ export default function FinancialReportView() {
     return (
       <Typography color={theme.Colors.dark_100} type='Title1'>
         ${' '}
-        {Math.round(
+        {formatCurrency(
           showIncomeTransactions
             ? data?.basicExpenses?.totalIncome || 0
             : data?.basicExpenses?.totalExpense || 0

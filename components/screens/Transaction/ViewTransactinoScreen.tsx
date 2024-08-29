@@ -15,6 +15,7 @@ import { capitalizeFirstLetter } from '@/utils/text';
 import { formatDate } from '@/utils/date';
 import BottomSheet from '@/components/bottomSheet';
 import BottomSheetDecision from '@/components/bottomSheet/BottomSheetDecision';
+import { formatCurrency } from '@/utils/currency';
 
 type Props = {
   type: TransactionType;
@@ -153,7 +154,7 @@ export default function ViewTransactinoScreen({ type, data, onDelete }: Props) {
               style={{ lineHeight: 80, fontSize: 48 }}
               type='TitleX'
             >
-              ${numberToTwoDecimals(amount)}
+              ${formatCurrency(amount)}
             </Typography>
             <Typography
               fontSize={18}

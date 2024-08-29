@@ -4,6 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Icon, { IconName } from '../icon';
 import Typography from '../typography';
 import { numberToTwoDecimals } from '@/utils/number';
+import { formatCurrency } from '../../utils/currency';
 
 type BalanceCardProps = {
   type: 'income' | 'expense';
@@ -42,7 +43,7 @@ export default function BalanceCard({
           color={theme.Colors.light_80}
           type='Title3'
         >
-          ${numberToTwoDecimals(amount)}
+          ${formatCurrency(amount)}
         </Typography>
       </View>
     </View>

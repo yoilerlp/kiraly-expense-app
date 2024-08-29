@@ -1,6 +1,5 @@
 import { Typography } from '@/components';
-import ErrorScreen from '@/components/ErrorScreen';
-import LoadingScreen from '@/components/LoadingScreen';
+import FetchWrapper from '@/components/FetchWrapper';
 import SafeAreasSetting from '@/components/SafeAreasSetting';
 import ScreenHeader from '@/components/header';
 import { BudgetBasicCard } from '@/components/ui/budget/BudgetCard';
@@ -18,7 +17,7 @@ export default function BudgetListView() {
   const { styles, theme } = useStyles(StylesSheet);
   const auth = useAuth();
   const router = useRouter();
-  const { data, isError, isLoading } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ['budgets', 'history', auth.user?.id],
     queryFn: BudgetService.GetBudgetHistoryByUser,
   });
@@ -43,12 +42,11 @@ export default function BudgetListView() {
     return dataByYear;
   }, [data]);
 
-  if (isLoading) return <LoadingScreen />;
-
-  if (isError && !data) return <ErrorScreen />;
-
   return (
-    <>
+    <FetchWrapper
+      loading={isLoading}
+      error={error}
+    >
       <SafeAreasSetting statusBarBgColor={theme.Colors.violet_100} />
       <Stack.Screen
         options={{
@@ -92,7 +90,7 @@ export default function BudgetListView() {
           )}
         />
       </View>
-    </>
+    </FetchWrapper>
   );
 }
 

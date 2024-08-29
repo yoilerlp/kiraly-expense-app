@@ -7,12 +7,14 @@ import Icon from '@/components/icon';
 import Typography from '@/components/typography';
 import ProgressBar from '@/components/graph/ProgressBar';
 import { categoriesColorsConfig } from '@/utils';
+import { formatCurrency } from '../../../utils/currency';
 
 type BudgetCardProps = {
   categoryName: string;
   categoryKey?: string;
   amountUsed: number;
   amount: number;
+  warningAmount?: number;
   onPress?: () => void;
 };
 
@@ -21,11 +23,16 @@ function BudgetCard({
   amountUsed,
   categoryName,
   categoryKey,
+  warningAmount,
   onPress,
 }: BudgetCardProps) {
   const { styles, theme } = useStyles(budgetCardStyles);
 
-  const limitIsExceeded = amountUsed > amount;
+  const amountIsExceeded = amountUsed > amount;
+  const alertAmountIsExceeded = warningAmount && amountUsed > warningAmount;
+
+  const limitIsExceeded = amountIsExceeded || alertAmountIsExceeded;
+  // const limitIsExceeded = true;
 
   const remainingAmount = amount - amountUsed;
 
@@ -52,7 +59,7 @@ function BudgetCard({
         ) : null}
       </View>
       <Typography type='Title2'>
-        Remaining ${remainingIsNegative ? 0 : remainingAmount}
+        Remaining ${remainingIsNegative ? 0 : formatCurrency(remainingAmount)}
       </Typography>
       <ProgressBar
         progress={percentageUsed}
@@ -63,7 +70,7 @@ function BudgetCard({
         type='Body1'
         style={{ marginTop: 4, marginBottom: 10 }}
       >
-        ${amountUsed} of ${amount}
+        ${formatCurrency(amountUsed)} of ${formatCurrency(amount)}
       </Typography>
       {limitIsExceeded ? (
         <Typography color={theme.Colors.red_100} type='Body1'>
@@ -97,7 +104,7 @@ export function BudgetBasicCard({
         />
         <Typography type='Body1'> Month: {month}</Typography>
       </View>
-      <Typography type='Title2'>Amount ${amount}</Typography>
+      <Typography type='Title2'>Amount ${formatCurrency(amount)}</Typography>
     </TouchableOpacity>
   );
 }

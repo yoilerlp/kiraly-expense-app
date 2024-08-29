@@ -104,7 +104,7 @@ export default function CreateTransactionScreen({
         text2: 'Transaction created successfully',
       });
 
-      router.replace('/main/home');
+      router.replace(`/transactions/view/transaction/${data?.id}` as any);
     },
     onError(error: string) {
       Toast.show({

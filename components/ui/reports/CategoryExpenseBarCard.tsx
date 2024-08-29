@@ -1,11 +1,12 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Typography from '@/components/typography';
 import CategoryTag from '../CategoryTag';
-import { Category, CategoryKey } from '@/interfaces';
+import { Category } from '@/interfaces';
 import { capitalizeFirstLetter, categoriesColorsConfig } from '@/utils';
 import ProgressBar from '@/components/graph/ProgressBar';
+import { formatCurrency } from '@/utils/currency';
 
 type CategoryExpenseBarCardProps = {
   category: Category;
@@ -42,7 +43,7 @@ export default function CategoryExpenseBarCard({
           color={textColor}
           style={{ textTransform: 'capitalize' }}
         >
-          {transactionSymbol} ${amount}
+          {transactionSymbol} ${formatCurrency(amount)}
         </Typography>
       </View>
       <ProgressBar

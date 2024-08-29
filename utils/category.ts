@@ -57,7 +57,7 @@ export const categoriesColorsConfig: Record<
   },
   [CategoryKey.CLOTHES]: {
     name: 'Shooping',
-    containerColor: Colors.green_20,
+    containerColor: Colors.red_20,
     iconColor: Colors.red_100,
   },
   [CategoryKey.HOBBY]: {

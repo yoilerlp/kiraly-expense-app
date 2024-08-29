@@ -123,6 +123,7 @@ export default function BadgeView() {
               <BudgetCard
                 amount={item.amount}
                 amountUsed={amountUsed}
+                warningAmount={item.amountAlert!}
                 categoryName={item.category?.name || ''}
                 categoryKey={item.category?.key || ''}
                 onPress={() => {

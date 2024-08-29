@@ -8,6 +8,7 @@ import UserAvatar from '@/components/ui/UserAvatar';
 import { useDebounce } from '@/hooks/useDebounce';
 import { TransactionService } from '@/services';
 import { removeDuplicateByKey } from '@/utils/array';
+import { formatCurrency } from '@/utils/currency';
 import { generateMonthObject, getMonthsInRange } from '@/utils/date';
 import { numberToTwoDecimals } from '@/utils/number';
 import { useQuery } from '@tanstack/react-query';
@@ -142,7 +143,7 @@ function UserBalance() {
             ellipsizeMode='tail'
           >
             $
-            {numberToTwoDecimals(
+            {formatCurrency(
               Number(balanceData?.balance?.income || 0) -
                 Number(balanceData?.balance?.expense || 0)
             )}
