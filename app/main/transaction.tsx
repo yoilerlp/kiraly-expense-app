@@ -22,23 +22,22 @@ import {
   BasicDateFiltersEnum,
   generateMinAndMaxDateBasedOnFilters,
   FilterOptionsList,
-  AllFilterValue
+  AllFilterValue,
 } from '@/utils';
 
 import useTransactions from '@/hooks/data/useTransactions';
 import TransactionFilter from '@/components/filters/TransactionFilter';
-import { Link } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 
-
-const getInitialFilterParams = () => {
+const getInitialFilterParams = (filter: BasicDateFiltersEnum) => {
   const { minDate, maxDate } = generateMinAndMaxDateBasedOnFilters(
-    BasicDateFiltersEnum.MONTH
+    filter || BasicDateFiltersEnum.MONTH
   );
 
   return {
     page: 1,
     limit: Number.MAX_SAFE_INTEGER,
-    currentDateTab: BasicDateFiltersEnum.MONTH,
+    currentDateTab: filter || BasicDateFiltersEnum.MONTH,
     minDate,
     maxDate,
     orderBy: SortTransactionBy.NEWEST,
@@ -48,18 +47,18 @@ const getInitialFilterParams = () => {
 function TransactionsListView() {
   const { styles, theme } = useStyles(StylesSheet);
 
-  const [bottomSheetIndex, setBottomSheetIndex] = React.useState(-1);
+  const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
 
-  const openBottomSheet = () => {
-    setBottomSheetIndex(0);
-  };
+  const { filter = BasicDateFiltersEnum.MONTH } = useLocalSearchParams<{
+    filter: BasicDateFiltersEnum;
+  }>();
 
   const [transactionParams, setTransactionParams] = useState<
     IFilterTransactionParams & {
       currentDateTab: string;
     }
   >(() => {
-    return getInitialFilterParams();
+    return getInitialFilterParams(filter);
   });
 
   const {
@@ -101,14 +100,20 @@ function TransactionsListView() {
     return totalFitlers;
   }, [transactionParams]);
 
+  const openBottomSheet = () => {
+    setBottomSheetIndex(0);
+  };
+
   const handleSelectChange = (value: string) => {
     const { minDate, maxDate } = generateMinAndMaxDateBasedOnFilters(
       value as any
     );
 
-    const usePagination = [BasicDateFiltersEnum.YEAR, AllFilterValue, ''].includes(
-      value
-    );
+    const usePagination = [
+      BasicDateFiltersEnum.YEAR,
+      AllFilterValue,
+      '',
+    ].includes(value);
 
     setTransactionParams({
       ...transactionParams,
@@ -124,8 +129,12 @@ function TransactionsListView() {
     fetchNextPage();
   };
 
+  console.log({
+    filter
+  })
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} key={filter}>
       <SectionList
         contentContainerStyle={styles.container}
         style={{ backgroundColor: theme.Colors.light_100 }}
@@ -169,30 +178,36 @@ function TransactionsListView() {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ height: 64, paddingVertical: 8, marginBottom: 8 }}>
-              <Link
-                href={{
-                  pathname: '/reports/slides',
-                  params: {
-                    filter: transactionParams.currentDateTab,
-                  },
-                }}
-                asChild
-              >
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={styles.seeReportBtn}
+            {[
+              BasicDateFiltersEnum.WEEK,
+              BasicDateFiltersEnum.MONTH,
+              BasicDateFiltersEnum.YEAR,
+            ].includes(transactionParams.currentDateTab as any) ? (
+              <View style={{ height: 64, paddingVertical: 8, marginBottom: 8 }}>
+                <Link
+                  href={{
+                    pathname: '/reports/slides',
+                    params: {
+                      filter: transactionParams.currentDateTab,
+                    },
+                  }}
+                  asChild
                 >
-                  <Typography color={theme.Colors.violet_100} type='Body1'>
-                    See your financial report
-                  </Typography>
-                  <Icon
-                    name='ArrowRightNavigation'
-                    color={theme.Colors.violet_100}
-                  />
-                </TouchableOpacity>
-              </Link>
-            </View>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.seeReportBtn}
+                  >
+                    <Typography color={theme.Colors.violet_100} type='Body1'>
+                      See your financial report
+                    </Typography>
+                    <Icon
+                      name='ArrowRightNavigation'
+                      color={theme.Colors.violet_100}
+                    />
+                  </TouchableOpacity>
+                </Link>
+              </View>
+            ) : null}
           </>
         )}
         SectionSeparatorComponent={() => <View style={{ height: 8 }} />}
@@ -224,7 +239,7 @@ function TransactionsListView() {
           }}
           onReset={() => {
             setBottomSheetIndex(-1);
-            setTransactionParams(getInitialFilterParams());
+            setTransactionParams(getInitialFilterParams(filter));
           }}
           onSave={(data) => {
             setBottomSheetIndex(-1);

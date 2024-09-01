@@ -1,4 +1,4 @@
-import { Account, User } from '@/interfaces';
+import { User } from '@/interfaces';
 import { createContext } from 'react';
 
 type AuthContext = {

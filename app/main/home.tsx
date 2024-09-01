@@ -12,8 +12,11 @@ import useTransactions from '@/hooks/data/useTransactions';
 import { IFilterTransactionParams } from '@/interfaces';
 import { generateMinAndMaxDateBasedOnFilters } from '@/utils/date';
 import LoadingSpinner from '@/components/loaders';
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   const [transactionParams, setTransactionParams] = useState<
     IFilterTransactionParams & {
       currentDateTab: string;
@@ -135,16 +138,30 @@ export default function HomeScreen() {
               >
                 Recent Transactions
               </Typography>
-              <View style={{ width: 80 }}>
-                <PillTab
-                  isSingle
-                  label='See All'
-                  size='medium'
-                  color='violet'
-                  isActive
-                  onPressTab={() => {}}
-                />
-              </View>
+              {![BasicDateFiltersEnum.TODAY].includes(
+                transactionParams?.currentDateTab as any
+              ) ? (
+                <View style={{ width: 80 }}>
+                  <PillTab
+                    isSingle
+                    label='See All'
+                    size='medium'
+                    color='violet'
+                    isActive
+                    onPressTab={() => {
+                      console.log({
+                        filterInHome: transactionParams.currentDateTab,
+                      });
+                      router.replace({
+                        pathname: '/main/transaction',
+                        params: {
+                          filter: transactionParams.currentDateTab,
+                        },
+                      });
+                    }}
+                  />
+                </View>
+              ) : null}
             </View>
           </View>
         </View>
@@ -175,4 +192,3 @@ const HomeStyles = createStyleSheet((theme) => ({
     paddingHorizontal: 16,
   },
 }));
-

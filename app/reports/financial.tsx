@@ -48,6 +48,15 @@ const categoryOrTransactionOptions = ['Transaction', 'Category'];
 
 const tabTypes = [TransactionType.EXPENSE, TransactionType.INCOME];
 
+const financialReporFilterOptions = [
+  BasicDateFiltersEnum.WEEK,
+  BasicDateFiltersEnum.MONTH,
+  BasicDateFiltersEnum.YEAR,
+].map((filter) => ({
+  label: capitalizeFirstLetter(filter),
+  value: filter,
+}));
+
 export default function FinancialReportView() {
   const { filter = BasicDateFiltersEnum.MONTH } = useLocalSearchParams<{
     filter: string;
@@ -153,7 +162,7 @@ export default function FinancialReportView() {
                 if (!value) return;
                 setFilterDateType(value);
               }}
-              items={FilterOptionsList}
+              items={financialReporFilterOptions}
               iconProps={{
                 color: theme.Colors.violet_100,
                 size: 24,

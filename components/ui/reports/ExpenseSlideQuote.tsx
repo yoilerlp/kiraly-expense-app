@@ -4,16 +4,19 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Typography from '@/components/typography';
 import { Link } from 'expo-router';
 import Button from '@/components/button';
+import { BasicDateFiltersEnum } from '@/utils';
 
 type ExpenseSlideQuoteProps = {
   quoteData: {
     quote: string;
     author: string;
   };
+  currentTab?: string;
 };
 
 export default function ExpenseSlideQuote({
   quoteData,
+  currentTab,
 }: ExpenseSlideQuoteProps) {
   const { styles, theme } = useStyles(StylesSheet);
 
@@ -38,7 +41,15 @@ export default function ExpenseSlideQuote({
           Sorry, there's no quote.
         </Typography>
       )}
-      <Link href={'/reports/financial'} asChild>
+      <Link
+        href={{
+          pathname: '/reports/financial',
+          params: {
+            filter: currentTab ?? BasicDateFiltersEnum.MONTH,
+          },
+        }}
+        asChild
+      >
         <Button variant='secondary' size='full' text='See the full detail' />
       </Link>
     </View>

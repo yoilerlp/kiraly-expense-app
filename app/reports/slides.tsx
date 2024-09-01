@@ -167,7 +167,7 @@ export default function ReportSlides() {
       ) : null}
 
       {currentSlide === 'quote' ? (
-        <ExpenseSlideQuote quoteData={randomQuote?.[0]!} />
+        <ExpenseSlideQuote currentTab={filter} quoteData={randomQuote?.[0]!} />
       ) : null}
     </TouchableOpacity>
   );

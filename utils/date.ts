@@ -132,7 +132,7 @@ export const generateMinAndMaxDateBasedOnFilters = (
 ) => {
   const format = 'YYYY-MM-DD HH:mm:ss';
 
-  let today = dayjs.utc();
+  let today = dayjs();
 
   switch (filter) {
     case 'Today':

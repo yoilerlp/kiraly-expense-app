@@ -10,9 +10,7 @@ export default function ValidateLoginView() {
 
   if (isLoading) return <LoadingScreen />; 
 
-  return <Redirect href={'/main/profile'} />;
-
-  if (user) return <Redirect href={'/main/profile'} />;
+  if (user) return <Redirect href={'/main/home'} />;
 
   return <OnboardingScreen />;
 }
