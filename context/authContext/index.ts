@@ -6,6 +6,7 @@ type AuthContext = {
   isLoading: boolean;
   logOut: () => void;
   getUserToken?: () => string | null;
+  reloadUser?: () => void;
 };
 
 const AuthContext = createContext<AuthContext>({} as AuthContext);

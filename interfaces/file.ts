@@ -4,13 +4,14 @@ export type LoadedFile = {
   mimeType: string;
   size: number;
   uri: string;
-  
+
   base64?: string;
   id?: string;
 };
 
 export type UploaderResult = {
   onResult: (result: LoadedFile) => void;
+  renderComponent?: (onPress: () => void) => React.ReactNode;
 };
 
 export type FileItemDb = {
@@ -21,4 +22,3 @@ export type FileItemDb = {
   url: string;
   size: number;
 };
-

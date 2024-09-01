@@ -11,7 +11,7 @@ const InterMedium = require('../assets/fonts/Inter-Medium.ttf');
 const InterBold = require('../assets/fonts/Inter-Bold.ttf');
 
 // images
-const avatar = require('../assets/images/avatar.jpeg');
+const avatar = require('../assets/images/avatar.png');
 
 const fonts = {
   // InterRegular,

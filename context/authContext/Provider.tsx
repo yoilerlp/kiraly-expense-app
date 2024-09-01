@@ -17,7 +17,7 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
     ''
   );
 
-  const { data, isError, isLoading } = useUserLogged(value);
+  const { data, isError, isLoading, refetch } = useUserLogged(value);
 
   const logOut = () => {
     setStorageItemAsync('token', null);
@@ -40,10 +40,12 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
         getUserToken() {
           return value;
         },
+        reloadUser: () => {
+          refetch();
+        },
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 }
-

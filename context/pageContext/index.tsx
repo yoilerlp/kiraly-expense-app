@@ -23,10 +23,10 @@ export const PageContext = React.createContext<IPageContext>(
 
 export const defaulPagePartStyles: IPageStatusBarStyles = {
   viewBottomContainerStyles: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
   },
   statusBarContainerStyles: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
   },
   statusBarProps: {
     style: 'auto',

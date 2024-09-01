@@ -5,6 +5,7 @@ import Select from '@/components/select';
 import Typography from '@/components/typography';
 import BalanceCard from '@/components/ui/BalanceCard';
 import UserAvatar from '@/components/ui/UserAvatar';
+import useAuth from '@/hooks/useAuth';
 import { useDebounce } from '@/hooks/useDebounce';
 import { TransactionService } from '@/services';
 import { removeDuplicateByKey } from '@/utils/array';
@@ -23,6 +24,8 @@ function UserBalance() {
   const [selectedMonth, setSelectedMonth] = React.useState(
     generateMonthObject(new Date()).date
   );
+
+  const auth = useAuth();
 
   const {
     data: minAndMaxTransactionDate,
@@ -108,7 +111,7 @@ function UserBalance() {
           style={styles.gradiantContainer}
         >
           <View style={styles.avatarSection}>
-            <UserAvatar />
+            <UserAvatar imgUrl={auth?.user?.photo!} />
             <Select
               value={selectedMonth}
               onChange={setSelectedMonth}

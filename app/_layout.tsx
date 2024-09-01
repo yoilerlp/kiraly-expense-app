@@ -93,13 +93,6 @@ function RootLayoutNav() {
                 <Stack.Screen
                   options={{
                     headerShown: true,
-                    header: () => <ScreenHeader title='Login' />,
-                  }}
-                  name='(auth)/login'
-                />
-                <Stack.Screen
-                  options={{
-                    headerShown: true,
                     header: () => <ScreenHeader title='Reset Password' />,
                   }}
                   name='(auth)/updatePassword/[email]'

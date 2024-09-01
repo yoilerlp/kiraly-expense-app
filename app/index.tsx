@@ -10,7 +10,9 @@ export default function ValidateLoginView() {
 
   if (isLoading) return <LoadingScreen />; 
 
-  if (user) return <Redirect href={'/reports/financial?filter=month' as any} />;
+  return <Redirect href={'/main/profile'} />;
+
+  if (user) return <Redirect href={'/main/profile'} />;
 
   return <OnboardingScreen />;
 }

@@ -1,6 +1,7 @@
 import { API_URL } from '@/constants/api';
+import { StorageKeys } from '@/constants/storageKeys';
 import { User } from '@/interfaces';
-import { getErrorMsgFromResponse } from '@/utils';
+import { getErrorMsgFromResponse, getStorageItem } from '@/utils';
 
 export const createUser = async (
   user: Pick<User, 'name' | 'lastName' | 'email'> & { password: string }
@@ -172,3 +173,43 @@ export const UpdatePassword = async (data: {
   }
 };
 
+export const UpdateUser = async (data: {
+  name?: string;
+  lastName?: string;
+  file?: File;
+}) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    const formData = new FormData();
+
+
+    formData.append('name', data.name || '');
+    formData.append('lastName', data.lastName || '');
+
+    if (data.file) {
+      formData.append('file', data.file, data.file.name);
+    }
+
+    const responseBody = await fetch(`${API_URL}/user/update-profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+      method: 'PATCH',
+    });
+
+
+    const responseData: ServiceResponse<User> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    console.log(error);
+    throw getErrorMsgFromResponse(error);
+  }
+};

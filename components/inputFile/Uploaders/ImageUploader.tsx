@@ -8,7 +8,7 @@ import { LoadedFile, UploaderResult } from '@/interfaces/file';
 
 type Props = UploaderResult;
 
-export default function ImageUploader({ onResult }: Props) {
+export default function ImageUploader({ onResult, renderComponent }: Props) {
   const pickImage = async () => {
     try {
       // No permissions request is necessary for launching the image library
@@ -36,7 +36,8 @@ export default function ImageUploader({ onResult }: Props) {
           onResult?.(fileResult);
         }
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
       Toast.show({
         type: 'error',
         text1: 'Error',
@@ -45,6 +46,9 @@ export default function ImageUploader({ onResult }: Props) {
     }
   };
 
+  if (renderComponent) {
+    return renderComponent(pickImage);
+  }
+
   return <LoadFileTypeItem icon='Image' title='Image' onPress={pickImage} />;
 }
-

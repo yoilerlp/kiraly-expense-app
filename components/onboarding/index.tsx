@@ -16,6 +16,7 @@ import React from 'react';
 
 import Button from '../button';
 import { assets } from '@/constants/assets';
+import SafeAreasSetting from '../SafeAreasSetting';
 
 const onBoardingStepsData = [
   {
@@ -50,10 +51,15 @@ export default function OnboardingScreen() {
 
   const configList = React.useRef(config);
 
-  const { styles } = useStyles(onBoardingScreenStyles);
+  const { styles, theme } = useStyles(onBoardingScreenStyles);
 
   return (
     <View style={styles.container}>
+      <SafeAreasSetting
+        statusBarBgColor={theme.Colors.light_100}
+        bottomBgColor={theme.Colors.light_100}
+        statusBarProps={{ style: 'auto' }}
+      />
       <View style={{ marginBottom: 30 }}>
         <FlatList
           horizontal
@@ -210,4 +216,3 @@ const onBoardingScreenStyles = createStyleSheet((theme) => ({
     alignItems: 'center',
   },
 }));
-

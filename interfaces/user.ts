@@ -5,5 +5,6 @@ export interface User {
   id: string;
   key: number;
   isActive: boolean;
+  photo: string | null;
 }
 

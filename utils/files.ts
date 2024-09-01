@@ -11,6 +11,7 @@ export const convertLoadedFilesToFiles = async (files: LoadedFile[]) => {
   const filesMapped = files?.map((file) => {
     const uri =
       Platform.OS === 'ios' ? file.uri.replace('file://', '') : file.uri;
+    // const uri = file.uri.replace('file://', '')
     return {
       uri,
       type: file.mimeType,

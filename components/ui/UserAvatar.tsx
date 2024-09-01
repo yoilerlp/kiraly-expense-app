@@ -1,13 +1,24 @@
 import { assets } from '@/constants/assets';
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image, View, ViewStyle } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-export default function UserAvatar() {
+type UserAvatarProps = {
+  containerStyles?: ViewStyle;
+  imgUrl?: string;
+};
+
+export default function UserAvatar({
+  containerStyles,
+  imgUrl,
+}: UserAvatarProps) {
   const { styles } = useStyles(UserAvatarStyles);
   return (
-    <View style={styles.container}>
-      <Image source={assets.images.avatar} style={styles.avatarImg} />
+    <View style={[styles.container, containerStyles]}>
+      <Image
+        source={imgUrl ? { uri: imgUrl } : assets.images.avatar}
+        style={styles.avatarImg}
+      />
     </View>
   );
 }
@@ -17,14 +28,13 @@ const UserAvatarStyles = createStyleSheet((theme) => ({
     width: 50,
     height: 50,
     borderRadius: 24,
-    padding: 3,
-    borderWidth: 2,
-    borderColor: theme.Colors.violet_100,
+    // borderWidth: 2,
+    // borderColor: theme.Colors.violet_100,
   },
   avatarImg: {
     width: '100%',
     height: '100%',
     borderRadius: 24,
+    objectFit: 'cover',
   },
 }));
-

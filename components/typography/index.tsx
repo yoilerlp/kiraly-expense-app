@@ -7,14 +7,14 @@ import { Colors } from '@/theme/Colors';
 type TypographyTypes = keyof typeof TypographyList;
 
 type TypographyProps = ComponentProps<typeof Text> & {
-  type: TypographyTypes;
+  type?: TypographyTypes;
   center?: boolean;
   color?: string;
   fontSize?: number;
 };
 
 export default function Typography({
-  type,
+  type = 'Body1',
   center,
   color,
   fontSize,
