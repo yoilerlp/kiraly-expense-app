@@ -51,6 +51,33 @@ export const CreateUserAccounts = async (
     throw getErrorMsgFromResponse(error);
   }
 };
+export const UpdateUserAccount = async (params: {
+  id: string;
+  data: Pick<Account, 'name' | 'type'>;
+}) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    const responseBody = await fetch(`${API_URL}/account/${params.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params.data),
+    });
+
+    const responseData: ServiceResponse<Account> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
 export const GetAccountWithBalanceById = async (id: string) => {
   try {
     const token = await getStorageItem(StorageKeys.authToken);

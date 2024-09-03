@@ -106,19 +106,6 @@ function RootLayoutNav() {
                 />
                 <Stack.Screen
                   options={{
-                    headerShown: true,
-                    header: () => (
-                      <ScreenHeader
-                        title='Add new account'
-                        bgColor={Colors.violet_100}
-                        textColor='white'
-                      />
-                    ),
-                  }}
-                  name='(auth)/addAccount'
-                />
-                <Stack.Screen
-                  options={{
                     headerShown: false,
                   }}
                   name='(auth)/setupAccount'

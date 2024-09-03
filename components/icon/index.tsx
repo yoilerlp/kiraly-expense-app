@@ -4,6 +4,7 @@ import * as Icons from './components';
 import { SvgProps } from 'react-native-svg';
 import Badge from '../ui/Badge';
 import { TouchableOpacity } from 'react-native';
+import { Link } from 'expo-router';
 
 export const AllIcons = Icons;
 
@@ -27,6 +28,20 @@ function Icon({ name, ...props }: IconComponentProps) {
 
   return <IconComponent {...props} />;
 }
+
+export const WithLink = ({
+  href,
+  activeOpacity = 0.8,
+  ...props
+}: IconComponentProps & { href: string, activeOpacity?: number }) => {
+  return (
+    <Link href={href as any} asChild>
+      <TouchableOpacity activeOpacity={activeOpacity}>
+        <Icon {...props} />
+      </TouchableOpacity>
+    </Link>
+  );
+};
 
 export const WithBadge = (
   props: IconComponentProps & {
@@ -58,6 +73,6 @@ export const WithOpacity = ({
 
 Icon.WithBadge = WithBadge;
 Icon.WithOpacity = WithOpacity;
+Icon.WithLink = WithLink;
 
 export default Icon;
-

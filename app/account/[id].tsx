@@ -16,6 +16,7 @@ import {
 } from '@/interfaces';
 import { groupTransactionsByDate } from '@/utils';
 import TransactionSections from '@/components/ui/transaction/TransactionSections';
+import useAccount from '@/hooks/data/useAccount';
 
 export default function AccountDetailView() {
   const { styles, theme } = useStyles(StylesSheet);
@@ -24,11 +25,7 @@ export default function AccountDetailView() {
     id: string;
   }>();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['account', id],
-    queryFn: () => AccountService.GetAccountWithBalanceById(id),
-    enabled: !!id,
-  });
+  const { data, isLoading, error } = useAccount(id);
 
   const [transactionParams, setTransactionParams] =
     useState<IFilterTransactionParams>(() => {
@@ -87,7 +84,13 @@ export default function AccountDetailView() {
             header: () => (
               <ScreenHeader
                 title='Account'
-                rightIcon={<Icon name='Edit' size={18} />}
+                rightIcon={
+                  <Icon.WithLink
+                    href={`/account/update/${id}`}
+                    name='Edit'
+                    size={18}
+                  />
+                }
               />
             ),
           }}

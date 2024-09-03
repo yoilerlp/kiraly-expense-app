@@ -6,7 +6,7 @@ import ScreenHeader from '@/components/header';
 import FetchWrapper from '@/components/FetchWrapper';
 import SafeAreasSetting from '@/components/SafeAreasSetting';
 import useUserAccounts from '@/hooks/data/useUserAccounts';
-import { Typography } from '@/components';
+import { Icon, Typography } from '@/components';
 import AccountCard from '@/components/ui/account/AccountCard';
 
 export default function AccountsView() {
@@ -29,6 +29,14 @@ export default function AccountsView() {
                 title='Accounts'
                 textColor={theme.Colors.light_100}
                 bgColor={theme.Colors.violet_100}
+                rightIcon={
+                  <Icon.WithLink
+                    href='/addAccount'
+                    name='Add'
+                    size={32}
+                    color={theme.Colors.light_100}
+                  />
+                }
               />
             ),
           }}
@@ -36,7 +44,9 @@ export default function AccountsView() {
         <FlatList
           data={data}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <AccountCard account={item} />}
+          renderItem={({ item }) => (
+            <AccountCard account={item} key={item.id} />
+          )}
         />
       </View>
     </FetchWrapper>

@@ -128,11 +128,12 @@ function UserBalance() {
                 inputContainer: styles.selectInputContainer,
               }}
             />
-            <Icon
+            <View />
+            {/* <Icon
               name='Notification'
               size={24}
               color={theme.Colors.violet_100}
-            />
+            /> */}
           </View>
           <Typography color={theme.Colors.light_20} center type='Body3'>
             Account Balance
@@ -227,4 +228,4 @@ const StylesSheet = createStyleSheet((theme) => ({
   },
 }));
 
-export default memo(UserBalance)
+export default memo(UserBalance);

@@ -33,7 +33,8 @@ const AccountCard = ({ account }: AccountCardProps) => {
           </View>
           <Typography type='Title4'>{account.name}</Typography>
           <View style={styles.iconsContainer}>
-            <Icon.WithOpacity
+            <Icon.WithLink
+              href={`/account/update/${account.id}`}
               size={24}
               name='Edit'
               color={theme.Colors.violet_100}

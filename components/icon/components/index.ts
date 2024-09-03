@@ -32,3 +32,4 @@ export { BarChart } from './BarChart';
 export { Edit } from './Edit';
 export { Wallet } from './Wallet';
 export { LogOut } from './LogOut';
+export { Add } from './Add';
