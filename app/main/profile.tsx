@@ -20,7 +20,7 @@ const profileActions: {
   {
     text: 'Accounts',
     icon: 'Wallet',
-    url: '/main/profile/edit',
+    url: '/account',
     isLogout: false,
   },
   {
@@ -64,7 +64,7 @@ export default function ProfileView() {
                 if (action.isLogout) {
                   setBottomSheetIndex(0);
                 } else {
-                  // router.push(action.url);
+                  router.push(action.url as any);
                 }
               }}
               isLogout={action.isLogout}
@@ -75,7 +75,7 @@ export default function ProfileView() {
       <CustomBottomSheetComp
         index={bottomSheetIndex}
         onChange={setBottomSheetIndex}
-        snapPoints={['30%']}
+        snapPoints={['25%']}
       >
         <BottomSheetDecision
           isLoading={false}

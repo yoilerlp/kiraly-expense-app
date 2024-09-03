@@ -12,12 +12,7 @@ import { GET_ALL_ACCOUNTS_BY_USER_KEY } from '@/hooks/data/useUserAccounts';
 export default function AuthContextProvider({ children }: PropsWithChildren) {
   const rotuer = useRouter();
 
-  const { value, loading: loadingToken } = useStorageValue(
-    StorageKeys.authToken,
-    ''
-  );
-
-  const { data, isError, isLoading, refetch } = useUserLogged(value);
+  const { data, isError, isLoading, refetch, token } = useUserLogged();
 
   const logOut = () => {
     setStorageItemAsync('token', null);
@@ -35,10 +30,10 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         user: data!,
-        isLoading: loadingToken || isLoading,
+        isLoading: isLoading,
         logOut,
         getUserToken() {
-          return value;
+          return token;
         },
         reloadUser: () => {
           refetch();

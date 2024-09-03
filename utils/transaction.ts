@@ -25,7 +25,7 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
       (acc, transaction) => {
         const { Today = [], Yesterday = [], Week = [], Other = [] } = acc;
 
-        const today = dayjs();
+        const today = dayjs().utc();
 
         const transactionDate = dayjs(transaction.createdAt);
 
@@ -116,9 +116,7 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
         transactionDate.format('MMMM')
       );
 
-      const transactionDay = capitalizeFirstLetter(
-        transactionDate.format('D')
-      );
+      const transactionDay = capitalizeFirstLetter(transactionDate.format('D'));
 
       const key = `${transactionDay} ${transactionMonth} ${transactionYear}`;
 
@@ -129,4 +127,3 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
     }, {} as Record<string, Transaction[]>);
   },
 };
-

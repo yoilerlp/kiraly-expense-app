@@ -28,6 +28,7 @@ import {
 import useTransactions from '@/hooks/data/useTransactions';
 import TransactionFilter from '@/components/filters/TransactionFilter';
 import { Link, useLocalSearchParams } from 'expo-router';
+import TransactionSections from '@/components/ui/transaction/TransactionSections';
 
 const getInitialFilterParams = (filter: BasicDateFiltersEnum) => {
   const { minDate, maxDate } = generateMinAndMaxDateBasedOnFilters(
@@ -129,103 +130,76 @@ function TransactionsListView() {
     fetchNextPage();
   };
 
-  console.log({
-    filter
-  })
 
   return (
     <View style={{ flex: 1 }} key={filter}>
-      <SectionList
-        contentContainerStyle={styles.container}
-        style={{ backgroundColor: theme.Colors.light_100 }}
-        sections={sectinosData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <TransactionCard transaction={item} />}
-        onEndReached={hasNextPage ? handleLoadMore : null}
-        onEndReachedThreshold={0.1}
-        renderSectionHeader={({ section: { title } }) => (
-          <View style={styles.sectionHeaderContainer}>
-            <Typography fontSize={18} type='Title3'>
-              {title}
-            </Typography>
-          </View>
-        )}
-        ListHeaderComponent={() => (
-          <>
-            <View style={styles.filtersContainer}>
-              <Select
-                value={transactionParams.currentDateTab}
-                onChange={handleSelectChange}
-                items={FilterOptionsList}
-                iconProps={{
-                  color: theme.Colors.violet_100,
-                  size: 24,
-                }}
-                style={{
-                  viewContainer: styles.selectViewContainer,
-                  inputContainer: styles.selectInputContainer,
-                }}
+      <TransactionSections
+        sectinosData={sectinosData}
+        handleLoadMore={handleLoadMore}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoading={isLoading}
+      >
+        <>
+          <View style={styles.filtersContainer}>
+            <Select
+              value={transactionParams.currentDateTab}
+              onChange={handleSelectChange}
+              items={FilterOptionsList}
+              iconProps={{
+                color: theme.Colors.violet_100,
+                size: 24,
+              }}
+              style={{
+                viewContainer: styles.selectViewContainer,
+                inputContainer: styles.selectInputContainer,
+              }}
+            />
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.iconFilterContainer}
+              onPress={openBottomSheet}
+            >
+              <Icon.WithBadge
+                badgeText={activeFilters > 0 ? activeFilters.toString() : ''}
+                name='Filters'
+                size={32}
               />
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.iconFilterContainer}
-                onPress={openBottomSheet}
-              >
-                <Icon.WithBadge
-                  badgeText={activeFilters > 0 ? activeFilters.toString() : ''}
-                  name='Filters'
-                  size={32}
-                />
-              </TouchableOpacity>
-            </View>
-            {[
-              BasicDateFiltersEnum.WEEK,
-              BasicDateFiltersEnum.MONTH,
-              BasicDateFiltersEnum.YEAR,
-            ].includes(transactionParams.currentDateTab as any) ? (
-              <View style={{ height: 64, paddingVertical: 8, marginBottom: 8 }}>
-                <Link
-                  href={{
-                    pathname: '/reports/slides',
-                    params: {
-                      filter: transactionParams.currentDateTab,
-                    },
-                  }}
-                  asChild
-                >
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={styles.seeReportBtn}
-                  >
-                    <Typography color={theme.Colors.violet_100} type='Body1'>
-                      See your financial report
-                    </Typography>
-                    <Icon
-                      name='ArrowRightNavigation'
-                      color={theme.Colors.violet_100}
-                    />
-                  </TouchableOpacity>
-                </Link>
-              </View>
-            ) : null}
-          </>
-        )}
-        SectionSeparatorComponent={() => <View style={{ height: 8 }} />}
-        ListEmptyComponent={() => (
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            {isLoading ? (
-              <LoadingSpinner />
-            ) : (
-              <Text>No transactions found</Text>
-            )}
+            </TouchableOpacity>
           </View>
-        )}
-        ListFooterComponent={
-          <>{isFetchingNextPage ? <LoadingSpinner /> : null}</>
-        }
-      />
+          {[
+            BasicDateFiltersEnum.WEEK,
+            BasicDateFiltersEnum.MONTH,
+            BasicDateFiltersEnum.YEAR,
+          ].includes(transactionParams.currentDateTab as any) ? (
+            <View style={{ height: 64, paddingVertical: 8, marginBottom: 8 }}>
+              <Link
+                href={{
+                  pathname: '/reports/slides',
+                  params: {
+                    filter: transactionParams.currentDateTab,
+                  },
+                }}
+                asChild
+              >
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.seeReportBtn}
+                >
+                  <Typography color={theme.Colors.violet_100} type='Body1'>
+                    See your financial report
+                  </Typography>
+                  <Icon
+                    name='ArrowRightNavigation'
+                    color={theme.Colors.violet_100}
+                  />
+                </TouchableOpacity>
+              </Link>
+            </View>
+          ) : null}
+        </>
+      </TransactionSections>
+
       <CustomBottomSheetComp
         index={bottomSheetIndex}
         onChange={setBottomSheetIndex}

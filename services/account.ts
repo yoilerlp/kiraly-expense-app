@@ -51,4 +51,32 @@ export const CreateUserAccounts = async (
     throw getErrorMsgFromResponse(error);
   }
 };
+export const GetAccountWithBalanceById = async (id: string) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
 
+    const responseBody = await fetch(`${API_URL}/account/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const responseData: ServiceResponse<{
+      account: Account;
+      balance: {
+        total_income: number | null;
+        total_expense: number | null;
+      };
+    }> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};

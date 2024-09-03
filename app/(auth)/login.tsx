@@ -11,8 +11,13 @@ import { Input, Button } from '@/components';
 import { LoginUser } from '@/services/user';
 import { API_URL } from '../../constants/api';
 import ScreenHeader from '@/components/header';
+import useAuth from '@/hooks/useAuth';
+import { StorageKeys } from '@/constants/storageKeys';
 
 export default function LoginScreen() {
+
+  const auth = useAuth();
+
   const { control, formState, handleSubmit } = useForm({
     defaultValues: {
       email: '',
@@ -29,9 +34,10 @@ export default function LoginScreen() {
         type: 'success',
         text1: 'Login successfully',
       });
-      await setStorageItemAsync('token', data.access_token);
+      await setStorageItemAsync(StorageKeys.authToken, data.access_token);
       await setStorageItemAsync('user', JSON.stringify(data.user));
       router.replace('/main/home');
+      auth?.reloadUser?.();
     },
     onError: (error: string) => {
       Toast.show({

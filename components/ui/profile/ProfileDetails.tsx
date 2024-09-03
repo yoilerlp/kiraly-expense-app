@@ -11,12 +11,11 @@ type ProfileDetailsProps = {
   user: User;
 };
 
-export default function  ProfileDetails({
+export default function ProfileDetails({
   user,
   onPressEdit,
 }: ProfileDetailsProps) {
   const { styles, theme } = useStyles(StylesSheet);
-
   return (
     <View style={styles.container}>
       <UserAvatar
