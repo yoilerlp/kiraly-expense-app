@@ -18,7 +18,6 @@ type RegisterData = {
 };
 
 export default function Register() {
-
   const router = useRouter();
 
   const { control, formState, handleSubmit } = useForm<RegisterData>({
@@ -40,7 +39,7 @@ export default function Register() {
         text1: 'User created successfully',
         text2: 'Please verify your email',
       });
-      router.push(`/verify/${data.email}`);
+      router.push(`/auth/verify/${data.email}`);
     },
     onError: (error: string) => {
       Toast.show({
@@ -163,7 +162,7 @@ export default function Register() {
       />
       <View style={styles.allReadyAccount}>
         <Text style={styles.allreadyAccountText}>Already have an account?</Text>
-        <Link href='/login' asChild>
+        <Link href='/auth/login' asChild>
           <Text style={styles.loginText}>Login</Text>
         </Link>
       </View>
@@ -215,4 +214,3 @@ const registerStyles = createStyleSheet((theme) => ({
     textDecorationLine: 'underline',
   },
 }));
-

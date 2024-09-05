@@ -17,7 +17,7 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
 
   const logOut = () => {
     setStorageItemAsync('token', null);
-    rotuer.replace('/(auth)/login');
+    rotuer.replace('/auth/login');
   };
 
   useEffect(() => {

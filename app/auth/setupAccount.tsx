@@ -16,7 +16,7 @@ export default function SetupAccount() {
           Account can be your bank, credit card or your wallet.
         </Text>
       </View>
-      <Link href='/(auth)/addAccount' asChild>
+      <Link href='/auth/addAccount' asChild>
         <Button text='Let’s go' size='full' />
       </Link>
     </View>

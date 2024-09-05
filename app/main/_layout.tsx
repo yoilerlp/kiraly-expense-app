@@ -6,7 +6,7 @@ export default function MainLayout() {
   const { isLoading: loadingAccounts, data: accounts } = useUserAccounts();
 
   if (accounts && accounts?.length === 0 && !loadingAccounts) {
-    return <Redirect href={'/(auth)/setupAccount'} />;
+    return <Redirect href={'/auth/setupAccount'} />;
   }
 
   return (

@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font';
-import { Slot, Stack } from 'expo-router';
-import { useEffect } from 'react';
+import { Slot, Stack, usePathname, useRouter } from 'expo-router';
+import { useEffect, useLayoutEffect } from 'react';
 
 import AuthContextProvider from '@/context/authContext/Provider';
 import PageContextProvider from '@/context/pageContext';
@@ -42,26 +42,33 @@ export default function RootLayout() {
   }, [appIsReady]);
 
   if (!appIsReady) {
-    return null;
+    return <LoadingSpinner />;
   }
 
   return <RootLayoutNav />;
 }
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import LoadingScreen from '@/components/LoadingScreen';
+import useIsMounted from '@/hooks/useIsMounted';
+import { LoadingSpinner } from '@/components';
 
 function RootLayoutNav() {
-  const { value } = useStorageValue(StorageKeys.authToken, '');
-
-  const isLogged = !!value;
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
           <PageContextProvider>
             <PageContainer>
-                <Slot />
+              <>
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                    contentStyle: { backgroundColor: 'white' },
+                    animation: 'fade_from_bottom',
+                  }}
+                />
+              </>
             </PageContainer>
             <CustomToast />
           </PageContextProvider>
@@ -70,4 +77,3 @@ function RootLayoutNav() {
     </GestureHandlerRootView>
   );
 }
-

@@ -89,10 +89,10 @@ export default function OnboardingScreen() {
       />
 
       <View style={styles.buttonContainer}>
-        <Link href='/register' asChild>
+        <Link href='/auth/register' asChild>
           <Button size='full' text='Sign Up' />
         </Link>
-        <Link href='/login' asChild>
+        <Link href='/budget/list' asChild>
           <Button variant='secondary' size='full' text='Login' />
         </Link>
       </View>

@@ -6,53 +6,53 @@ import ScreenHeader from '@/components/header';
 export default function AuthLayout() {
   return (
     <Stack
-      // initialRouteName={isLogged ? 'main' : '(auth)/login'}
+      // initialRouteName={isLogged ? 'main' : 'auth/login'}
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: 'white' },
         animation: 'fade_from_bottom',
       }}
     >
-      <Stack.Screen
+      {/* <Stack.Screen
         name='main'
         options={{
           headerShown: false,
           animation: 'fade',
         }}
-      />
-      <Stack.Screen
-        name='transactions'
+      /> */}
+      {/* <Stack.Screen
+        name='./transactions'
         options={{
           headerShown: false,
           // animation: 'fade',
         }}
-      />
+      /> */}
       <Stack.Screen
         options={{
           headerShown: true,
           header: () => <ScreenHeader title='Sign Up' />,
         }}
-        name='(auth)/register'
+        name='register'
       />
       <Stack.Screen
         options={{
           headerShown: true,
           header: () => <ScreenHeader title='Reset Password' />,
         }}
-        name='(auth)/updatePassword/[email]'
+        name='updatePassword/[email]'
       />
       <Stack.Screen
         options={{
           headerShown: true,
           header: () => <ScreenHeader title='Forgot Password' />,
         }}
-        name='(auth)/forgotPassword'
+        name='forgotPassword'
       />
       <Stack.Screen
         options={{
           headerShown: false,
         }}
-        name='(auth)/setupAccount'
+        name='setupAccount'
       />
     </Stack>
   );

@@ -33,7 +33,7 @@ export default function SetPasswordScreen() {
         type: 'success',
         text1: data.message,
       });
-      router.replace('/(auth)/login');
+      router.replace('/auth/login');
     },
     onError: (error: string) => {
       Toast.show({
@@ -58,7 +58,7 @@ export default function SetPasswordScreen() {
   };
 
   if (!email) {
-    return <Redirect href='/(auth)/forgotPassword' />;
+    return <Redirect href='/auth/forgotPassword' />;
   }
 
   return (

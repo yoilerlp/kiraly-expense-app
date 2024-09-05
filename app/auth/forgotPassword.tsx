@@ -25,7 +25,7 @@ export default function ForgotPasswordScreen() {
         type: 'success',
         text1: data.message,
       });
-      router.push(`/(auth)/updatePassword/${variables.email}`);
+      router.push(`/auth/updatePassword/${variables.email}`);
     },
     onError: (error: string) => {
       Toast.show({

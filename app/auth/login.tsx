@@ -109,12 +109,12 @@ export default function LoginScreen() {
             text='Login'
           />
         </View>
-        <Link href='/forgotPassword' asChild>
+        <Link href='/auth/forgotPassword' asChild>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </Link>
         <Text style={styles.dontHaveAccount}>
           Don’t have an account yet?{' '}
-          <Link href='/register' asChild>
+          <Link href='/auth/register' asChild>
             <Text style={styles.singUpText}>Sign Up</Text>
           </Link>
         </Text>
