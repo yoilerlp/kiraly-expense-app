@@ -15,13 +15,12 @@ import useAuth from '@/hooks/useAuth';
 import { StorageKeys } from '@/constants/storageKeys';
 
 export default function LoginScreen() {
-
   const auth = useAuth();
 
   const { control, formState, handleSubmit } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'yoylerqs@gmail.com',
+      password: 'qwerty',
     },
   });
   const { errors } = formState;
@@ -35,9 +34,11 @@ export default function LoginScreen() {
         text1: 'Login successfully',
       });
       await setStorageItemAsync(StorageKeys.authToken, data.access_token);
-      await setStorageItemAsync('user', JSON.stringify(data.user));
+      // await setStorageItemAsync('user', JSON.stringify(data.user));
+      auth.updateUserData?.(data.user);
+
       router.replace('/main/home');
-      auth?.reloadUser?.();
+      // auth?.reloadUser?.();
     },
     onError: (error: string) => {
       Toast.show({

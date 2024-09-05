@@ -12,7 +12,8 @@ import { GET_ALL_ACCOUNTS_BY_USER_KEY } from '@/hooks/data/useUserAccounts';
 export default function AuthContextProvider({ children }: PropsWithChildren) {
   const rotuer = useRouter();
 
-  const { data, isError, isLoading, refetch, token } = useUserLogged();
+  const { data, isError, isLoading, refetch, token, updateUserData } =
+    useUserLogged();
 
   const logOut = () => {
     setStorageItemAsync('token', null);
@@ -38,6 +39,7 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
         reloadUser: () => {
           refetch();
         },
+        updateUserData,
       }}
     >
       {children}

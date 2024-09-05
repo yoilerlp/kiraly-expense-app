@@ -1,7 +1,11 @@
 import { API_URL } from '@/constants/api';
 import { StorageKeys } from '@/constants/storageKeys';
 import { Category } from '@/interfaces/category';
-import { getErrorMsgFromResponse, getStorageItem } from '@/utils';
+import {
+  getErrorMsgFromResponse,
+  getStorageItem,
+  sortCategories,
+} from '@/utils';
 
 export const GetAllCategories = async () => {
   try {
@@ -20,9 +24,9 @@ export const GetAllCategories = async () => {
       throw responseData;
     }
 
-    return responseData.data;
+    const sortedCategories = sortCategories(responseData.data);
+    return sortedCategories;
   } catch (error: any) {
     throw getErrorMsgFromResponse(error);
   }
 };
-

@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import { useEffect } from 'react';
 
 import AuthContextProvider from '@/context/authContext/Provider';
@@ -61,56 +61,7 @@ function RootLayoutNav() {
         <AuthContextProvider>
           <PageContextProvider>
             <PageContainer>
-              <Stack
-                initialRouteName={isLogged ? 'main' : 'index'}
-                screenOptions={{
-                  headerShown: false,
-                  contentStyle: { backgroundColor: 'white' },
-                  animation: 'fade_from_bottom',
-                }}
-              >
-                <Stack.Screen
-                  name='main'
-                  options={{
-                    headerShown: false,
-                    animation: 'fade',
-                  }}
-                />
-                <Stack.Screen
-                  name='transactions'
-                  options={{
-                    headerShown: false,
-                    // animation: 'fade',
-                  }}
-                />
-                <Stack.Screen
-                  options={{
-                    headerShown: true,
-                    header: () => <ScreenHeader title='Sign Up' />,
-                  }}
-                  name='(auth)/register'
-                />
-                <Stack.Screen
-                  options={{
-                    headerShown: true,
-                    header: () => <ScreenHeader title='Reset Password' />,
-                  }}
-                  name='(auth)/updatePassword/[email]'
-                />
-                <Stack.Screen
-                  options={{
-                    headerShown: true,
-                    header: () => <ScreenHeader title='Forgot Password' />,
-                  }}
-                  name='(auth)/forgotPassword'
-                />
-                <Stack.Screen
-                  options={{
-                    headerShown: false,
-                  }}
-                  name='(auth)/setupAccount'
-                />
-              </Stack>
+                <Slot />
             </PageContainer>
             <CustomToast />
           </PageContextProvider>

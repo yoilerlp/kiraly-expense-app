@@ -1,5 +1,5 @@
 import { IconName } from '@/components/icon';
-import { CategoryKey } from '@/interfaces/category';
+import { Category, CategoryKey } from '@/interfaces/category';
 import { Colors } from '@/theme/Colors';
 
 interface TransactionCategoryIcon {
@@ -7,9 +7,6 @@ interface TransactionCategoryIcon {
   containerColor: string;
   iconColor: string;
 }
-
-// iconos faltantes //
-// para otros
 
 export const categoriesColorsConfig: Record<
   CategoryKey,
@@ -106,4 +103,23 @@ export const getTransactionCategoryIcon = (
   categoryKey: CategoryKey
 ): TransactionCategoryIcon => {
   return categoriesColorsConfig[categoryKey];
+};
+
+export const sortCategories = (categories: Category[]) => {
+  const namesToAppendToEnd = ['Otros', 'Otro'];
+
+  const listToSort: Category[] = [];
+  const listToAppend: Category[] = [];
+
+  categories
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .forEach((category) => {
+      if (namesToAppendToEnd.includes(category.name)) {
+        listToAppend.push(category);
+      } else {
+        listToSort.push(category);
+      }
+    });
+
+  return [...listToSort, ...listToAppend];
 };

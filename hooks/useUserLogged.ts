@@ -1,10 +1,12 @@
 import { UserService } from '@/services';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useStorageValue from './useStorageValue';
 import { StorageKeys } from '@/constants/storageKeys';
 
 export const CURRENT_USER_QUERY_KEY = 'currentUser';
 export default function useUserLogged() {
+  const queryClinet = useQueryClient();
+
   const { value: token, loading: loadingToken } = useStorageValue(
     StorageKeys.authToken,
     ''
@@ -23,5 +25,8 @@ export default function useUserLogged() {
     isError: userQuery.isError,
     isLoading: userQuery.isLoading || loadingToken,
     refetch: userQuery.refetch,
+    updateUserData: (data: any) => {
+      queryClinet.setQueryData([CURRENT_USER_QUERY_KEY, token], data);
+    },
   };
 }
