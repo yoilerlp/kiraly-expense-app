@@ -26,7 +26,12 @@ function CustomBottomSheetComp({
   if (index === -1) return null;
 
   return (
-    <Modal animationType='fade' transparent={true} visible={true}>
+    <Modal
+      animationType='fade'
+      transparent={true}
+      visible={true}
+      onRequestClose={() => onChange?.(-1)}
+    >
       <BottomSheet
         ref={ref}
         index={index}
@@ -66,4 +71,3 @@ const StylesSheet = createStyleSheet((theme) => ({
 }));
 
 export default memo(CustomBottomSheetComp);
-

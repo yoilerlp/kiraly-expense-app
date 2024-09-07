@@ -128,7 +128,7 @@ export default function CreateAccountForm({
         id: initialValues?.id!,
         data: {
           name: data.name.trim(),
-          type: data.type,
+          type: data.type as any,
         },
       });
 
@@ -137,7 +137,7 @@ export default function CreateAccountForm({
 
     createAccountMutation.mutate({
       name: data.name.trim(),
-      type: data.type,
+      type: data.type as any,
     });
   };
 

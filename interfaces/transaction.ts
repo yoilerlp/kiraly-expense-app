@@ -1,4 +1,4 @@
-import { Account } from './account';
+import { Account, AccountType } from './account';
 import { Category } from './category';
 import { FileItemDb } from './file';
 
@@ -42,5 +42,6 @@ export type IFilterTransactionParams = {
   type?: TransactionType[];
   categories?: string[];
   accounts?: string[];
+  accountTypes?: AccountType[]
 };
 

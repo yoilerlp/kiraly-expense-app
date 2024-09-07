@@ -1,4 +1,4 @@
-import { Platform, View } from 'react-native';
+import { Platform, View, KeyboardAvoidingView } from 'react-native';
 import React, { useMemo, useEffect } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import SectionRounded from '../SectionRounded';
@@ -197,7 +197,10 @@ export default function CreateTransactionScreen({
         }}
       />
 
-      <View style={styles.container({ type })}>
+      <KeyboardAvoidingView
+        style={styles.container({ type })}
+        behavior='padding'
+      >
         <View style={styles.amontContainer}>
           <Typography
             color={theme.Colors.light_80}
@@ -355,7 +358,7 @@ export default function CreateTransactionScreen({
             />
           </View>
         </SectionRounded>
-      </View>
+      </KeyboardAvoidingView>
     </>
   );
 }

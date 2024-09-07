@@ -14,6 +14,7 @@ type ButtonProps = Omit<PressableProps, 'children'> & {
   text: string;
   isLoading?: boolean;
   iconName?: IconName
+  iconSize?: number
 };
 
 const Button = React.forwardRef(
@@ -24,6 +25,7 @@ const Button = React.forwardRef(
       text,
       isLoading = false,
       iconName,
+      iconSize = 32,
       ...props
     }: ButtonProps,
     ref: ComponentProps<typeof Pressable>['ref']
@@ -53,7 +55,7 @@ const Button = React.forwardRef(
         {iconName && (
           <Icon
             name={iconName}
-            size={32}
+            size={iconSize}
             color={
               (buttonStyles?.styles?.text as unknown as any)?.color || 'white'
             }
