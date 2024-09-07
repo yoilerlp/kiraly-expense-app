@@ -19,8 +19,8 @@ export default function LoginScreen() {
 
   const { control, formState, handleSubmit } = useForm({
     defaultValues: {
-      email: 'yoylerqs@gmail.com',
-      password: 'qwerty',
+      email: '',
+      password: '',
     },
   });
   const { errors } = formState;

@@ -41,7 +41,7 @@ export default function VerifyOTPScreen() {
         text1: data.message,
       });
       setTimeout(() => {
-        router.replace('/login');
+        router.replace('/auth/login');
       }, 3000);
     },
     onError: (error: string) => {
@@ -97,7 +97,6 @@ export default function VerifyOTPScreen() {
   }, [email]);
 
   const handleResendCode = () => {
-    console.log('email', email);
     if (!timeIsOver || !email) return;
     reSendOTPMutation.mutate({ email });
   };

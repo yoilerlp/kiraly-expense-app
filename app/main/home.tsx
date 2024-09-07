@@ -83,93 +83,92 @@ export default function HomeScreen() {
   const { pages: transactionPages = [] } = data || {};
 
   return (
-    <FlatList
-      showsVerticalScrollIndicator={false}
-      data={transactionPages}
-      contentContainerStyle={styles.container}
-      style={{
-        backgroundColor: theme.Colors.yellowGradient.start,
-      }}
-      onEndReached={hasNextPage ? handleLoadMore : null}
-      onEndReachedThreshold={0.1}
-      renderItem={({ item }) => (
-        <>
-          {item.rows.map((transaction) => (
-            <View style={styles.cellContainer} key={transaction.key}>
-              <TransactionCard
-                transaction={transaction}
-                dateFormat={transactionParams?.currentDateTab}
-              />
-            </View>
-          ))}
-        </>
-      )}
-      keyExtractor={(item) =>
-        `${item.pagination.page}-${item.pagination.limit}-${item.pagination.total}`
-      }
-      ListEmptyComponent={() => (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : (
-            <View style={{ alignItems: 'center', flex: 1, minHeight: 200 }}>
-              <Text>No transactions found</Text>
-            </View>
-          )}
-        </View>
-      )}
-      ListHeaderComponent={() => (
-        <View style={{ marginBottom: 8 }}>
-          <UserBalance />
-          <TabsBasicDateFilter
-            list={BasicDateFiltersList}
-            activeTab={transactionParams?.currentDateTab}
-            onPressTab={handleCurrentDateTabChange}
-          />
-          <View style={styles.transactionsSection}>
-            <View style={styles.transactionsTitle}>
-              <Typography
-                style={{ marginBottom: 16 }}
-                color={theme.Colors.dark_100}
-                fontSize={18}
-                type='Title3'
-              >
-                Recent Transactions
-              </Typography>
-              {![BasicDateFiltersEnum.TODAY].includes(
-                transactionParams?.currentDateTab as any
-              ) ? (
-                <View style={{ width: 80 }}>
-                  <PillTab
-                    isSingle
-                    label='See All'
-                    size='medium'
-                    color='violet'
-                    isActive
-                    onPressTab={() => {
-                      console.log({
-                        filterInHome: transactionParams.currentDateTab,
-                      });
-                      router.replace({
-                        pathname: '/main/transaction',
-                        params: {
-                          filter: transactionParams.currentDateTab,
-                        },
-                      });
-                    }}
-                  />
-                </View>
-              ) : null}
+    <View style={styles.container}>
+      <UserBalance key={'UserBalance'} />
+      <TabsBasicDateFilter
+        list={BasicDateFiltersList}
+        activeTab={transactionParams?.currentDateTab}
+        onPressTab={handleCurrentDateTabChange}
+      />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={transactionPages}
+        contentContainerStyle={styles.container}
+        style={{
+          backgroundColor: theme.Colors.yellowGradient.start,
+        }}
+        onEndReached={hasNextPage ? handleLoadMore : null}
+        onEndReachedThreshold={0.1}
+        renderItem={({ item }) => (
+          <>
+            {item.rows.map((transaction) => (
+              <View style={styles.cellContainer} key={transaction.key}>
+                <TransactionCard
+                  transaction={transaction}
+                  dateFormat={transactionParams?.currentDateTab}
+                />
+              </View>
+            ))}
+          </>
+        )}
+        keyExtractor={(item) =>
+          `${item.pagination.page}-${item.pagination.limit}-${item.pagination.total}`
+        }
+        ListEmptyComponent={() => (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <View style={{ alignItems: 'center', flex: 1, minHeight: 200 }}>
+                <Text>No transactions found</Text>
+              </View>
+            )}
+          </View>
+        )}
+        ListHeaderComponent={() => (
+          <View style={{ marginBottom: 8 }}>
+            <View style={styles.transactionsSection}>
+              <View style={styles.transactionsTitle}>
+                <Typography
+                  style={{ marginBottom: 16 }}
+                  color={theme.Colors.dark_100}
+                  fontSize={18}
+                  type='Title3'
+                >
+                  Recent Transactions
+                </Typography>
+                {![BasicDateFiltersEnum.TODAY].includes(
+                  transactionParams?.currentDateTab as any
+                ) ? (
+                  <View style={{ width: 80 }}>
+                    <PillTab
+                      isSingle
+                      label='See All'
+                      size='medium'
+                      color='violet'
+                      isActive
+                      onPressTab={() => {
+                        router.replace({
+                          pathname: '/main/transaction',
+                          params: {
+                            filter: transactionParams.currentDateTab,
+                          },
+                        });
+                      }}
+                    />
+                  </View>
+                ) : null}
+              </View>
             </View>
           </View>
-        </View>
-      )}
-      ListFooterComponent={
-        <>{isFetchingNextPage ? <LoadingSpinner /> : null}</>
-      }
-    />
+        )}
+        ListFooterComponent={
+          <>{isFetchingNextPage ? <LoadingSpinner /> : null}</>
+        }
+      />
+    </View>
   );
 }
 

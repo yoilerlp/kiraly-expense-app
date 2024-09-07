@@ -82,9 +82,6 @@ export default function updateProfileView() {
     const photoFile = !data?.photo?.id
       ? (await convertLoadedFilesToFiles([data?.photo!]))[0]
       : null;
-    console.log({
-      photoFile,
-    });
     updateUserMutation.mutate({
       name: data?.name,
       lastName: data?.lastName,

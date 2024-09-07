@@ -12,10 +12,6 @@ export default function ImageLoader({ ...props }: Props) {
   const { source } = props!;
   const propsStyles = props.style;
 
-  console.log({
-    loading,
-    error,
-  });
   if (loading || error) {
     return (
       <View

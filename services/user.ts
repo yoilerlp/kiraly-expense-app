@@ -209,7 +209,6 @@ export const UpdateUser = async (data: {
 
     return responseData.data;
   } catch (error: any) {
-    console.log(error);
     throw getErrorMsgFromResponse(error);
   }
 };

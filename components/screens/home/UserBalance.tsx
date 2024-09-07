@@ -228,4 +228,4 @@ const StylesSheet = createStyleSheet((theme) => ({
   },
 }));
 
-export default memo(UserBalance);
+export default UserBalance;
