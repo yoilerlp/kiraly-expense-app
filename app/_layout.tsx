@@ -62,6 +62,7 @@ function RootLayoutNav() {
             <PageContainer>
               <>
                 <Stack
+                  initialRouteName='/'
                   screenOptions={{
                     headerShown: false,
                     contentStyle: { backgroundColor: 'white' },

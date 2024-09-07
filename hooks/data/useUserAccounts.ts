@@ -9,7 +9,7 @@ export default function useUserAccounts(type?: AccountType) {
   const { user } = useAuth();
 
   const accountsQuery = useQuery({
-    queryKey: [GET_ALL_ACCOUNTS_BY_USER_KEY, type || ''],
+    queryKey: [GET_ALL_ACCOUNTS_BY_USER_KEY],
     queryFn: () => AccountService.GetUserAccounts(type),
     enabled: !!user,
   });

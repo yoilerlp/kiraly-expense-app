@@ -17,6 +17,8 @@ import React from 'react';
 import Button from '../button';
 import { assets } from '@/constants/assets';
 import SafeAreasSetting from '../SafeAreasSetting';
+import { setStorageItemAsync } from '@/utils';
+import { StorageKeys } from '@/constants/storageKeys';
 
 const onBoardingStepsData = [
   {
@@ -53,8 +55,17 @@ export default function OnboardingScreen() {
 
   const { styles, theme } = useStyles(onBoardingScreenStyles);
 
+  const handleSaveUserVisitedOnBoarding = async () => {
+    await setStorageItemAsync(StorageKeys.onBoardingVisited, 'true');
+  };
+
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      onLayout={() => {
+        handleSaveUserVisitedOnBoarding();
+      }}
+    >
       <SafeAreasSetting
         statusBarBgColor={theme.Colors.light_100}
         bottomBgColor={theme.Colors.light_100}
@@ -92,7 +103,7 @@ export default function OnboardingScreen() {
         <Link href='/auth/register' asChild>
           <Button size='full' text='Sign Up' />
         </Link>
-        <Link href='/budget/list' asChild>
+        <Link href='/auth/login' asChild>
           <Button variant='secondary' size='full' text='Login' />
         </Link>
       </View>
