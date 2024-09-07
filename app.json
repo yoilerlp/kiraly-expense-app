@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "expense-app",
+    "name": "Kiraly Expense",
     "slug": "expense-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#7F3DFF"
+      "backgroundColor": "#cebaf9"
     },
     "assetBundlePatterns": [
       "**/*"
