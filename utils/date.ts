@@ -1,25 +1,11 @@
-// import dayjs from 'dayjs';
-// import utc from 'dayjs/plugin/utc';
-// import timezone from 'dayjs/plugin/timezone';
-// import localeData from 'dayjs/plugin/localeData';
-
-// import 'dayjs/locale/es';
-
 import type { BasicDateFilters } from './filters';
 import { capitalizeFirstLetter, capitalizeText } from './text';
-
-// refactor to date-fns
-
 import * as dateFnsTz from 'date-fns-tz';
 import * as dateFns from 'date-fns';
 import { es } from 'date-fns/locale';
 
 const defaultTimetimeZone = 'America/Bogota';
 
-// dayjs.extend(utc);
-// dayjs.extend(timezone);
-// dayjs.extend(localeData);
-// dayjs.locale('es');
 
 export const formatTransactionCardDateByFilter = ({
   dateS,
@@ -203,7 +189,6 @@ export const monthsList = Array.from({ length: 12 }, (_, i) =>
   dateFns.format(new Date(2024, i, 1), 'MMMM', { locale: es })
 );
 
-// export default dayjs;
 
 export const getMinAndMaxDate = (dates: string[]) => {
   const datesObject = dates.map((date) => new Date(date).getTime());
