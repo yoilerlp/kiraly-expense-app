@@ -1,5 +1,7 @@
 import { Transaction } from '@/interfaces';
-import dayjs from './date';
+// import dayjs from './date';
+import * as dateFns from 'date-fns';
+import * as dateFnsTz from 'date-fns-tz';
 import { capitalizeFirstLetter } from './text';
 
 type IGroupBy = 'Week' | 'Month' | 'Year' | 'All';
@@ -24,16 +26,13 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
     const result = transactions.reduce(
       (acc, transaction) => {
         const { Today = [], Yesterday = [], Week = [], Other = [] } = acc;
-
-        const today = dayjs().utc();
-
-        const transactionDate = dayjs(transaction.createdAt);
-
-        if (transactionDate.isSame(today, 'day')) {
+        const today = dateFnsTz.toZonedTime(new Date(), 'UTC');
+        const transactionDate = new Date(transaction.createdAt);
+        if (dateFns.isSameDay(today, transactionDate)) {
           Today.push(transaction);
-        } else if (transactionDate.isBefore(today, 'day')) {
+        } else if (dateFns.isBefore(transactionDate, today)) {
           Yesterday.push(transaction);
-        } else if (transactionDate.isSame(today, 'week')) {
+        } else if (dateFns.isSameWeek(transactionDate, today)) {
           Week.push(transaction);
         } else {
           Other.push(transaction);
@@ -61,13 +60,13 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
       (acc, transaction) => {
         const { Today = [], Yesterday = [], Other = [] } = acc;
 
-        const today = dayjs();
+        const today = dateFnsTz.toZonedTime(new Date(), 'UTC');
 
-        const transactionDate = dayjs(transaction.createdAt);
+        const transactionDate = new Date(transaction.createdAt);
 
-        if (transactionDate.isSame(today, 'day')) {
+        if (dateFns.isSameDay(today, transactionDate)) {
           Today.push(transaction);
-        } else if (transactionDate.isBefore(today, 'day')) {
+        } else if (dateFns.isBefore(transactionDate, today)) {
           Yesterday.push(transaction);
         } else {
           Other.push(transaction);
@@ -90,10 +89,10 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
   },
   Year: (transactions: Transaction[]) => {
     const result = transactions.reduce((acc, transaction) => {
-      const transactionDate = dayjs(transaction.createdAt);
+      const transactionDate = new Date(transaction.createdAt);
 
       const transactionMonth = capitalizeFirstLetter(
-        transactionDate.format('MMMM')
+        dateFns.format(transactionDate, 'MMMM')
       );
 
       return {
@@ -106,17 +105,22 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
   },
   All: (transactions: Transaction[]) => {
     return transactions?.reduce((acc, transaction) => {
-      const transactionDate = dayjs(transaction.createdAt);
+      const transactionDate = new Date(transaction.createdAt);
 
       const transactionYear = capitalizeFirstLetter(
-        transactionDate.format('YYYY')
+        // transactionDate.format('YYYY')
+        dateFns.format(transactionDate, 'YYYY')
       );
 
       const transactionMonth = capitalizeFirstLetter(
-        transactionDate.format('MMMM')
+        // transactionDate.format('MMMM')
+        dateFns.format(transactionDate, 'MMMM')
       );
 
-      const transactionDay = capitalizeFirstLetter(transactionDate.format('D'));
+      const transactionDay = capitalizeFirstLetter(
+        // transactionDate.format('D')
+        dateFns.format(transactionDate, 'D')
+      );
 
       const key = `${transactionDay} ${transactionMonth} ${transactionYear}`;
 

@@ -1,25 +1,19 @@
-// import dayjs from 'dayjs';
-// import utc from 'dayjs/plugin/utc';
-// import timezone from 'dayjs/plugin/timezone';
-// import localeData from 'dayjs/plugin/localeData';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import localeData from 'dayjs/plugin/localeData';
 
-// import 'dayjs/locale/es';
+import 'dayjs/locale/es';
 
 import type { BasicDateFilters } from './filters';
 import { capitalizeFirstLetter, capitalizeText } from './text';
 
-// refactor to date-fns
-
-import * as dateFnsTz from 'date-fns-tz';
-import * as dateFns from 'date-fns';
-import { es } from 'date-fns/locale';
-
 const defaultTimetimeZone = 'America/Bogota';
 
-// dayjs.extend(utc);
-// dayjs.extend(timezone);
-// dayjs.extend(localeData);
-// dayjs.locale('es');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(localeData);
+dayjs.locale('es');
 
 export const formatTransactionCardDateByFilter = ({
   dateS,
@@ -28,8 +22,7 @@ export const formatTransactionCardDateByFilter = ({
   dateS: string;
   dateFilterKey: (typeof BasicDateFilters)[number];
 }) => {
-  // const date = new Date(dateS);
-  const date = dateFnsTz.toZonedTime(new Date(dateS), defaultTimetimeZone);
+  const date = new Date(dateS);
 
   const locale = 'es-CO';
 
@@ -86,28 +79,22 @@ export const generateMonthObject = (currentDate: Date): MonthObject => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
 
-  // Formatear la etiqueta del mes (corto) usando `date-fns`
-  const label = dateFns.format(currentDate, 'MMM yyyy', { locale: es });
+  const label = new Intl.DateTimeFormat('es-ES', {
+    year: 'numeric',
+    month: 'short',
+  }).format(currentDate);
 
-  // Formatear la fecha en el formato YYYY-MM-DD HH:mm:ss
   const dateString = `${year}-${month < 10 ? '0' + month : month}-01 00:00:00`;
 
-  // Convertir a UTC y formatear la fecha en UTC
-  // const utcDate = format(utcToZonedTime(currentDate, defaultTimeZone), 'yyyy-MM-dd HH:mm:ss');
-  const utcDate = dateFnsTz.formatInTimeZone(
-    currentDate,
-    defaultTimetimeZone,
-    'yyyy-MM-dd HH:mm:ss',
-    {
-      locale: es,
-    }
-  );
+  const utcDate = dayjs
+    .tz(`${year}-${month}-1 00:00:00:00`, 'DD-MM-YYYY', defaultTimetimeZone)
+    .format('YYYY-MM-DD HH:mm:ss');
 
   return {
     year,
     month,
     date: dateString,
-    label: capitalizeFirstLetter(label), // Función personalizada
+    label: capitalizeFirstLetter(label),
     utcDate: utcDate,
   };
 };
@@ -143,35 +130,33 @@ export function getMonthsInRange(dateRange: {
 export const generateMinAndMaxDateBasedOnFilters = (
   filter: (typeof BasicDateFilters)[number]
 ) => {
-  const format = 'yyyy-MM-dd HH:mm:ss';
+  const format = 'YYYY-MM-DD HH:mm:ss';
 
-  // const todayTwo = dateFns.start
-
-  let today = new Date();
+  let today = dayjs().utc();
 
   switch (filter) {
     case 'Today':
       return {
-        minDate: dateFns.format(dateFns.startOfDay(today), format),
-        maxDate: dateFns.format(dateFns.endOfDay(today), format),
+        minDate: today.startOf('day').format(format),
+        maxDate: today.endOf('day').format(format),
       };
 
     case 'Week':
       return {
-        minDate: dateFns.format(dateFns.startOfWeek(today), format),
-        maxDate: dateFns.format(dateFns.endOfWeek(today), format),
+        minDate: today.startOf('week').format(format),
+        maxDate: today.endOf('week').format(format),
       };
 
     case 'Month':
       return {
-        minDate: dateFns.format(dateFns.startOfMonth(today), format),
-        maxDate: dateFns.format(dateFns.endOfMonth(today), format),
+        minDate: today.startOf('month').format(format),
+        maxDate: today.endOf('month').format(format),
       };
 
     case 'Year':
       return {
-        minDate: dateFns.format(dateFns.startOfYear(today), format),
-        maxDate: dateFns.format(dateFns.endOfYear(today), format),
+        minDate: today.startOf('year').format(format),
+        maxDate: today.endOf('year').format(format),
       };
     case 'All' as any:
       return {
@@ -180,28 +165,26 @@ export const generateMinAndMaxDateBasedOnFilters = (
       };
     default:
       return {
-        minDate: dateFns.format(dateFns.startOfMonth(today), format),
-        maxDate: dateFns.format(dateFns.endOfMonth(today), format),
+        minDate: today.startOf('month').format(format),
+        maxDate: today.endOf('month').format(format),
       };
   }
 };
 
 export const formatDate = (date: string) => {
-  const d = dateFnsTz.formatInTimeZone(
-    date,
-    defaultTimetimeZone,
-    'EEEE d MMMM yyyy HH:mm',
-    {
-      locale: es,
-    }
-  );
+  const utcDate = '2024-09-07T13:47:54.585';
 
-  return capitalizeFirstLetter(d);
+  const d = dayjs(date).tz('America/Bogota');
+
+  console.log({
+    d,
+  });
+
+  // return capitalizeFirstLetter(d);
+  return ""
 };
 
-export const monthsList = Array.from({ length: 12 }, (_, i) =>
-  dateFns.format(new Date(2024, i, 1), 'MMMM', { locale: es })
-);
+export const monthsList = dayjs.months();
 
 // export default dayjs;
 

@@ -13,7 +13,7 @@ import Button from '../../button';
 import useCategories from '@/hooks/data/useCategories';
 import useUserAccounts from '@/hooks/data/useUserAccounts';
 import LoadingSpinner from '../../loaders';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { TransactionService } from '@/services';
 import Toast from 'react-native-toast-message';
 import { convertLoadedFilesToFiles } from '@/utils/files';
@@ -94,6 +94,8 @@ export default function CreateTransactionScreen({
 
   useSetPageContainerStyles(pageStyles as any);
 
+  const queryClient = useQueryClient();
+
   // mutations
   const createTransactionMutation = useMutation({
     mutationFn: TransactionService.CreateTransaction,
@@ -105,6 +107,10 @@ export default function CreateTransactionScreen({
       });
 
       router.replace(`/transactions/view/transaction/${data?.id}` as any);
+      queryClient.invalidateQueries({
+        queryKey: ['transactions'],
+        refetchType: 'all',
+      });
     },
     onError(error: string) {
       Toast.show({
@@ -125,6 +131,10 @@ export default function CreateTransactionScreen({
       });
 
       router.replace(`/transactions/view/transaction/${data?.id}` as any);
+      queryClient.invalidateQueries({
+        queryKey: ['transactions'],
+        refetchType: 'all',
+      });
     },
     onError(error: string) {
       Toast.show({

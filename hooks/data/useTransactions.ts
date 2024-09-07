@@ -3,6 +3,8 @@ import { TransactionService } from '@/services';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+export const TRANSACTION_QUERY_KEY = 'transactions-query-key';
+
 export default function useTransactions(params: IFilterTransactionParams) {
   const key = useMemo(() => {
     const {
@@ -21,7 +23,7 @@ export default function useTransactions(params: IFilterTransactionParams) {
   }, [params]);
 
   const result = useInfiniteQuery({
-    queryKey: [key],
+    queryKey: [TRANSACTION_QUERY_KEY, key],
     initialPageParam: 1,
     queryFn: ({ pageParam }) =>
       TransactionService.GetAllTransactions({
@@ -40,4 +42,3 @@ export default function useTransactions(params: IFilterTransactionParams) {
 
   return result;
 }
-

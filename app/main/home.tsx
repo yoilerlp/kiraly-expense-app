@@ -93,7 +93,7 @@ export default function HomeScreen() {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={transactionPages}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={[styles.contentContainer]}
         style={{
           backgroundColor: theme.Colors.yellowGradient.start,
         }}
@@ -176,6 +176,10 @@ const HomeStyles = createStyleSheet((theme) => ({
   container: {
     backgroundColor: theme.Colors.light_100,
     paddingBottom: 16,
+    flex: 1,
+  },
+  contentContainer: {
+    backgroundColor: theme.Colors.light_100,
   },
   transactionsSection: {
     paddingHorizontal: 16,
