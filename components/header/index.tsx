@@ -10,6 +10,7 @@ type ScreenHeaderProps = {
   textColor?: string;
   returnUrl?: string;
   rightIcon?: React.ReactNode;
+  onClickGoBack?: () => void;
 };
 
 export default function ScreenHeader({
@@ -18,6 +19,7 @@ export default function ScreenHeader({
   textColor,
   rightIcon,
   returnUrl,
+  onClickGoBack,
 }: ScreenHeaderProps) {
   const router = useRouter();
   const { styles, theme } = useStyles(hedaerStyles);
@@ -30,6 +32,11 @@ export default function ScreenHeader({
           size={24}
           color={tintColor}
           onPress={() => {
+            if (onClickGoBack) {
+              onClickGoBack();
+              return;
+            }
+
             if (returnUrl) {
               router.push(returnUrl as any);
               return;
@@ -62,4 +69,3 @@ const hedaerStyles = createStyleSheet((theme) => ({
     alignSelf: 'center',
   },
 }));
-

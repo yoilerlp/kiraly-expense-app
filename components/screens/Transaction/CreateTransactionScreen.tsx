@@ -20,6 +20,8 @@ import { convertLoadedFilesToFiles } from '@/utils/files';
 import { Stack, useRouter } from 'expo-router';
 import ScreenHeader from '@/components/header';
 import useSetPageContainerStyles from '@/hooks/useSetPageContainerStyles';
+import { TRANSACTION_QUERY_KEY } from '@/hooks/data/useTransactions';
+import { BALANCE_QUERY_KEY } from '@/utils';
 
 type Props = {
   type: Transaction['type'];
@@ -108,8 +110,11 @@ export default function CreateTransactionScreen({
 
       router.replace(`/transactions/view/transaction/${data?.id}` as any);
       queryClient.invalidateQueries({
-        queryKey: ['transactions'],
+        queryKey: [BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
         refetchType: 'all',
+        exact: false,
+        type: 'all',
+        stale: true,
       });
     },
     onError(error: string) {
@@ -132,8 +137,11 @@ export default function CreateTransactionScreen({
 
       router.replace(`/transactions/view/transaction/${data?.id}` as any);
       queryClient.invalidateQueries({
-        queryKey: ['transactions'],
+        queryKey: [BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
         refetchType: 'all',
+        exact: false,
+        type: 'all',
+        stale: true,
       });
     },
     onError(error: string) {

@@ -34,7 +34,7 @@ export default function HomeScreen() {
     };
   });
 
-  const [refreshing, setRefreshing] = useState(false);
+  // const [refreshing, setRefreshing] = useState(false);
 
   const { styles, theme } = useStyles(HomeStyles);
 
@@ -84,7 +84,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <UserBalance key={'UserBalance'} />
+      <UserBalance />
       <TabsBasicDateFilter
         list={BasicDateFiltersList}
         activeTab={transactionParams?.currentDateTab}

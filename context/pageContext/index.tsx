@@ -29,7 +29,7 @@ export const defaulPagePartStyles: IPageStatusBarStyles = {
     backgroundColor: 'white',
   },
   statusBarProps: {
-    style: 'auto',
+    style: 'dark',
   },
 };
 
@@ -60,4 +60,3 @@ export default function PageContextProvider({ children }: PropsWithChildren) {
     </PageContext.Provider>
   );
 }
-

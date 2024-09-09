@@ -8,6 +8,7 @@ import UserAvatar from '@/components/ui/UserAvatar';
 import useAuth from '@/hooks/useAuth';
 import { useDebounce } from '@/hooks/useDebounce';
 import { TransactionService } from '@/services';
+import { BALANCE_QUERY_KEY } from '@/utils';
 import { removeDuplicateByKey } from '@/utils/array';
 import { formatCurrency } from '@/utils/currency';
 import { generateMonthObject, getMonthsInRange } from '@/utils/date';
@@ -72,7 +73,7 @@ function UserBalance() {
   });
 
   const { data: balanceData, isLoading: isLoadingBalanceData } = useQuery({
-    queryKey: [debouncedKey],
+    queryKey: [BALANCE_QUERY_KEY, debouncedKey],
     queryFn: () => {
       return TransactionService.GetMonthBalance({
         year: balanceFilterData?.year!,

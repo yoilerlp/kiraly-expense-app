@@ -13,6 +13,8 @@ import { API_URL } from '../../constants/api';
 import ScreenHeader from '@/components/header';
 import useAuth from '@/hooks/useAuth';
 import { StorageKeys } from '@/constants/storageKeys';
+import { USER_NO_ACTIVE } from '@/utils/user';
+import { UserService } from '@/services';
 
 export default function LoginScreen() {
   const auth = useAuth();
@@ -36,11 +38,22 @@ export default function LoginScreen() {
       await setStorageItemAsync(StorageKeys.authToken, data.access_token);
       // await setStorageItemAsync('user', JSON.stringify(data.user));
       auth.updateUserData?.(data.user);
-
       router.replace('/main/home');
       // auth?.reloadUser?.();
     },
-    onError: (error: string) => {
+    onError: async (error: string, variables) => {
+      if (error === USER_NO_ACTIVE) {
+        const resendOtpResponse = await UserService.ResendOTPCode({
+          email: variables.email,
+        });
+        Toast.show({
+          type: 'success',
+          text1: resendOtpResponse.message,
+        });
+        router.push(`/auth/verify/${variables.email}`);
+        return;
+      }
+
       Toast.show({
         type: 'error',
         text1: error,

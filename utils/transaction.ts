@@ -3,6 +3,9 @@ import * as dateFns from 'date-fns';
 import * as dateFnsTz from 'date-fns-tz';
 import { capitalizeFirstLetter } from './text';
 
+
+export const BALANCE_QUERY_KEY = 'user_balance_key';
+
 type IGroupBy = 'Week' | 'Month' | 'Year' | 'All';
 export const groupTransactionsByDate = (
   grupBy: IGroupBy,

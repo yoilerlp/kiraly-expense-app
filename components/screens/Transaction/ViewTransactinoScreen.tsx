@@ -129,6 +129,7 @@ export default function ViewTransactinoScreen({ type, data, onDelete }: Props) {
                 title={`Detail Transaction - ${key}`}
                 bgColor={config.bgColor}
                 textColor={Colors.light_100}
+                returnUrl='/main/home'
                 rightIcon={
                   <Icon
                     name='Trash'
@@ -342,4 +343,3 @@ const StylesSheet = createStyleSheet((theme) => ({
     paddingBottom: 16,
   },
 }));
-
