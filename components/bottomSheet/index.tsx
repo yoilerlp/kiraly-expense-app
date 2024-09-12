@@ -3,13 +3,15 @@ import BottomSheet, {
   BottomSheetView,
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import { View, Text, Modal } from 'react-native';
+import { View, Text, Modal, ViewStyle } from 'react-native';
 import React, { PropsWithChildren, memo } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type BottomSheetCompProps = PropsWithChildren<
-  Pick<BottomSheetProps, 'index' | 'onChange' | 'snapPoints'> & {}
+  Pick<BottomSheetProps, 'index' | 'onChange' | 'snapPoints'> & {
+    backdropStyle?: ViewStyle;
+  }
 >;
 
 function CustomBottomSheetComp({
@@ -17,6 +19,7 @@ function CustomBottomSheetComp({
   onChange,
   snapPoints = ['25%'],
   children,
+  backdropStyle,
 }: BottomSheetCompProps) {
   const ref = React.useRef<BottomSheet>(null);
 
@@ -34,12 +37,12 @@ function CustomBottomSheetComp({
       enablePanDownToClose
       onChange={onChange}
       backdropComponent={({ style }) => (
-        <View style={[styles.backdrop, style]} />
+        <View style={[styles.backdrop, backdropStyle, style]} />
       )}
       backgroundStyle={styles.background}
       handleIndicatorStyle={styles.indicator}
     >
-      <BottomSheetView style={{ flex: 1, paddingBottom: bottom }}>
+      <BottomSheetView style={{ flex: 1, paddingBottom: bottom, zIndex: 20 }}>
         {children}
       </BottomSheetView>
     </BottomSheet>

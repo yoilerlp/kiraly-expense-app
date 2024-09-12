@@ -135,7 +135,10 @@ export default function ViewTransactinoScreen({ type, data, onDelete }: Props) {
                     name='Trash'
                     size={24}
                     color={Colors.light_100}
-                    onPress={openBottomSheet}
+                    onPress={() => {
+                      console.log('open bottom sheet');
+                      openBottomSheet();
+                    }}
                   />
                 }
               />
@@ -232,27 +235,28 @@ export default function ViewTransactinoScreen({ type, data, onDelete }: Props) {
               )}
             </ScrollView>
           </View>
+
           <View style={styles.btnContainer}>
-            <BottomSheet
-              index={bottomSheetIndex}
-              onChange={setBottomSheetIndex}
-              snapPoints={['30%']}
-            >
-              <BottomSheetDecision
-                onConfirm={handleDelete}
-                onCancel={() => {
-                  setBottomSheetIndex(-1);
-                }}
-                isLoading={isLoading}
-                title='Remove this transaction?'
-                subtitle='Are you sure do you wanna remove this transaction?'
-              />
-            </BottomSheet>
             <Link href={editUrl as any} asChild replace>
               <Button text='Edit' size='full' />
             </Link>
           </View>
         </View>
+        <BottomSheet
+          index={bottomSheetIndex}
+          onChange={setBottomSheetIndex}
+          snapPoints={['30%']}
+        >
+          <BottomSheetDecision
+            onConfirm={handleDelete}
+            onCancel={() => {
+              setBottomSheetIndex(-1);
+            }}
+            isLoading={isLoading}
+            title='Remove this transaction?'
+            subtitle='Are you sure do you wanna remove this transaction?'
+          />
+        </BottomSheet>
       </View>
     </>
   );
@@ -304,7 +308,7 @@ const StylesSheet = createStyleSheet((theme) => ({
     width: '100%',
     bottom: -32,
     paddingHorizontal: 16,
-    zIndex: 10,
+    // zIndex: 10,
   },
   categorizationSection: {
     backgroundColor: theme.Colors.light_100,
@@ -343,3 +347,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     paddingBottom: 16,
   },
 }));
+

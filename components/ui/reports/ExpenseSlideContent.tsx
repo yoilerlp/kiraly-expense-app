@@ -40,10 +40,16 @@ export default function ExpenseSlideContent({
               center
               color={theme.Colors.light_100}
               type='Title1'
+              fontSize={32}
             >
               You {isIncome ? 'Earned 💰' : 'Spend 💸'}
             </Typography>
-            <Typography center color={theme.Colors.light_100} type='TitleX'>
+            <Typography
+              center
+              color={theme.Colors.light_100}
+              type='Title1'
+              fontSize={36}
+            >
               ${formatCurrency(totalAmountExpensed)}
             </Typography>
           </>
@@ -74,3 +80,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     alignItems: 'center',
   },
 }));
+

@@ -119,7 +119,7 @@ export default function FinancialReportView() {
 
   const RenderValueComponent = () => {
     return (
-      <Typography color={theme.Colors.dark_100} type='Title1'>
+      <Typography color={theme.Colors.dark_100} type='Title2'>
         ${' '}
         {formatCurrency(
           showIncomeTransactions
