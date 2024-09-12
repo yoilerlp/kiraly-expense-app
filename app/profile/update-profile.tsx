@@ -79,9 +79,10 @@ export default function updateProfileView() {
   const { errors } = formState;
 
   const onSubmit = async (data: IUpdateProfileForm) => {
-    const photoFile = !data?.photo?.id
+    const photoFile = data?.photo?.id
       ? (await convertLoadedFilesToFiles([data?.photo!]))[0]
       : null;
+
     updateUserMutation.mutate({
       name: data?.name,
       lastName: data?.lastName,
@@ -192,3 +193,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     marginBottom: 16,
   },
 }));
+

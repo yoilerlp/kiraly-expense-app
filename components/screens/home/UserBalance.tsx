@@ -13,8 +13,9 @@ import { formatCurrency } from '@/utils/currency';
 import { generateMonthObject, getMonthsInRange } from '@/utils/date';
 import { useQuery } from '@tanstack/react-query';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Link } from 'expo-router';
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 type UserBalanceProps = {
@@ -114,7 +115,11 @@ function UserBalance({
           style={styles.gradiantContainer}
         >
           <View style={styles.avatarSection}>
-            <UserAvatar imgUrl={auth?.user?.photo!} />
+            <Link href='/main/profile' asChild>
+              <TouchableOpacity>
+                <UserAvatar imgUrl={auth?.user?.photo!} />
+              </TouchableOpacity>
+            </Link>
             <Select
               value={selectedMonth}
               onChange={setSelectedMonth}

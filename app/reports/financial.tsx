@@ -397,3 +397,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     paddingHorizontal: 16,
   },
 }));
+

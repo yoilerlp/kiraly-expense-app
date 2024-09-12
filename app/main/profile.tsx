@@ -6,10 +6,11 @@ import SafeAreasSetting from '../../components/SafeAreasSetting';
 import ProfileDetails from '@/components/ui/profile/ProfileDetails';
 import ProfileActionItem from '@/components/ui/profile/ProfileActionItem';
 import { IconName } from '@/components/icon';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import useAuth from '@/hooks/useAuth';
 import { CustomBottomSheetComp } from '@/components';
 import BottomSheetDecision from '@/components/bottomSheet/BottomSheetDecision';
+import ScreenHeader from '@/components/header';
 
 const profileActions: {
   text: string;
@@ -48,9 +49,21 @@ export default function ProfileView() {
 
   return (
     <View style={styles.container}>
+      {/* <Stack.Screen
+        options={{
+          headerShown: true,
+          header: () => (
+            <ScreenHeader
+              title='Profile'
+              bgColor={theme.Colors.violet_100}
+              textColor='white'
+            />
+          ),
+        }}
+      /> */}
       <SafeAreasSetting
-        statusBarBgColor={'#F6F6F6'}
-        bottomBgColor={'#F6F6F6'}
+        statusBarBgColor={theme.Colors.violet_100}
+        bottomBgColor={theme.Colors.violet_100}
         statusBarProps={{ style: 'auto' }}
       />
       <View style={styles.section}>
@@ -124,3 +137,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     elevation: 10,
   },
 }));
+
