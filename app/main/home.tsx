@@ -1,6 +1,6 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import useSetPageContainerStyles from '@/hooks/useSetPageContainerStyles';
 import { Typography } from '@/components';
 import TabsBasicDateFilter from '@/components/filters/TabsBasicDateFilter';
@@ -8,14 +8,26 @@ import { BasicDateFiltersEnum, BasicDateFiltersList } from '@/utils/filters';
 import PillTab from '@/components/ui/PillTab';
 import TransactionCard from '@/components/ui/transaction/TransactionCard';
 import UserBalance from '@/components/screens/home/UserBalance';
-import useTransactions from '@/hooks/data/useTransactions';
+import useTransactions, {
+  TRANSACTION_QUERY_KEY,
+} from '@/hooks/data/useTransactions';
 import { IFilterTransactionParams } from '@/interfaces';
-import { generateMinAndMaxDateBasedOnFilters } from '@/utils/date';
+import {
+  generateMinAndMaxDateBasedOnFilters,
+  generateMonthObject,
+} from '@/utils/date';
 import LoadingSpinner from '@/components/loaders';
 import { useRouter } from 'expo-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { BALANCE_QUERY_KEY } from '@/utils';
 
 export default function HomeScreen() {
   const router = useRouter();
+
+  // balance selected month
+  const [selectedMonth, setSelectedMonth] = React.useState(
+    generateMonthObject(new Date()).date
+  );
 
   const [transactionParams, setTransactionParams] = useState<
     IFilterTransactionParams & {
@@ -52,6 +64,8 @@ export default function HomeScreen() {
 
   //data
 
+  const queryClient = useQueryClient();
+
   const {
     data,
     isLoading,
@@ -59,6 +73,7 @@ export default function HomeScreen() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
+    refetch: refetchTransactions,
   } = useTransactions(transactionParams);
 
   const handleCurrentDateTabChange = (tab: string) => {
@@ -82,15 +97,35 @@ export default function HomeScreen() {
 
   const { pages: transactionPages = [] } = data || {};
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // TODO fix this
+  const handleReflesh = () => {
+    setIsRefreshing(true);
+
+    setTimeout(() => {
+      setSelectedMonth(generateMonthObject(new Date()).date);
+
+      queryClient.invalidateQueries({
+        queryKey: [BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
+      });
+
+      queryClient.refetchQueries({
+        queryKey: [ BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
+      });
+
+      refetchTransactions();
+
+      setIsRefreshing(false);
+    }, 1000);
+  };
+
   return (
     <View style={styles.container}>
-      <UserBalance />
-      <TabsBasicDateFilter
-        list={BasicDateFiltersList}
-        activeTab={transactionParams?.currentDateTab}
-        onPressTab={handleCurrentDateTabChange}
-      />
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={handleReflesh} />
+        }
         showsVerticalScrollIndicator={false}
         data={transactionPages}
         contentContainerStyle={[styles.contentContainer]}
@@ -128,7 +163,16 @@ export default function HomeScreen() {
           </View>
         )}
         ListHeaderComponent={() => (
-          <View style={{ marginBottom: 8 }}>
+          <View>
+            <UserBalance
+              selectedMonth={selectedMonth}
+              onChangeSelectedMonth={setSelectedMonth}
+            />
+            <TabsBasicDateFilter
+              list={BasicDateFiltersList}
+              activeTab={transactionParams?.currentDateTab}
+              onPressTab={handleCurrentDateTabChange}
+            />
             <View style={styles.transactionsSection}>
               <View style={styles.transactionsTitle}>
                 <Typography
@@ -195,3 +239,4 @@ const HomeStyles = createStyleSheet((theme) => ({
     paddingHorizontal: 16,
   },
 }));
+

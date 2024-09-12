@@ -18,6 +18,12 @@ const profileActions: {
   isLogout?: boolean;
 }[] = [
   {
+    text: 'Profile',
+    icon: 'Profile',
+    url: '/profile/update-profile',
+    isLogout: false,
+  },
+  {
     text: 'Accounts',
     icon: 'Wallet',
     url: '/account',

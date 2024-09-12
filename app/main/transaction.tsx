@@ -203,7 +203,7 @@ function TransactionsListView() {
       <CustomBottomSheetComp
         index={bottomSheetIndex}
         onChange={setBottomSheetIndex}
-        snapPoints={['60%']}
+        snapPoints={['70%']}
       >
         <TransactionFilter
           initialValues={{
@@ -249,7 +249,7 @@ const StylesSheet = createStyleSheet((theme) => ({
   selectViewContainer: {
     borderColor: theme.Colors.light_60,
     borderRadius: 100,
-    height: 50,
+    // height: 50,
   },
   selectInputContainer: {
     width: 100,

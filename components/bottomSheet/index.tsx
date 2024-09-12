@@ -1,6 +1,7 @@
 import BottomSheet, {
   BottomSheetProps,
   BottomSheetView,
+  BottomSheetModal,
 } from '@gorhom/bottom-sheet';
 import { View, Text, Modal } from 'react-native';
 import React, { PropsWithChildren, memo } from 'react';
@@ -26,27 +27,22 @@ function CustomBottomSheetComp({
   if (index === -1) return null;
 
   return (
-    <Modal
-      animationType='fade'
-      transparent={true}
-      visible={true}
-      onRequestClose={() => onChange?.(-1)}
+    <BottomSheet
+      ref={ref}
+      index={index}
+      snapPoints={snapPoints}
+      enablePanDownToClose
+      onChange={onChange}
+      backdropComponent={({ style }) => (
+        <View style={[styles.backdrop, style]} />
+      )}
+      backgroundStyle={styles.background}
+      handleIndicatorStyle={styles.indicator}
     >
-      <BottomSheet
-        ref={ref}
-        index={index}
-        snapPoints={snapPoints}
-        enablePanDownToClose
-        onChange={onChange}
-        backdropComponent={() => <View style={styles.backdrop} />}
-        backgroundStyle={styles.background}
-        handleIndicatorStyle={styles.indicator}
-      >
-        <BottomSheetView style={{ flex: 1, paddingBottom: bottom }}>
-          {children}
-        </BottomSheetView>
-      </BottomSheet>
-    </Modal>
+      <BottomSheetView style={{ flex: 1, paddingBottom: bottom }}>
+        {children}
+      </BottomSheetView>
+    </BottomSheet>
   );
 }
 
@@ -71,3 +67,4 @@ const StylesSheet = createStyleSheet((theme) => ({
 }));
 
 export default memo(CustomBottomSheetComp);
+

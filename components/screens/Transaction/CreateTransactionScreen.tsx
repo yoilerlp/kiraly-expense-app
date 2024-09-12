@@ -116,6 +116,9 @@ export default function CreateTransactionScreen({
         type: 'all',
         stale: true,
       });
+      queryClient.refetchQueries({
+        queryKey: [BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
+      });
     },
     onError(error: string) {
       Toast.show({
@@ -142,6 +145,10 @@ export default function CreateTransactionScreen({
         exact: false,
         type: 'all',
         stale: true,
+      });
+
+      queryClient.refetchQueries({
+        queryKey: [BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
       });
     },
     onError(error: string) {
@@ -403,3 +410,4 @@ const stylesSheet = createStyleSheet((theme) => ({
     gap: 16,
   },
 }));
+

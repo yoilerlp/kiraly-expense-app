@@ -1,5 +1,4 @@
 import LineChart from '@/components/graph/LineChart';
-import Icon from '@/components/icon';
 import LoadingSpinner from '@/components/loaders';
 import Select from '@/components/select';
 import Typography from '@/components/typography';
@@ -12,19 +11,22 @@ import { BALANCE_QUERY_KEY } from '@/utils';
 import { removeDuplicateByKey } from '@/utils/array';
 import { formatCurrency } from '@/utils/currency';
 import { generateMonthObject, getMonthsInRange } from '@/utils/date';
-import { numberToTwoDecimals } from '@/utils/number';
 import { useQuery } from '@tanstack/react-query';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-function UserBalance() {
-  const { styles, theme } = useStyles(StylesSheet);
+type UserBalanceProps = {
+  selectedMonth: string;
+  onChangeSelectedMonth: (date: string) => void;
+};
 
-  const [selectedMonth, setSelectedMonth] = React.useState(
-    generateMonthObject(new Date()).date
-  );
+function UserBalance({
+  selectedMonth,
+  onChangeSelectedMonth: setSelectedMonth,
+}: UserBalanceProps) {
+  const { styles, theme } = useStyles(StylesSheet);
 
   const auth = useAuth();
 
@@ -202,12 +204,13 @@ const StylesSheet = createStyleSheet((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   selectViewContainer: {
     borderColor: theme.Colors.light_60,
     borderRadius: 100,
-    height: 50,
+    // height: 50,
+    backgroundColor: theme.Colors.yellow_40,
   },
   selectInputContainer: {
     width: 100,
@@ -230,3 +233,4 @@ const StylesSheet = createStyleSheet((theme) => ({
 }));
 
 export default UserBalance;
+

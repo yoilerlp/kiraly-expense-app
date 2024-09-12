@@ -1,2 +1,2 @@
-export const IS_DEV = process.env.APP_VARIANT === 'development';
-export const IS_PREVIEW = process.env.APP_VARIANT === 'preview';
+export const IS_DEV = process.env.EXPO_PUBLIC_APP_VARIANT === 'development';
+export const IS_PREVIEW = process.env.EXPO_PUBLIC_APP_VARIANT === 'preview';

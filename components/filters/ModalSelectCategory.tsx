@@ -4,6 +4,7 @@ import Typography from '../typography';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import CustomCheckBox from '../checkbox';
 import Button from '../button';
+import Icon from '../icon';
 
 type ItemList = {
   label: string;
@@ -30,7 +31,7 @@ function ModalSelectCategory({
     }))
   );
 
-  const { styles } = useStyles(StylesSheet);
+  const { styles, theme } = useStyles(StylesSheet);
 
   const toogleItem = (idx: number) => {
     const newList = [...list];
@@ -60,7 +61,7 @@ function ModalSelectCategory({
               </View>
             ))}
           </ScrollView>
-          <Button text='Save' onPress={() => onSave?.(list)} />
+          <Button text='Save' onPress={() => onSave?.(list)} size='full' />
         </View>
       </View>
     </Modal>
@@ -76,6 +77,12 @@ const StylesSheet = createStyleSheet((theme) => ({
     justifyContent: 'center',
     padding: 24,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+  },
   modalBody: {
     flex: 0.5,
     backgroundColor: theme.Colors.light_100,
@@ -85,6 +92,7 @@ const StylesSheet = createStyleSheet((theme) => ({
   itemsContainer: {
     gap: 8,
     marginBottom: 8,
+    paddingBottom: 16,
   },
   item: {
     flexDirection: 'row',

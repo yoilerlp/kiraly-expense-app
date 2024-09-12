@@ -9,20 +9,20 @@ import React from 'react';
 import { setStorageItemAsync } from '@/utils/storage';
 import { Input, Button } from '@/components';
 import { LoginUser } from '@/services/user';
-import { API_URL } from '../../constants/api';
 import ScreenHeader from '@/components/header';
 import useAuth from '@/hooks/useAuth';
 import { StorageKeys } from '@/constants/storageKeys';
 import { USER_NO_ACTIVE } from '@/utils/user';
 import { UserService } from '@/services';
+import { IS_DEV } from '@/constants/app';
 
 export default function LoginScreen() {
   const auth = useAuth();
 
   const { control, formState, handleSubmit } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: IS_DEV ? 'yoylerqs@gmail.com' : '',
+      password: IS_DEV ? 'qwerty' : '',
     },
   });
   const { errors } = formState;
@@ -163,3 +163,4 @@ const loginStyles = createStyleSheet((theme) => ({
     textDecorationLine: 'underline',
   },
 }));
+
