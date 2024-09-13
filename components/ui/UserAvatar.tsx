@@ -32,9 +32,10 @@ const UserAvatarStyles = createStyleSheet((theme) => ({
     // borderColor: theme.Colors.violet_100,
   },
   avatarImg: {
-    width: '80%',
-    height: '80%',
+    width: '100%',
+    height: '100%',
     borderRadius: 24,
     objectFit: 'cover',
   },
 }));
+
