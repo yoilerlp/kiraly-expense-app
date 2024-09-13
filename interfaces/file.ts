@@ -7,6 +7,7 @@ export type LoadedFile = {
 
   base64?: string;
   id?: string;
+  isNew?: boolean;
 };
 
 export type UploaderResult = {

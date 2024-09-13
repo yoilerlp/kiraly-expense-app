@@ -77,11 +77,11 @@ export default function updateProfileView() {
   const values = watch();
 
   const { errors } = formState;
-
   const onSubmit = async (data: IUpdateProfileForm) => {
-    const photoFile = data?.photo?.id
-      ? (await convertLoadedFilesToFiles([data?.photo!]))[0]
-      : null;
+    const photoFile =
+      data?.photo && (data?.photo as LoadedFile)?.isNew
+        ? (await convertLoadedFilesToFiles([data?.photo!]))[0]
+        : null;
 
     updateUserMutation.mutate({
       name: data?.name,
@@ -106,7 +106,10 @@ export default function updateProfileView() {
           />
           <ImageUploader
             onResult={(data) => {
-              setValue('photo', data);
+              setValue('photo', {
+                ...data,
+                isNew: true,
+              });
             }}
             renderComponent={(onPress) => {
               return (

@@ -51,8 +51,8 @@ export const formatTransactionCardDateByFilter = ({
       return capitalizeText(
         date.toLocaleDateString(locale, {
           year: 'numeric',
-          month: 'long',
-          day: 'numeric',
+          month: 'short',
+          day: '2-digit',
         })
       );
     default:

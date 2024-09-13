@@ -74,7 +74,12 @@ function TransactionCard({
               >
                 {transaction.description}
               </Typography>
-              <Typography type='Body3' color={theme.Colors.dark_25}>
+              <Typography
+                type='Body3'
+                color={theme.Colors.dark_25}
+                numberOfLines={1}
+                ellipsizeMode='tail'
+              >
                 {formatTransactionCardDateByFilter({
                   dateS: transaction.createdAt,
                   dateFilterKey: dateFormat as any,
@@ -124,3 +129,4 @@ const StylesSheet = createStyleSheet((theme) => ({
 }));
 
 export default memo(TransactionCard);
+

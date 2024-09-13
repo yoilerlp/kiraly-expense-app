@@ -1,6 +1,12 @@
-import { View, Text, KeyboardAvoidingView } from 'react-native';
+import { View, Text, KeyboardAvoidingView, Modal } from 'react-native';
 import React, { useState } from 'react';
-import { Button, CustomBottomSheetComp, Input, Typography } from '@/components';
+import {
+  Button,
+  CustomBottomSheetComp,
+  Icon,
+  Input,
+  Typography,
+} from '@/components';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -23,16 +29,16 @@ type Props = {
   };
   onError?: () => void;
   onSuccess?: (t: Transaction) => void;
-  sheetIndex: number;
-  onChangeSheetIndex: (index: number) => void;
+  visible: boolean;
+  onClose: () => void;
 };
 
 export default function CreateLoanTransaction({
   account,
-  sheetIndex = -1,
+  visible,
   onError,
   onSuccess,
-  onChangeSheetIndex,
+  onClose,
 }: Props) {
   const { styles, theme } = useStyles(StylesSheet);
 
@@ -100,97 +106,124 @@ export default function CreateLoanTransaction({
   };
 
   return (
-    <CustomBottomSheetComp
-      index={sheetIndex}
-      onChange={onChangeSheetIndex}
-      snapPoints={['40%']}
+    <Modal
+      // index={sheetIndex}
+      // onChange={onChangeSheetIndex}
+      // snapPoints={['40%']}
+      animationType='slide'
+      visible={visible}
+      onRequestClose={onClose}
+      // presentationStyle='formSheet'
+      transparent
     >
-      <FetchWrapper loading={loadingCategories} error={errorCategories}>
-        <KeyboardAvoidingView behavior='padding' style={styles.container}>
-          <Typography center type='Title3' style={styles.title}>
-            Add transaction to {account?.name} Loans
-          </Typography>
-          <View style={styles.amontContainer}>
+      <View style={styles.modalContainer}>
+        <FetchWrapper loading={loadingCategories} error={errorCategories}>
+          <KeyboardAvoidingView behavior='padding' style={styles.container}>
+            <View style={styles.header}>
+              <Typography center type='Title3' style={styles.title}>
+                Add transaction to {account?.name} Loans
+              </Typography>
+              <Icon.WithOpacity
+                name='Close'
+                size={16}
+                color={theme.Colors.red_100}
+                onPress={onClose}
+              />
+            </View>
+            <View style={styles.amontContainer}>
+              <Controller
+                control={control}
+                name='amount'
+                rules={{
+                  required: 'This field is required',
+                  validate(value) {
+                    const realValue = Number(value);
+                    if (isNaN(realValue)) return 'Invalid number';
+                    if (realValue <= 0) return 'Invalid number';
+                    return true;
+                  },
+                }}
+                render={({ field, fieldState }) => {
+                  return (
+                    <Input
+                      onBlur={field.onBlur}
+                      onChangeText={field.onChange}
+                      value={field.value ? String(field.value) : undefined}
+                      error={fieldState.error?.message}
+                      keyboardType='numeric'
+                      placeholder='$0'
+                    />
+                  );
+                }}
+              />
+            </View>
             <Controller
               control={control}
-              name='amount'
-              rules={{
-                required: 'This field is required',
-                validate(value) {
-                  const realValue = Number(value);
-                  if (isNaN(realValue)) return 'Invalid number';
-                  if (realValue <= 0) return 'Invalid number';
-                  return true;
-                },
-              }}
+              name='description'
+              rules={{ required: 'Please add a description' }}
               render={({ field, fieldState }) => {
                 return (
                   <Input
-                    onBlur={field.onBlur}
+                    placeholder='Description'
                     onChangeText={field.onChange}
-                    value={field.value ? String(field.value) : undefined}
-                    error={fieldState.error?.message}
-                    keyboardType='numeric'
-                    placeholder='$0'
+                    value={field.value}
+                    error={fieldState?.error?.message}
+                    maxLength={300}
                   />
                 );
               }}
             />
-          </View>
-          <Controller
-            control={control}
-            name='description'
-            rules={{ required: 'Please add a description' }}
-            render={({ field, fieldState }) => {
-              return (
-                <Input
-                  placeholder='Description'
-                  onChangeText={field.onChange}
-                  value={field.value}
-                  error={fieldState?.error?.message}
-                  maxLength={300}
-                />
-              );
-            }}
-          />
-          <View style={styles.buttonsContainer}>
-            <Button
-              text='Lend'
-              size='small'
-              iconName='Expense'
-              iconSize={30}
-              style={styles.btn}
-              onPress={handleSubmit(onSubmit(TransactionType.EXPENSE))}
-              disabled={createTransactionMutation.isPending}
-              isLoading={
-                createTransactionMutation.isPending && !isCreatingPayment
-              }
-            />
-            <Button
-              text='Payment'
-              size='small'
-              iconName='Income'
-              iconSize={30}
-              style={styles.btn}
-              onPress={handleSubmit(onSubmit(TransactionType.INCOME))}
-              disabled={createTransactionMutation.isPending}
-              isLoading={
-                createTransactionMutation.isPending && isCreatingPayment
-              }
-            />
-          </View>
-        </KeyboardAvoidingView>
-      </FetchWrapper>
-    </CustomBottomSheetComp>
+            <View style={styles.buttonsContainer}>
+              <Button
+                text='Lend'
+                size='small'
+                iconName='Expense'
+                iconSize={30}
+                style={styles.btn}
+                onPress={handleSubmit(onSubmit(TransactionType.EXPENSE))}
+                disabled={createTransactionMutation.isPending}
+                isLoading={
+                  createTransactionMutation.isPending && !isCreatingPayment
+                }
+              />
+              <Button
+                text='Payment'
+                size='small'
+                iconName='Income'
+                iconSize={30}
+                style={styles.btn}
+                onPress={handleSubmit(onSubmit(TransactionType.INCOME))}
+                disabled={createTransactionMutation.isPending}
+                isLoading={
+                  createTransactionMutation.isPending && isCreatingPayment
+                }
+              />
+            </View>
+          </KeyboardAvoidingView>
+        </FetchWrapper>
+      </View>
+    </Modal>
   );
 }
 
 const StylesSheet = createStyleSheet((theme) => ({
   container: {
-    backgroundColor: 'transparent',
-    flex: 1,
+    backgroundColor: 'white',
     paddingHorizontal: 24,
     gap: 16,
+    borderRadius: 16,
+    paddingVertical: 24,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'center',
+    padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   title: {
     marginVertical: 8,
@@ -201,8 +234,10 @@ const StylesSheet = createStyleSheet((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingBottom: 24,
   },
   btn: {
     width: '45%',
   },
 }));
+

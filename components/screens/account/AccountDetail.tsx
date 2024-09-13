@@ -30,7 +30,7 @@ export default function AccountDetail({
   const { styles, theme } = useStyles(StylesSheet);
 
   // for loan
-  const [sheetIndex, setSheetIndex] = useState(-1);
+  const [showModalAddTransation, setshowModalAddTransation] = useState(false);
 
   const { data, isLoading, error, refetch: refetchAccount } = useAccount(id);
 
@@ -98,7 +98,7 @@ export default function AccountDetail({
                     <Icon
                       name='Add'
                       size={28}
-                      onPress={() => setSheetIndex(0)}
+                      onPress={() => setshowModalAddTransation(true)}
                     />
                   ) : (
                     <Icon.WithLink
@@ -146,10 +146,12 @@ export default function AccountDetail({
             name: data?.account?.name || '',
             id,
           }}
-          sheetIndex={sheetIndex}
-          onChangeSheetIndex={setSheetIndex}
+          visible={showModalAddTransation}
+          onClose={() => {
+            setshowModalAddTransation(false);
+          }}
           onSuccess={() => {
-            setSheetIndex(-1);
+            setshowModalAddTransation(false);
             refetchTransactions();
             refetchAccount();
           }}
@@ -176,3 +178,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     alignItems: 'center',
   },
 }));
+
