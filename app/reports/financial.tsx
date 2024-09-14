@@ -130,6 +130,158 @@ export default function FinancialReportView() {
     );
   };
 
+  const RenderReportHeader = useMemo(() => {
+    return (
+      <View>
+        <View style={styles.filtersContainer}>
+          <Select
+            placeholderDefaultValue={BasicDateFiltersEnum.MONTH}
+            value={fitlerDateType}
+            onChange={(value) => {
+              if (!value) return;
+              setFilterDateType(value);
+            }}
+            items={financialReporFilterOptions}
+            iconProps={{
+              color: theme.Colors.violet_100,
+              size: 24,
+            }}
+            style={{
+              viewContainer: styles.selectViewContainer,
+              inputContainer: styles.selectInputContainer,
+            }}
+          />
+          <View style={styles.graphTypeContainer}>
+            {graphTypesList?.map((item) => {
+              const isActive = activeGraphType === item.type;
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  key={`report-graph-type-${item.icon}`}
+                  onPress={() => {
+                    setActiveGraphType(item.type);
+                  }}
+                  style={styles.graphTypeItem({
+                    isActive,
+                  })}
+                >
+                  <Icon
+                    size={32}
+                    color={
+                      isActive
+                        ? theme.Colors.light_100
+                        : theme.Colors.violet_100
+                    }
+                    name={item.icon}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+
+        {/* value section */}
+        {activeGraphType === 'LineChart' ? (
+          <View style={styles.valueSection}>{RenderValueComponent()}</View>
+        ) : null}
+
+        {/* chart section */}
+        <View
+          style={{
+            alignItems: 'center',
+            marginBottom: 24,
+          }}
+        >
+          {chartData && activeGraphType === 'LineChart' ? (
+            <LineChart
+              data={
+                showIncomeTransactions
+                  ? chartData?.lineChartValuesIncome
+                  : chartData?.lineChartValuesExpenses
+              }
+              minDate={chartData?.minDate}
+              maxDate={chartData?.maxDate}
+            />
+          ) : null}
+          {chartData && activeGraphType === 'PieChart' ? (
+            <PieChartComp
+              data={generatePieChartData(
+                showIncomeTransactions
+                  ? chartData?.categoryIncomes
+                  : chartData?.categoryExpenses
+              )}
+              centerLabelComponent={RenderValueComponent}
+            />
+          ) : null}
+
+          {chartData && activeGraphType === 'BarChart' ? (
+            <View style={{ alignItems: 'center', width: '90%' }}>
+              <BarChart
+                width={Dimensions.get('window').width}
+                data={generatePieChartData(
+                  showIncomeTransactions
+                    ? chartData?.categoryIncomes
+                    : chartData?.categoryExpenses,
+                  true
+                )}
+              />
+            </View>
+          ) : null}
+        </View>
+
+        {/* transaction type filter */}
+        <View style={styles.section}>
+          <TabNavigationContainer>
+            {tabTypes?.map((type) => {
+              const isActive = activeTabType === type;
+              return (
+                <TabNavigationItem
+                  key={`tab-navigation-${type}`}
+                  isActive={isActive}
+                  text={capitalizeFirstLetter(type.toLowerCase())}
+                  onPress={() => {
+                    setActiveTabType(type);
+                  }}
+                />
+              );
+            })}
+          </TabNavigationContainer>
+        </View>
+
+        {/* transaction or category filter */}
+        <View style={styles.section}>
+          <View style={{ width: 180 }}>
+            <Select
+              value={activeCategoryOrTransaction}
+              placeholderDefaultValue='Transaction'
+              onChange={(value) => {
+                if (!value) {
+                  return;
+                }
+                setActiveCategoryOrTransaction(value);
+              }}
+              items={categoryOrTransactionOptions.map((item) => ({
+                value: item,
+                label: item,
+              }))}
+              style={{
+                viewContainer: styles.selectViewContainer,
+                inputContainer: styles.selectInputContainer,
+              }}
+            />
+          </View>
+          <View style={{ flexGrow: 1 }} />
+        </View>
+      </View>
+    );
+  }, [
+    activeCategoryOrTransaction,
+    activeGraphType,
+    chartData,
+    fitlerDateType,
+    activeTabType,
+  ]);
+
   return (
     <FetchWrapper error={error} loading={isLoading}>
       <View style={styles.container}>
@@ -153,147 +305,7 @@ export default function FinancialReportView() {
           bottomBgColor={theme.Colors.violet_100}
           statusBarProps={{ style: 'light' }}
         />
-        <View>
-          <View style={styles.filtersContainer}>
-            <Select
-              placeholderDefaultValue={BasicDateFiltersEnum.MONTH}
-              value={fitlerDateType}
-              onChange={(value) => {
-                if (!value) return;
-                setFilterDateType(value);
-              }}
-              items={financialReporFilterOptions}
-              iconProps={{
-                color: theme.Colors.violet_100,
-                size: 24,
-              }}
-              style={{
-                viewContainer: styles.selectViewContainer,
-                inputContainer: styles.selectInputContainer,
-              }}
-            />
-            <View style={styles.graphTypeContainer}>
-              {graphTypesList?.map((item) => {
-                const isActive = activeGraphType === item.type;
-                return (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    key={`report-graph-type-${item.icon}`}
-                    onPress={() => {
-                      setActiveGraphType(item.type);
-                    }}
-                    style={styles.graphTypeItem({
-                      isActive,
-                    })}
-                  >
-                    <Icon
-                      size={32}
-                      color={
-                        isActive
-                          ? theme.Colors.light_100
-                          : theme.Colors.violet_100
-                      }
-                      name={item.icon}
-                    />
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
 
-          {/* value section */}
-          {activeGraphType === 'LineChart' ? (
-            <View style={styles.valueSection}>{RenderValueComponent()}</View>
-          ) : null}
-
-          {/* chart section */}
-          <View
-            style={{
-              alignItems: 'center',
-              marginBottom: 24,
-            }}
-          >
-            {chartData && activeGraphType === 'LineChart' ? (
-              <LineChart
-                data={
-                  showIncomeTransactions
-                    ? chartData?.lineChartValuesIncome
-                    : chartData?.lineChartValuesExpenses
-                }
-                minDate={chartData?.minDate}
-                maxDate={chartData?.maxDate}
-              />
-            ) : null}
-            {chartData && activeGraphType === 'PieChart' ? (
-              <PieChartComp
-                data={generatePieChartData(
-                  showIncomeTransactions
-                    ? chartData?.categoryIncomes
-                    : chartData?.categoryExpenses
-                )}
-                centerLabelComponent={RenderValueComponent}
-              />
-            ) : null}
-
-            {chartData && activeGraphType === 'BarChart' ? (
-              <View style={{ alignItems: 'center', width: '90%' }}>
-                <BarChart
-                  width={Dimensions.get('window').width}
-                  data={generatePieChartData(
-                    showIncomeTransactions
-                      ? chartData?.categoryIncomes
-                      : chartData?.categoryExpenses,
-                    true
-                  )}
-                />
-              </View>
-            ) : null}
-          </View>
-
-          {/* transaction type filter */}
-          <View style={styles.section}>
-            <TabNavigationContainer>
-              {tabTypes?.map((type) => {
-                const isActive = activeTabType === type;
-                return (
-                  <TabNavigationItem
-                    key={`tab-navigation-${type}`}
-                    isActive={isActive}
-                    text={capitalizeFirstLetter(type.toLowerCase())}
-                    onPress={() => {
-                      setActiveTabType(type);
-                    }}
-                  />
-                );
-              })}
-            </TabNavigationContainer>
-          </View>
-
-          {/* transaction or category filter */}
-          <View style={styles.section}>
-            <View style={{ width: 180 }}>
-              <Select
-                value={activeCategoryOrTransaction}
-                placeholderDefaultValue='Transaction'
-                onChange={(value) => {
-                  if (!value) {
-                    return;
-                  }
-                  setActiveCategoryOrTransaction(value);
-                }}
-                items={categoryOrTransactionOptions.map((item) => ({
-                  value: item,
-                  label: item,
-                }))}
-                style={{
-                  viewContainer: styles.selectViewContainer,
-                  inputContainer: styles.selectInputContainer,
-                }}
-              />
-            </View>
-            <View style={{ flexGrow: 1 }} />
-          </View>
-        </View>
         <View style={styles.container}>
           {showTransactionsList ? (
             <FlatList
@@ -306,9 +318,11 @@ export default function FinancialReportView() {
               renderItem={({ item: transaction }) => (
                 <TransacionCell transaction={transaction} />
               )}
+              ListHeaderComponent={RenderReportHeader}
             />
           ) : (
             <FlatList
+              ListHeaderComponent={RenderReportHeader}
               data={
                 showIncomeTransactions
                   ? chartData?.categoryIncomes || []

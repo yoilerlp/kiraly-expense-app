@@ -36,7 +36,7 @@ export default function ActionButton({}: Props) {
           <TouchableOpacity
             activeOpacity={floatingOpacity}
             style={[styles.floatingLink, styles.floatingTop]}
-            onPress={() => navigateToRoute('/loans/')}
+            onPress={() => navigateToRoute('/transactions/transfer')}
           >
             <Icon
               name='Transfer'

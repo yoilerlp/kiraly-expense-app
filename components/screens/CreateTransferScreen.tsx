@@ -1,4 +1,4 @@
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Platform } from 'react-native';
 import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import SectionRounded from './SectionRounded';
@@ -112,7 +112,7 @@ export default function CreateTransferScreen() {
                 }}
                 placeholder='$0'
                 style={{
-                  fontSize: 78,
+                  fontSize: Platform.select({ ios: 78, default: 50 }),
                   color: theme.Colors.light_100,
                 }}
               />

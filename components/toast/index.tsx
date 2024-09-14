@@ -57,6 +57,6 @@ const config: ToastConfig = {
 };
 
 export default function CustomToast() {
-  return <Toast config={config} topOffset={60} />;
+  return <Toast config={config} topOffset={60} visibilityTime={1000} />;
 }
 
