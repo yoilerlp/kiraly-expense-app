@@ -25,6 +25,18 @@ const profileActions: {
     isLogout: false,
   },
   {
+    text: 'Loans',
+    icon: 'Income',
+    url: '/loans/',
+    isLogout: false,
+  },
+  {
+    text: 'Transfers',
+    icon: 'Transfer',
+    url: '/transfer/',
+    isLogout: false,
+  },
+  {
     text: 'Accounts',
     icon: 'Wallet',
     url: '/account',

@@ -1,5 +1,6 @@
 import { Account } from './account';
 import { FileItemDb } from './file';
+import { SortTransactionBy } from './transaction';
 
 export interface Transfer {
   id: string;
@@ -17,4 +18,12 @@ export interface Transfer {
     file: FileItemDb;
   }[];
 }
+
+export type IFilterTransferParams = {
+  limit?: number;
+  page?: number;
+  minDate?: string;
+  maxDate?: string;
+  orderBy?: SortTransactionBy;
+};
 

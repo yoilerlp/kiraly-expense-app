@@ -188,7 +188,6 @@ export const UpdateUser = async (data: {
     formData.append('lastName', data.lastName || '');
 
     if (data.file) {
-      console.log('file recibido', data.file);
       formData.append('file', data.file, data.file.name);
     }
 

@@ -22,7 +22,6 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (isError) {
-      console.log({ isError });
       logOut();
     }
   }, [isError]);

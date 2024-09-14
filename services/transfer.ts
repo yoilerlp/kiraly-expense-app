@@ -1,7 +1,6 @@
 import { API_URL } from '@/constants/api';
 import { StorageKeys } from '@/constants/storageKeys';
-import { Transfer } from '@/interfaces';
-import { Transaction } from '@/interfaces/transaction';
+import { IFilterTransferParams, Transfer } from '@/interfaces';
 import { getErrorMsgFromResponse, getStorageItem } from '@/utils';
 
 export const CreateTransfer = async (
@@ -86,6 +85,37 @@ export const DeleteTransferById = async (id: string) => {
     });
 
     const responseData: ServiceResponse<Transfer> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
+
+export const GetAlltransfers = async (params: IFilterTransferParams) => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    // if ('currentDateTab' in params) {
+    //   const { currentDateTab, ...rest } = params as any;
+    //   params = rest;
+    // }
+
+    const responseBody = await fetch(`${API_URL}/transfer/get-all`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(params),
+    });
+
+    const responseData: ServiceResponseWithPagination<Transfer> =
+      await responseBody.json();
 
     if (!responseBody.ok) {
       throw responseData;

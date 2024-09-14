@@ -14,7 +14,7 @@ export default function ViewTransfer() {
   }>();
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['tranfer', id],
+    queryKey: ['transfer', id],
     queryFn: () => transferService.GetTransferById(id),
   });
 

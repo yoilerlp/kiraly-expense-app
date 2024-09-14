@@ -136,7 +136,6 @@ export default function ViewTransactinoScreen({ type, data, onDelete }: Props) {
                     size={24}
                     color={Colors.light_100}
                     onPress={() => {
-                      console.log('open bottom sheet');
                       openBottomSheet();
                     }}
                   />
@@ -236,11 +235,13 @@ export default function ViewTransactinoScreen({ type, data, onDelete }: Props) {
             </ScrollView>
           </View>
 
-          <View style={styles.btnContainer}>
-            <Link href={editUrl as any} asChild replace>
-              <Button text='Edit' size='full' />
-            </Link>
-          </View>
+          {!isTransfer ? (
+            <View style={styles.btnContainer}>
+              <Link href={editUrl as any} asChild replace>
+                <Button text='Edit' size='full' />
+              </Link>
+            </View>
+          ) : null}
         </View>
         <BottomSheet
           index={bottomSheetIndex}

@@ -22,6 +22,7 @@ export default function ExpenseView() {
     <>
       <Stack.Screen
         options={{
+          headerShown: true,
           header: () => {
             return (
               <ScreenHeader
