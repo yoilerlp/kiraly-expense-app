@@ -31,7 +31,7 @@ export default function AccountsView() {
                 bgColor={theme.Colors.violet_100}
                 rightIcon={
                   <Icon.WithLink
-                    href='/addAccount'
+                    href='/auth/addAccount'
                     name='Add'
                     size={32}
                     color={theme.Colors.light_100}

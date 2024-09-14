@@ -16,6 +16,7 @@ type ModalSelectCategoryProps = {
   items: ItemList[];
   title?: string;
   onSave?: (items: ItemList[]) => void;
+  onClose?: () => void;
 };
 
 function ModalSelectCategory({
@@ -23,6 +24,7 @@ function ModalSelectCategory({
   items,
   title = 'Select Category',
   onSave,
+  onClose,
 }: ModalSelectCategoryProps) {
   const [list, setList] = useState(() =>
     items?.map((item) => ({
@@ -46,9 +48,17 @@ function ModalSelectCategory({
     <Modal visible={open} transparent animationType='fade'>
       <View style={styles.modalContainer}>
         <View style={styles.modalBody}>
-          <Typography style={{ marginBottom: 8 }} center type='Title3'>
-            {title}
-          </Typography>
+          <View style={styles.header}>
+            <Typography style={{ marginBottom: 8 }} center type='Title3'>
+              {title}
+            </Typography>
+            <Icon
+              name='Close'
+              size={16}
+              color={theme.Colors.red_100}
+              onPress={onClose}
+            />
+          </View>
           <ScrollView contentContainerStyle={styles.itemsContainer}>
             {list.map((item, idx) => (
               <View style={styles.item} key={`select_category_${item.label}`}>

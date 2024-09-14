@@ -171,6 +171,7 @@ function TransactionFilter({
                 .map((item) => item.value),
             });
           }}
+          onClose={() => setShowModalSelectCategory(false)}
           items={
             categories?.map((item) => ({
               label: item.name,
@@ -194,6 +195,7 @@ function TransactionFilter({
                 .map((item) => item.value),
             });
           }}
+          onClose={() => setShowModalSelectAccount(false)}
           items={
             accounts?.map((item) => ({
               label: item.name,

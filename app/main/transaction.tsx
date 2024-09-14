@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, SectionList } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import React, { useMemo, useState } from 'react';
 
@@ -6,10 +6,8 @@ import {
   Select,
   Typography,
   Icon,
-  LoadingSpinner,
   CustomBottomSheetComp,
 } from '@/components';
-import { TransactionCard } from '@/components/ui';
 
 import {
   IFilterTransactionParams,
@@ -130,7 +128,6 @@ function TransactionsListView() {
     fetchNextPage();
   };
 
-
   return (
     <View style={{ flex: 1 }} key={filter}>
       <TransactionSections
@@ -203,7 +200,7 @@ function TransactionsListView() {
       <CustomBottomSheetComp
         index={bottomSheetIndex}
         onChange={setBottomSheetIndex}
-        snapPoints={['70%']}
+        snapPoints={['80%']}
       >
         <TransactionFilter
           initialValues={{
@@ -279,3 +276,4 @@ const StylesSheet = createStyleSheet((theme) => ({
 }));
 
 export default TransactionsListView;
+
