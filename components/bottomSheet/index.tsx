@@ -1,9 +1,8 @@
 import BottomSheet, {
   BottomSheetProps,
   BottomSheetView,
-  BottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import { View, Text, Modal, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import React, { PropsWithChildren, memo } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -42,7 +41,7 @@ function CustomBottomSheetComp({
       backgroundStyle={styles.background}
       handleIndicatorStyle={styles.indicator}
     >
-      <BottomSheetView style={{ flex: 1, paddingBottom: bottom, zIndex: 20 }}>
+      <BottomSheetView style={{ flex: 1, paddingBottom: bottom }}>
         {children}
       </BottomSheetView>
     </BottomSheet>
@@ -59,7 +58,6 @@ const StylesSheet = createStyleSheet((theme) => ({
     flex: 1,
     backgroundColor: theme.Colors.dark_100,
     opacity: 0.16,
-    zIndex: 200,
   },
   background: {
     borderTopLeftRadius: 24,

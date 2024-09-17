@@ -50,6 +50,7 @@ const config = {
         backgroundColor: '#ffffff',
       },
       package: getUniqueIdentifier(),
+      usesCleartextTraffic: true,
     },
     web: {
       bundler: 'metro',
@@ -81,3 +82,4 @@ const config = {
 };
 
 export default config;
+
