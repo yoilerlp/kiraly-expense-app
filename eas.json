@@ -16,14 +16,14 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://kiraly-expense-api.onrender.com/api",
+        "EXPO_PUBLIC_API_URL": "http://3.236.98.154/kiraly/api",
         "EXPO_PUBLIC_NINJA_API_KEY": "UOpAH36kdPldYMHCYdD6Gw==8ryvQaU72KBQhNsb",
         "EXPO_PUBLIC_APP_VARIANT": "preview"
       }
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://kiraly-expense-api.onrender.com/api",
+        "EXPO_PUBLIC_API_URL": "http://3.236.98.154/kiraly/api",
         "EXPO_PUBLIC_NINJA_API_KEY": "UOpAH36kdPldYMHCYdD6Gw==8ryvQaU72KBQhNsb",
         "EXPO_PUBLIC_APP_VARIANT": "production"
       }

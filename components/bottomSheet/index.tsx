@@ -37,7 +37,7 @@ function CustomBottomSheetComp({
       enablePanDownToClose
       onChange={onChange}
       backdropComponent={({ style }) => (
-        <View style={[styles.backdrop, backdropStyle, style]} />
+        <View style={[style, styles.backdrop, backdropStyle]} />
       )}
       backgroundStyle={styles.background}
       handleIndicatorStyle={styles.indicator}
@@ -59,6 +59,7 @@ const StylesSheet = createStyleSheet((theme) => ({
     flex: 1,
     backgroundColor: theme.Colors.dark_100,
     opacity: 0.16,
+    zIndex: 200,
   },
   background: {
     borderTopLeftRadius: 24,

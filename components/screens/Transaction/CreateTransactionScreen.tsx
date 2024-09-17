@@ -224,7 +224,7 @@ export default function CreateTransactionScreen({
 
       <KeyboardAvoidingView
         style={styles.container({ type })}
-        behavior='padding'
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View style={styles.amontContainer}>
           <Typography
