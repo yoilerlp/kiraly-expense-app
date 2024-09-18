@@ -35,12 +35,12 @@ export default function HomeScreen() {
     }
   >(() => {
     const { minDate, maxDate } = generateMinAndMaxDateBasedOnFilters(
-      BasicDateFiltersEnum.TODAY
+      BasicDateFiltersEnum.WEEK
     );
 
     return {
       page: 1,
-      currentDateTab: 'Today',
+      currentDateTab: BasicDateFiltersEnum.WEEK,
       minDate,
       maxDate,
     };
@@ -111,7 +111,7 @@ export default function HomeScreen() {
       });
 
       queryClient.refetchQueries({
-        queryKey: [ BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
+        queryKey: [BALANCE_QUERY_KEY, TRANSACTION_QUERY_KEY],
       });
 
       refetchTransactions();

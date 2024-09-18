@@ -137,7 +137,7 @@ export const UpdateTransaction = async (params: {
 }) => {
   try {
     const { id, data } = params;
-    
+
     const token = await getStorageItem(StorageKeys.authToken);
     const formData = new FormData();
     if (data.type) formData.append('type', data.type);
