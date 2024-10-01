@@ -1,4 +1,4 @@
-import { View, Dimensions, Platform } from 'react-native';
+import { View, Dimensions, Platform, KeyboardAvoidingView } from 'react-native';
 import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import SectionRounded from './SectionRounded';
@@ -73,7 +73,10 @@ export default function CreateTransferScreen() {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <View style={styles.amontContainer}>
         <Typography
           color={theme.Colors.light_80}
@@ -246,7 +249,7 @@ export default function CreateTransferScreen() {
           />
         </View>
       </SectionRounded>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
