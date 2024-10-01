@@ -63,14 +63,15 @@ export default function updateProfileView() {
         type: 'success',
         text1: 'User updated successfully',
       });
-      queryClient.invalidateQueries({ queryKey: [CURRENT_USER_QUERY_KEY] });
-      auth?.reloadUser?.();
+      // queryClient.invalidateQueries({ queryKey: [CURRENT_USER_QUERY_KEY] });
+      auth?.updateUserData?.(data);
     },
     onError(error: string) {
       Toast.show({
         type: 'error',
         text1: error,
       });
+      console.log(error);
     },
   });
 

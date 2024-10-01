@@ -183,7 +183,6 @@ export const UpdateUser = async (data: {
 
     const formData = new FormData();
 
-
     formData.append('name', data.name || '');
     formData.append('lastName', data.lastName || '');
 
@@ -200,7 +199,6 @@ export const UpdateUser = async (data: {
       method: 'PATCH',
     });
 
-
     const responseData: ServiceResponse<User> = await responseBody.json();
 
     if (!responseBody.ok) {
@@ -209,6 +207,8 @@ export const UpdateUser = async (data: {
 
     return responseData.data;
   } catch (error: any) {
+    console.log(error);
     throw getErrorMsgFromResponse(error);
   }
 };
+
