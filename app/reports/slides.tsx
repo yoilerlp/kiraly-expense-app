@@ -21,6 +21,8 @@ import useRandomQuote from '@/hooks/data/useRandomQuote';
 import ExpenseSlideQuote from '@/components/ui/reports/ExpenseSlideQuote';
 import LoadingScreen from '@/components/LoadingScreen';
 import ErrorScreen from '@/components/ErrorScreen';
+import { Stack } from 'expo-router';
+import ScreenHeader from '@/components/header';
 
 const slideItems = ['expense', 'income', 'budget', 'quote'] as const;
 
@@ -112,64 +114,81 @@ export default function ReportSlides() {
   if (error) return <ErrorScreen msg='Something went wrong' />;
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.99}
-      onPressIn={handleOnSlicePress}
-      style={[
-        styles.container,
-        {
-          backgroundColor: currentBgColor,
-        },
-      ]}
-    >
-      <SafeAreasSetting
-        key={currentSlideIndice}
-        statusBarBgColor={currentBgColor}
-        bottomBgColor={currentBgColor}
-        statusBarProps={{ style: 'light' }}
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          header: () => (
+            <ScreenHeader
+              title='Report Slides'
+              bgColor={currentBgColor}
+              textColor='white'
+            />
+          ),
+        }}
       />
-
-      <ReportSlideIndicators
-        currentSlide={currentSlide}
-        slideItems={slideItems as any}
-      />
-
-      {currentSlide === 'expense' ? (
-        <ExpenseSlideContent
-          reportDateLabel={filter}
-          category={data?.basicExpenses?.categoryWithMaxExpenseValue?.detail!}
-          categoryAmountExpensed={
-            data?.basicExpenses?.categoryWithMaxExpenseValue?.value!
-          }
-          isIncome={false}
-          totalAmountExpensed={data?.basicExpenses?.totalExpense!}
+      <TouchableOpacity
+        activeOpacity={0.99}
+        onPressIn={handleOnSlicePress}
+        style={[
+          styles.container,
+          {
+            backgroundColor: currentBgColor,
+          },
+        ]}
+      >
+        <SafeAreasSetting
+          key={currentSlideIndice}
+          statusBarBgColor={currentBgColor}
+          bottomBgColor={currentBgColor}
+          statusBarProps={{ style: 'light' }}
         />
-      ) : null}
 
-      {currentSlide === 'income' ? (
-        <ExpenseSlideContent
-          reportDateLabel={filter}
-          category={data?.basicExpenses?.categoryWithMaxIcomeValue?.detail!}
-          categoryAmountExpensed={
-            data?.basicExpenses?.categoryWithMaxIcomeValue?.value!
-          }
-          isIncome
-          totalAmountExpensed={data?.basicExpenses?.totalIncome!}
+        <ReportSlideIndicators
+          currentSlide={currentSlide}
+          slideItems={slideItems as any}
         />
-      ) : null}
 
-      {currentSlide === 'budget' ? (
-        <ExpenseSlideBudgetCard
-          reportDateLabel={filter}
-          allBudgets={data?.budgets || []}
-          budgetsExceeds={data?.budgetsExceeds || []}
-        />
-      ) : null}
+        {currentSlide === 'expense' ? (
+          <ExpenseSlideContent
+            reportDateLabel={filter}
+            category={data?.basicExpenses?.categoryWithMaxExpenseValue?.detail!}
+            categoryAmountExpensed={
+              data?.basicExpenses?.categoryWithMaxExpenseValue?.value!
+            }
+            isIncome={false}
+            totalAmountExpensed={data?.basicExpenses?.totalExpense!}
+          />
+        ) : null}
 
-      {currentSlide === 'quote' ? (
-        <ExpenseSlideQuote currentTab={filter} quoteData={randomQuote?.[0]!} />
-      ) : null}
-    </TouchableOpacity>
+        {currentSlide === 'income' ? (
+          <ExpenseSlideContent
+            reportDateLabel={filter}
+            category={data?.basicExpenses?.categoryWithMaxIcomeValue?.detail!}
+            categoryAmountExpensed={
+              data?.basicExpenses?.categoryWithMaxIcomeValue?.value!
+            }
+            isIncome
+            totalAmountExpensed={data?.basicExpenses?.totalIncome!}
+          />
+        ) : null}
+
+        {currentSlide === 'budget' ? (
+          <ExpenseSlideBudgetCard
+            reportDateLabel={filter}
+            allBudgets={data?.budgets || []}
+            budgetsExceeds={data?.budgetsExceeds || []}
+          />
+        ) : null}
+
+        {currentSlide === 'quote' ? (
+          <ExpenseSlideQuote
+            currentTab={filter}
+            quoteData={randomQuote?.[0]!}
+          />
+        ) : null}
+      </TouchableOpacity>
+    </>
   );
 }
 
@@ -182,3 +201,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     paddingHorizontal: 16,
   },
 }));
+

@@ -282,7 +282,15 @@ const CategorizationItem = ({
       <Typography color={Colors.light_20} type='Body3'>
         {title}
       </Typography>
-      <Typography color={Colors.dark_100} type='Title4'>
+      <Typography
+        color={Colors.dark_100}
+        type='Title4'
+        numberOfLines={1}
+        ellipsizeMode='tail'
+        style={{
+          maxWidth: 120,
+        }}
+      >
         {value}
       </Typography>
     </View>
