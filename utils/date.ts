@@ -6,7 +6,6 @@ import { es } from 'date-fns/locale';
 
 const defaultTimetimeZone = 'America/Bogota';
 
-
 export const formatTransactionCardDateByFilter = ({
   dateS,
   dateFilterKey,
@@ -138,26 +137,26 @@ export const generateMinAndMaxDateBasedOnFilters = (
   switch (filter) {
     case 'Today':
       return {
-        minDate: dateFns.format(dateFns.startOfDay(today), format),
-        maxDate: dateFns.format(dateFns.endOfDay(today), format),
+        minDate: dateFns.startOfDay(today).toJSON(),
+        maxDate: dateFns.endOfDay(today).toJSON(),
       };
 
     case 'Week':
       return {
-        minDate: dateFns.format(dateFns.startOfWeek(today), format),
-        maxDate: dateFns.format(dateFns.endOfWeek(today), format),
+        minDate: dateFns.startOfWeek(today).toJSON(),
+        maxDate: dateFns.endOfWeek(today).toJSON(),
       };
 
     case 'Month':
       return {
-        minDate: dateFns.format(dateFns.startOfMonth(today), format),
-        maxDate: dateFns.format(dateFns.endOfMonth(today), format),
+        minDate: dateFns.startOfMonth(today).toJSON(),
+        maxDate: dateFns.endOfMonth(today).toJSON(),
       };
 
     case 'Year':
       return {
-        minDate: dateFns.format(dateFns.startOfYear(today), format),
-        maxDate: dateFns.format(dateFns.endOfYear(today), format),
+        minDate: dateFns.startOfYear(today).toJSON(),
+        maxDate: dateFns.endOfYear(today).toJSON(),
       };
     case 'All' as any:
       return {
@@ -166,8 +165,8 @@ export const generateMinAndMaxDateBasedOnFilters = (
       };
     default:
       return {
-        minDate: dateFns.format(dateFns.startOfMonth(today), format),
-        maxDate: dateFns.format(dateFns.endOfMonth(today), format),
+        minDate: dateFns.startOfMonth(today).toJSON(),
+        maxDate: dateFns.endOfMonth(today).toJSON(),
       };
   }
 };
@@ -189,7 +188,6 @@ export const monthsList = Array.from({ length: 12 }, (_, i) =>
   dateFns.format(new Date(2024, i, 1), 'MMMM', { locale: es })
 );
 
-
 export const getMinAndMaxDate = (dates: string[]) => {
   const datesObject = dates.map((date) => new Date(date).getTime());
 
@@ -199,3 +197,12 @@ export const getMinAndMaxDate = (dates: string[]) => {
 
   return { minDate, maxDate };
 };
+
+export const getMinAndMaxDateInMonthUTCFromLocalTime = (date: string) => {
+  const minDate = dateFns.startOfMonth(new Date(date)).toJSON();
+
+  const maxDate = dateFns.endOfMonth(new Date(date)).toJSON();
+
+  return { minDate, maxDate };
+};
+

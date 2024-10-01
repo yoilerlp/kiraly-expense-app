@@ -10,7 +10,11 @@ import { TransactionService } from '@/services';
 import { BALANCE_QUERY_KEY } from '@/utils';
 import { removeDuplicateByKey } from '@/utils/array';
 import { formatCurrency } from '@/utils/currency';
-import { generateMonthObject, getMonthsInRange } from '@/utils/date';
+import {
+  generateMonthObject,
+  getMinAndMaxDateInMonthUTCFromLocalTime,
+  getMonthsInRange,
+} from '@/utils/date';
 import { useQuery } from '@tanstack/react-query';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
@@ -64,10 +68,13 @@ function UserBalance({
     const year = curentMonthUTCDate.getFullYear();
     const month = curentMonthUTCDate.getMonth() + 1;
 
+    const balanceDates = getMinAndMaxDateInMonthUTCFromLocalTime(selectedMonth);
+
     return {
       key: `balance-${year}-${month}`,
       year,
       month,
+      balanceDates,
     };
   }, [selectedMonth, monthsList]);
 
@@ -79,8 +86,10 @@ function UserBalance({
     queryKey: [BALANCE_QUERY_KEY, debouncedKey],
     queryFn: () => {
       return TransactionService.GetMonthBalance({
-        year: balanceFilterData?.year!,
-        month: balanceFilterData?.month!,
+        // year: balanceFilterData?.year!,
+        // month: balanceFilterData?.month!,
+        minDate: balanceFilterData?.balanceDates?.minDate!,
+        maxDate: balanceFilterData?.balanceDates?.maxDate!,
       });
     },
     enabled: !!balanceFilterData,

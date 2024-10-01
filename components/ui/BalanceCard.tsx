@@ -1,9 +1,8 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Icon, { IconName } from '../icon';
 import Typography from '../typography';
-import { numberToTwoDecimals } from '@/utils/number';
 import { formatCurrency } from '../../utils/currency';
 
 type BalanceCardProps = {
@@ -39,7 +38,7 @@ export default function BalanceCard({
         <Typography
           numberOfLines={1}
           ellipsizeMode='tail'
-          fontSize={16}
+          fontSize={14}
           color={theme.Colors.light_80}
           type='Title3'
         >

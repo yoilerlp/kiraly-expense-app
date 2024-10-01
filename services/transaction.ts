@@ -206,8 +206,10 @@ export const GetMinAndMaxTransactionDate = async () => {
   }
 };
 export const GetMonthBalance = async (data: {
-  year: number;
-  month: number;
+  // year: number;
+  // month: number;
+  minDate: string;
+  maxDate: string;
 }) => {
   try {
     const token = await getStorageItem(StorageKeys.authToken);
