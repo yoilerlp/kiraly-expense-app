@@ -43,6 +43,12 @@ const profileActions: {
     isLogout: false,
   },
   {
+    text: 'Categories',
+    icon: 'Wallet',
+    url: '/category',
+    isLogout: false,
+  },
+  {
     text: 'Logout',
     icon: 'LogOut',
     url: '/auth/login',

@@ -23,5 +23,13 @@ export interface Category {
   name: string;
   description: string;
   key: CategoryKey;
+  type: CategoryType;
+  isActive: boolean;
+  userId: string;
+}
+
+export enum CategoryType {
+  USER = 'USER',
+  SYSTEM = 'SYSTEM',
 }
 
