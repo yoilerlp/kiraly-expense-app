@@ -6,6 +6,7 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "node": "20.0.0",
       "ios": {
         "simulator": true
       },
@@ -15,6 +16,7 @@
     },
     "preview": {
       "distribution": "internal",
+      "node": "20.0.0",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://apis.yoyler.dev/kiraly/api",
         "EXPO_PUBLIC_NINJA_API_KEY": "UOpAH36kdPldYMHCYdD6Gw==8ryvQaU72KBQhNsb",
@@ -22,6 +24,7 @@
       }
     },
     "production": {
+      "node": "20.0.0",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://apis.yoyler.dev/kiraly/api",
         "EXPO_PUBLIC_NINJA_API_KEY": "UOpAH36kdPldYMHCYdD6Gw==8ryvQaU72KBQhNsb",
