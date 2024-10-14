@@ -6,24 +6,23 @@ import CategoryTag from '../CategoryTag';
 import Icon from '@/components/icon';
 import Typography from '@/components/typography';
 import ProgressBar from '@/components/graph/ProgressBar';
-import { categoriesColorsConfig } from '@/utils';
+import { getCategoryConfig } from '@/utils';
 import { formatCurrency } from '../../../utils/currency';
+import { Category } from '@/interfaces';
 
 type BudgetCardProps = {
-  categoryName: string;
-  categoryKey?: string;
   amountUsed: number;
   amount: number;
   warningAmount?: number;
+  category: Category;
   onPress?: () => void;
 };
 
 function BudgetCard({
   amount,
   amountUsed,
-  categoryName,
-  categoryKey,
   warningAmount,
+  category,
   onPress,
 }: BudgetCardProps) {
   const { styles, theme } = useStyles(budgetCardStyles);
@@ -38,8 +37,7 @@ function BudgetCard({
 
   const remainingIsNegative = remainingAmount < 0;
 
-  const categoryColorConfig =
-    categoriesColorsConfig[categoryKey as keyof typeof categoriesColorsConfig];
+  const categoryColorConfig = getCategoryConfig(category);
 
   const percentageUsed = Math.round((amountUsed / amount) * 100);
 
@@ -51,7 +49,7 @@ function BudgetCard({
     >
       <View style={styles.categorySection}>
         <CategoryTag
-          categoryName={categoryName}
+          categoryName={category?.name}
           color={categoryColorConfig?.iconColor}
         />
         {limitIsExceeded ? (
@@ -82,15 +80,14 @@ function BudgetCard({
 }
 
 export function BudgetBasicCard({
-  categoryName,
-  categoryKey,
+  category,
   onPress,
   amount,
   month,
 }: Omit<BudgetCardProps, 'amountUsed'> & { month: number }) {
   const { styles } = useStyles(budgetCardStyles);
-  const categoryColorConfig =
-    categoriesColorsConfig[categoryKey as keyof typeof categoriesColorsConfig];
+
+  const categoryColorConfig = getCategoryConfig(category);
   return (
     <TouchableOpacity
       style={styles.container}
@@ -99,7 +96,7 @@ export function BudgetBasicCard({
     >
       <View style={styles.categorySection}>
         <CategoryTag
-          categoryName={categoryName}
+          categoryName={category.name}
           color={categoryColorConfig?.iconColor}
         />
         <Typography type='Body1'> Month: {month}</Typography>

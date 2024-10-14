@@ -8,14 +8,16 @@ type CategoryIconCardProps = {
   containerColor: string;
   iconName: IconName;
   categoryName: string;
-  wrapperStyles?: ViewStyle
+  iconColor?: string;
+  wrapperStyles?: ViewStyle;
 };
 
 export default function CategoryIconCard({
   containerColor,
   iconName,
   categoryName,
-  wrapperStyles
+  wrapperStyles,
+  iconColor,
 }: CategoryIconCardProps) {
   const { styles, theme } = useStyles(StylesSheet);
 
@@ -29,9 +31,16 @@ export default function CategoryIconCard({
           },
         ]}
       >
-        <Icon name={iconName || 'Other'} size={18} />
+        <Icon name={iconName || 'Other'} size={18} color={iconColor} />
       </View>
-      <Typography type='Title3'>{categoryName}</Typography>
+      <Typography
+        numberOfLines={1}
+        textBreakStrategy='balanced'
+        ellipsizeMode='tail'
+        type='Title3'
+      >
+        {categoryName}
+      </Typography>
     </View>
   );
 }
@@ -57,3 +66,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     borderRadius: 8,
   },
 }));
+

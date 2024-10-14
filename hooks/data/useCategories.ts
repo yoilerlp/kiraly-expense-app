@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { CategoryService } from '@/services';
+import { CategoryType } from '@/interfaces';
 
 export default function useCategories() {
   const { data, isError, isPending, error } = useQuery({
@@ -8,6 +9,12 @@ export default function useCategories() {
     refetchOnWindowFocus: true,
   });
 
-  return { data, isError, isPending, error };
+  const activeCategories = data?.filter((item) => item.isActive) || [];
+
+  const userCategories = data?.filter(
+    (item) => item.type === CategoryType.USER
+  );
+
+  return { data, activeCategories, userCategories, isError, isPending, error };
 }
 

@@ -1,5 +1,10 @@
 import { IconName } from '@/components/icon';
-import { Category, CategoryKey } from '@/interfaces/category';
+import {
+  Category,
+  CategoryKey,
+  CategoryColorType,
+  CategoryType,
+} from '@/interfaces/category';
 import { Colors } from '@/theme/Colors';
 
 interface TransactionCategoryIcon {
@@ -7,6 +12,28 @@ interface TransactionCategoryIcon {
   containerColor: string;
   iconColor: string;
 }
+
+export const getCategoryConfig = (
+  category: Category
+): TransactionCategoryIcon => {
+  const categoryHasValidData = [
+    category?.icon,
+    category?.mainColor,
+    category?.subColor,
+  ].every((item) => Boolean(item));
+
+  if (!categoryHasValidData) {
+    const defaultConfig = categoriesColorsConfig[CategoryKey.OTHER];
+    const configByKey = categoriesColorsConfig[category?.key];
+    return configByKey || defaultConfig;
+  }
+
+  return {
+    name: category?.icon as IconName,
+    containerColor: category?.subColor!,
+    iconColor: category?.mainColor!,
+  };
+};
 
 export const categoriesColorsConfig: Record<
   CategoryKey,
@@ -123,3 +150,4 @@ export const sortCategories = (categories: Category[]) => {
 
   return [...listToSort, ...listToAppend];
 };
+

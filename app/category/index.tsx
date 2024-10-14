@@ -8,11 +8,12 @@ import SafeAreasSetting from '@/components/SafeAreasSetting';
 import { Icon } from '@/components';
 import useCategories from '@/hooks/data/useCategories';
 import CategoryCard from '@/components/ui/category/CategoryCard';
+import { CategoryType } from '@/interfaces';
 
 export default function CategoriesView() {
   const { styles, theme } = useStyles(StylesSheet);
 
-  const { data, isPending, error } = useCategories();
+  const { userCategories, isPending, error } = useCategories();
 
   return (
     <FetchWrapper loading={isPending} error={error}>
@@ -42,7 +43,7 @@ export default function CategoriesView() {
           }}
         />
         <FlatList
-          data={data}
+          data={userCategories}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <CategoryCard category={item} key={item.id} />

@@ -69,7 +69,8 @@ export default function CreateTransactionScreen({
 
   const router = useRouter();
 
-  const { data: categories, isPending: isCategoriesPending } = useCategories();
+  const { activeCategories: categories, isPending: isCategoriesPending } =
+    useCategories();
 
   const { data: accounts, isLoading: isAccountsPending } = useUserAccounts();
 

@@ -3,13 +3,13 @@ import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Typography from '@/components/typography';
 import CategoryIconCard from '../CategoryIconCard';
-import { categoriesColorsConfig } from '@/utils';
+import { getCategoryConfig } from '@/utils';
 import { Category, CategoryKey } from '@/interfaces';
 import { formatCurrency } from '@/utils/currency';
 
 type ExpenseSlideCategoryCardProps = {
   isIncome: boolean;
-  category: Pick<Category, 'name' | 'key'> | null;
+  category: Category | null;
   categoryAmountExpensed: number;
 };
 
@@ -20,11 +20,10 @@ export default function ExpenseSlideCategoryCard({
 }: ExpenseSlideCategoryCardProps) {
   const { styles, theme } = useStyles(StylesSheet);
 
-  const categoryColorConfig =
-    categoriesColorsConfig[category?.key || ('' as CategoryKey.OTHER)];
+  const categoryColorConfig = getCategoryConfig(category!);
 
   if (!category) {
-    return <View />
+    return <View />;
   }
 
   return (
@@ -56,3 +55,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     width: '100%',
   },
 }));
+

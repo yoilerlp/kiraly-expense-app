@@ -4,7 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Typography from '@/components/typography';
 import CategoryTag from '../CategoryTag';
 import { Category } from '@/interfaces';
-import { capitalizeFirstLetter, categoriesColorsConfig } from '@/utils';
+import { capitalizeFirstLetter, getCategoryConfig } from '@/utils';
 import ProgressBar from '@/components/graph/ProgressBar';
 import { formatCurrency } from '@/utils/currency';
 
@@ -23,7 +23,7 @@ export default function CategoryExpenseBarCard({
 }: CategoryExpenseBarCardProps) {
   const { styles, theme } = useStyles(StylesSheet);
 
-  const categoryColorConfig = categoriesColorsConfig[category.key];
+  const categoryColorConfig = getCategoryConfig(category);
 
   const categoryName = capitalizeFirstLetter(category.name);
 
@@ -63,3 +63,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     marginBottom: 8,
   },
 }));
+

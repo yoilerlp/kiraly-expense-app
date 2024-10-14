@@ -121,11 +121,10 @@ export default function BadgeView() {
 
             return (
               <BudgetCard
+                category={item.category!}
                 amount={item.amount}
                 amountUsed={amountUsed}
                 warningAmount={item.amountAlert!}
-                categoryName={item.category?.name || ''}
-                categoryKey={item.category?.key || ''}
                 onPress={() => {
                   router.push(`/budget/${item.id}`);
                 }}

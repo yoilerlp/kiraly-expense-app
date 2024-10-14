@@ -43,10 +43,7 @@ export default function BudgetListView() {
   }, [data]);
 
   return (
-    <FetchWrapper
-      loading={isLoading}
-      error={error}
-    >
+    <FetchWrapper loading={isLoading} error={error}>
       <SafeAreasSetting statusBarBgColor={theme.Colors.violet_100} />
       <Stack.Screen
         options={{
@@ -71,8 +68,7 @@ export default function BudgetListView() {
             <View>
               <BudgetBasicCard
                 amount={item.amount}
-                categoryKey={item.category?.key}
-                categoryName={item.category?.name || ''}
+                category={item.category!}
                 month={item.month}
                 onPress={() => {
                   router.push(`/budget/${item.id}`);

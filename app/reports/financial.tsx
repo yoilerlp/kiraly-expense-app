@@ -8,8 +8,8 @@ import {
   BasicDateFiltersEnum,
   FilterOptionsList,
   capitalizeFirstLetter,
-  categoriesColorsConfig,
   generateMinAndMaxDateBasedOnFilters,
+  getCategoryConfig,
 } from '@/utils';
 import { IconName } from '@/components/icon';
 import LineChart from '@/components/graph/LineChart';
@@ -102,8 +102,7 @@ export default function FinancialReportView() {
     isForStatusBar = false
   ) => {
     const pieChartData = categories.map((categoryData) => {
-      const categoryColorConfig =
-        categoriesColorsConfig[categoryData.category.key];
+      const categoryColorConfig = getCategoryConfig(categoryData.category);
 
       return {
         color: categoryColorConfig?.iconColor || theme.Colors.dark_100,

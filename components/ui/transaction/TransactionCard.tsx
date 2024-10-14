@@ -4,7 +4,9 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Icon from '@/components/icon';
 import Typography from '@/components/typography';
 import { Transaction, TransactionType } from '@/interfaces/transaction';
-import { getTransactionCategoryIcon } from '@/utils/category';
+import {
+  getCategoryConfig,
+} from '@/utils/category';
 import { formatTransactionCardDateByFilter } from '@/utils/date';
 import { Link } from 'expo-router';
 import { formatCurrency } from '@/utils/currency';
@@ -20,7 +22,7 @@ function TransactionCard({
 }: TransactionCardProps) {
   const { styles, theme } = useStyles(StylesSheet);
 
-  const iconDetails = getTransactionCategoryIcon(transaction.category.key);
+  const iconDetails = getCategoryConfig(transaction?.category);
 
   const isExpense = transaction.type === TransactionType.EXPENSE;
 

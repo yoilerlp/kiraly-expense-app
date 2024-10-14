@@ -2,12 +2,12 @@ import { Button, Icon, Typography } from '@/components';
 import ScreenHeader from '@/components/header';
 import { Link, Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { BudgetService } from '@/services';
 import LoadingScreen from '@/components/LoadingScreen';
-import { categoriesColorsConfig } from '@/utils';
+import { getCategoryConfig } from '@/utils';
 import ProgressBar from '@/components/graph/ProgressBar';
 import ErrorScreen from '@/components/ErrorScreen';
 import BottomSheet from '@/components/bottomSheet';
@@ -55,7 +55,7 @@ export default function BudgetDetailsView() {
     },
   });
 
-  const categoryColorConfig = categoriesColorsConfig[budget?.category?.key!];
+  const categoryColorConfig = getCategoryConfig(budget?.category!);
 
   const budgetCalcs = useMemo(() => {
     if (!budget) return undefined;

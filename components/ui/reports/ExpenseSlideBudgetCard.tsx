@@ -2,9 +2,9 @@ import { View, Text } from 'react-native';
 import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Typography from '@/components/typography';
-import { Budget, CategoryKey } from '@/interfaces';
+import { Budget } from '@/interfaces';
 import CategoryIconCard from '../CategoryIconCard';
-import { categoriesColorsConfig } from '@/utils';
+import { getCategoryConfig } from '@/utils';
 
 type ExpenseSlideBudgetCardProps = {
   reportDateLabel: string;
@@ -38,10 +38,7 @@ export default function ExpenseSlideBudgetCard({
           </Typography>
           <View style={styles.budgetList}>
             {budgetsExceeds?.map((budget) => {
-              const categoryColorConfig =
-                categoriesColorsConfig[
-                  budget?.category?.key! || ('' as CategoryKey.OTHER)
-                ];
+              const categoryColorConfig = getCategoryConfig(budget?.category!);
               return (
                 <CategoryIconCard
                   key={budget?.id}
@@ -82,3 +79,4 @@ const StylesSheet = createStyleSheet((theme) => ({
     flexWrap: 'wrap',
   },
 }));
+

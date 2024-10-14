@@ -30,3 +30,4 @@ export default function ValidateLoginView() {
     <Redirect href={isOnBoardingVisited ? '/auth/login' : '/auth/onboarding'} />
   );
 }
+

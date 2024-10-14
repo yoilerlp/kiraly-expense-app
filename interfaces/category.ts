@@ -26,10 +26,21 @@ export interface Category {
   type: CategoryType;
   isActive: boolean;
   userId: string;
+  mainColor: string | null;
+  subColor: string | null;
+  icon: string | null;
 }
 
 export enum CategoryType {
   USER = 'USER',
   SYSTEM = 'SYSTEM',
+}
+
+export enum CategoryColorType {
+  VIOLET = 'VIOLET',
+  RED = 'RED',
+  BLUE = 'BLUE',
+  GREEN = 'GREEN',
+  YELLOW = 'YELLOW',
 }
 
