@@ -1,10 +1,23 @@
 {
-    "configurations": [
-        {
-            "type": "react-native-ide",
-            "request": "launch",
-            "name": "React Native IDE panel",
-            "isExpo": true
-        }
-    ]
+  // Use IntelliSense para saber los atributos posibles.
+  // Mantenga el puntero para ver las descripciones de los existentes atributos.
+  // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "radon-ide",
+      "request": "launch",
+      "name": "Radon IDE panel",
+      //   "eas": {
+      //     "android": {
+      //       "profile": "development",
+      //       "buildUUID": "9c29384d-3fb4-4bc6-95b4-11d9662eff0d",
+      //       "buildType": "debug",
+      //       "productFlavor": "staging"
+      //     }
+      //   },
+      "isExpo": true
+    }
+  ]
 }
+
