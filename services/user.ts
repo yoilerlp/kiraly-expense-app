@@ -100,7 +100,9 @@ export const LoginUser = async (data: { email: string; password: string }) => {
   }
 };
 
-export const GetTokenInfo = async (token: string) => {
+export const GetTokenInfo = async (tokenP?: string) => {
+  const token = await getStorageItem(StorageKeys.authToken);
+
   try {
     const responseBody = await fetch(`${API_URL}/auth/token-info`, {
       headers: {

@@ -1,14 +1,18 @@
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import AuthContext from '.';
 import useUserLogged from '@/hooks/useUserLogged';
 import { setStorageItemAsync } from '@/utils/storage';
 import { useRouter } from 'expo-router';
 
 export default function AuthContextProvider({ children }: PropsWithChildren) {
+  const [shouldReAuth, setShouldReAuth] = useState(false);
+
   const rotuer = useRouter();
 
   const { data, isError, isLoading, refetch, token, updateUserData } =
-    useUserLogged();
+    useUserLogged({
+      enabledQuery: shouldReAuth,
+    });
 
   const logOut = () => {
     setStorageItemAsync('token', null);
@@ -26,6 +30,8 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
       value={{
         user: data!,
         isLoading: isLoading,
+        shouldReAuth,
+        setShouldReAuth,
         logOut,
         getUserToken() {
           return token;

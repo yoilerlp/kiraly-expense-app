@@ -53,16 +53,13 @@ function RootLayoutNav() {
         <AuthContextProvider>
           <PageContextProvider>
             <PageContainer>
-              <>
-                <Stack
-                  // initialRouteName='/'
-                  screenOptions={{
-                    headerShown: false,
-                    contentStyle: { backgroundColor: 'white' },
-                    animation: 'fade_from_bottom',
-                  }}
-                />
-              </>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: 'white' },
+                  animation: 'fade_from_bottom',
+                }}
+              />
             </PageContainer>
             <CustomToast />
           </PageContextProvider>

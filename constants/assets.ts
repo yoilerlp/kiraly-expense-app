@@ -4,6 +4,8 @@ const moneyGoes = require('../assets/images/onboarding/money_goes.png');
 const moneyPlan = require('../assets/images/onboarding/plan.png');
 const emailSend = require('../assets/images/onboarding/email_send.png');
 
+const appIcon = require('../assets/images/icon.png');
+
 //fonts
 // const InterRegular = require('../assets/fonts/Inter-Regular.ttf');
 const InterSemiBold = require('../assets/fonts/Inter-SemiBold.ttf');
@@ -39,6 +41,7 @@ export const assets = {
   fonts,
   images: {
     avatar,
+    appIcon,
   },
 };
 

@@ -2,21 +2,27 @@ import React from 'react';
 import { Redirect } from 'expo-router';
 
 import LoadingScreen from '@/components/LoadingScreen';
-import useAuth from '@/hooks/useAuth';
 import useStorageValue from '@/hooks/useStorageValue';
 import { StorageKeys } from '@/constants/storageKeys';
 
-export default function ValidateLoginView() {
-  const { user, isLoading } = useAuth();
+const defaultToken = '';
+const defaultOnBoardingVisited = '';
 
+export default function ValidateLoginView() {
+  const { value: token, loading: loadingToken } = useStorageValue(
+    StorageKeys.authToken,
+    defaultToken
+  );
   const { value, loading: loadingOnBoarding } = useStorageValue(
     StorageKeys.onBoardingVisited,
-    ''
+    defaultOnBoardingVisited
   );
 
-  if (isLoading || loadingOnBoarding) return <LoadingScreen />;
+  if (loadingOnBoarding || loadingToken) return <LoadingScreen />;
 
-  if (user && !isLoading) return <Redirect href={'/main/home'} />;
+  if (token) {
+    return <Redirect href={'/auth/validateSession'} />;
+  }
 
   const isOnBoardingVisited = value === 'true';
 

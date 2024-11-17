@@ -36,10 +36,16 @@ export default function LoginScreen() {
         text1: 'Login successfully',
       });
       await setStorageItemAsync(StorageKeys.authToken, data.access_token);
-      // await setStorageItemAsync('user', JSON.stringify(data.user));
+      await setStorageItemAsync(
+        StorageKeys.user,
+        JSON.stringify({
+          name: data.user.name,
+          email: data.user.email,
+        })
+      );
       auth.updateUserData?.(data.user);
+      if (!auth.shouldReAuth) auth?.setShouldReAuth?.(true);
       router.replace('/main/home');
-      // auth?.reloadUser?.();
     },
     onError: async (error: string, variables) => {
       if (error === USER_NO_ACTIVE) {

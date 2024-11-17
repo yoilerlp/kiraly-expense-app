@@ -37,7 +37,7 @@ const config = {
     splash: {
       image: './assets/images/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#cebaf9',
+      backgroundColor: '#7F3DFF',
     },
     assetBundlePatterns: ['**/*'],
     ios: {

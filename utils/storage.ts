@@ -35,3 +35,17 @@ export async function getStorageItem(key: string) {
   }
 }
 
+export async function removeStorageItem(key: string) {
+  if (Platform.OS === 'web') {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(key);
+      }
+    } catch (e) {
+      console.error('Local storage is unavailable:', e);
+    }
+  } else {
+    await SecureStore.deleteItemAsync(key);
+  }
+}
+
