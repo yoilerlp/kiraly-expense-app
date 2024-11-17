@@ -24,8 +24,8 @@ function LineChart({ data, minDate, maxDate }: Props) {
       data,
       width: WIDTH,
       height: HEIGHT,
-      minDate,
-      maxDate,
+      // minDate,
+      // maxDate,
     });
   }, [data, minDate, maxDate]);
 

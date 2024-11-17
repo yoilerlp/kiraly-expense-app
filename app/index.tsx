@@ -17,12 +17,6 @@ export default function ValidateLoginView() {
   if (isLoading || loadingOnBoarding) return <LoadingScreen />;
 
   if (user && !isLoading) return <Redirect href={'/main/home'} />;
-  // if (user && !isLoading)
-  //   return (
-  //     <Redirect
-  //       href={`/transactions/view/transaction/3e096db0-552c-48e0-88c6-3db63301206b`}
-  //     />
-  //   );
 
   const isOnBoardingVisited = value === 'true';
 

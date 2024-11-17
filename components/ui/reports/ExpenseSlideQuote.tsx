@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import Typography from '@/components/typography';
@@ -21,7 +21,7 @@ export default function ExpenseSlideQuote({
   const { styles, theme } = useStyles(StylesSheet);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} style={{ flex: 1 }}>
       {quoteData?.quote ? (
         <View>
           <Typography
@@ -52,7 +52,7 @@ export default function ExpenseSlideQuote({
       >
         <Button variant='secondary' size='full' text='See the full detail' />
       </Link>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -61,5 +61,7 @@ const StylesSheet = createStyleSheet((theme) => ({
     flex: 1,
     paddingTop: 64,
     justifyContent: 'space-between',
+    flexGrow: 1,
   },
 }));
+

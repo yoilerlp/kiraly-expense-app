@@ -1,11 +1,4 @@
-import { router } from 'expo-router';
-
 export const getErrorMsgFromResponse = (error: ServiceErrorResponse) => {
-  if (error.statusCode === 401) {
-    if (!router.canGoBack()) return;
-    router.replace('/auth/login');
-  }
-
   let errorMsg: string;
 
   if (typeof error.message === 'string') {
@@ -18,3 +11,4 @@ export const getErrorMsgFromResponse = (error: ServiceErrorResponse) => {
 
   return errorMsg;
 };
+

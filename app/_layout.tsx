@@ -10,6 +10,8 @@ import PageContextProvider from '@/context/pageContext';
 import PageContainer from '@/components/PageContainer';
 import { assets } from '../constants/assets';
 import CustomToast from '@/components/toast';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { LoadingSpinner } from '@/components';
 
 import '@/unistyles';
 
@@ -44,9 +46,6 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { LoadingSpinner } from '@/components';
-
 function RootLayoutNav() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -72,3 +71,4 @@ function RootLayoutNav() {
     </GestureHandlerRootView>
   );
 }
+

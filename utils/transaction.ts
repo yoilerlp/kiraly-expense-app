@@ -3,7 +3,6 @@ import * as dateFns from 'date-fns';
 import * as dateFnsTz from 'date-fns-tz';
 import { capitalizeFirstLetter } from './text';
 
-
 export const BALANCE_QUERY_KEY = 'user_balance_key';
 
 type IGroupBy = 'Week' | 'Month' | 'Year' | 'All';
@@ -29,10 +28,11 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
       (acc, transaction) => {
         const { Today = [], Yesterday = [], Week = [], Other = [] } = acc;
         const today = dateFnsTz.toZonedTime(new Date(), 'UTC');
+        const yesterday = dateFns.subDays(today, 1);
         const transactionDate = new Date(transaction.createdAt);
         if (dateFns.isSameDay(today, transactionDate)) {
           Today.push(transaction);
-        } else if (dateFns.isBefore(transactionDate, today)) {
+        } else if (dateFns.isSameDay(transactionDate, yesterday)) {
           Yesterday.push(transaction);
         } else if (dateFns.isSameWeek(transactionDate, today)) {
           Week.push(transaction);
@@ -64,11 +64,13 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
 
         const today = dateFnsTz.toZonedTime(new Date(), 'UTC');
 
+        const yesterday = dateFns.subDays(today, 1);
+
         const transactionDate = new Date(transaction.createdAt);
 
         if (dateFns.isSameDay(today, transactionDate)) {
           Today.push(transaction);
-        } else if (dateFns.isBefore(transactionDate, today)) {
+        } else if (dateFns.isSameDay(transactionDate, yesterday)) {
           Yesterday.push(transaction);
         } else {
           Other.push(transaction);
@@ -111,17 +113,17 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
 
       const transactionYear = capitalizeFirstLetter(
         // transactionDate.format('YYYY')
-        dateFns.format(transactionDate, 'YYYY')
+        dateFns.format(transactionDate, 'yyyy')
       );
 
       const transactionMonth = capitalizeFirstLetter(
         // transactionDate.format('MMMM')
-        dateFns.format(transactionDate, 'MMMM')
+        dateFns.format(transactionDate, 'MMM')
       );
 
       const transactionDay = capitalizeFirstLetter(
         // transactionDate.format('D')
-        dateFns.format(transactionDate, 'D')
+        dateFns.format(transactionDate, 'd')
       );
 
       const key = `${transactionDay} ${transactionMonth} ${transactionYear}`;
@@ -133,3 +135,4 @@ const GroupBy: Partial<Record<IGroupBy, any>> = {
     }, {} as Record<string, Transaction[]>);
   },
 };
+

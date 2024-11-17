@@ -302,7 +302,7 @@ const CreateBudgetStyles = createStyleSheet((theme) => ({
     backgroundColor: theme.Colors.violet_100,
   },
   amontContainer: {
-    flex: 7,
+    flex: 3,
     justifyContent: 'flex-end',
     gap: 13,
     paddingHorizontal: 26,
