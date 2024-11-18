@@ -163,7 +163,7 @@ export default function HomeScreen() {
           </View>
         )}
         ListHeaderComponent={() => (
-          <View>
+          <View style={{ flex: 1 }}>
             <UserBalance
               selectedMonth={selectedMonth}
               onChangeSelectedMonth={setSelectedMonth}
