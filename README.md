@@ -4,6 +4,7 @@
 
 App for tracking expenses. It is a native app for Android and iOS and allow you to track your transactions, accounts, categorize them and generate reports. Also, allow you to create budget for your expenses and more.
 
+- [Desing inspiration](https://www.figma.com/community/file/998557875473123405/montra-expense-tracker-ui-kit)
 - [backend](https://github.com/yoilerlp/kiraly-expense-api)
 
 ## Tech Stack
