@@ -7,6 +7,7 @@ import { StorageKeys } from '@/constants/storageKeys';
 
 const defaultToken = '';
 const defaultOnBoardingVisited = '';
+const defaultBlockByBiometrics = '';
 
 export default function ValidateLoginView() {
   const { value: token, loading: loadingToken } = useStorageValue(
@@ -17,14 +18,19 @@ export default function ValidateLoginView() {
     StorageKeys.onBoardingVisited,
     defaultOnBoardingVisited
   );
-
-  if (loadingOnBoarding || loadingToken) return <LoadingScreen />;
-
-  if (token) {
-    return <Redirect href={'/auth/validateSession'} />;
-  }
+  const { value: blockByBiometrics, loading: loadingBlockByBiometrics } =
+    useStorageValue(StorageKeys.blockByBiometric, defaultBlockByBiometrics);
 
   const isOnBoardingVisited = value === 'true';
+
+  const isBlockByBiometric = blockByBiometrics === 'true';
+
+  if (loadingOnBoarding || loadingToken || loadingBlockByBiometrics)
+    return <LoadingScreen />;
+
+  if (token && isBlockByBiometric) {
+    return <Redirect href={'/auth/validateSession'} />;
+  }
 
   return (
     <Redirect href={isOnBoardingVisited ? '/auth/login' : '/auth/onboarding'} />

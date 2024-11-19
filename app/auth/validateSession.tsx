@@ -3,16 +3,27 @@ import FetchWrapper from '@/components/FetchWrapper';
 import SafeAreasSetting from '@/components/SafeAreasSetting';
 import { StorageKeys } from '@/constants/storageKeys';
 import useStorageValue from '@/hooks/useStorageValue';
-import { removeStorageItem } from '@/utils';
+import {
+  LogicStringValue,
+  removeStorageItem,
+  setStorageItemAsync,
+} from '@/utils';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import * as LocalAuthentication from 'expo-local-authentication';
 import useAuth from '@/hooks/useAuth';
+import useBiometricsDetails from '@/hooks/useBiometricsDetails';
+import Toast from 'react-native-toast-message';
 
 function ValidateSessionScreen() {
   const { setShouldReAuth } = useAuth();
+
+  const {
+    biometrics,
+    isLoading: loadingBiometrics,
+    authenticateAsync,
+  } = useBiometricsDetails();
 
   const router = useRouter();
 
@@ -31,48 +42,44 @@ function ValidateSessionScreen() {
     return JSON.parse(value as unknown as string);
   }, [value]);
 
-  const validateBiometrics = async () => {
-    const hasHardware = await LocalAuthentication.hasHardwareAsync();
-
-    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
-
-    const sopported =
-      await LocalAuthentication.supportedAuthenticationTypesAsync();
-
-    const supportFingerPrint = sopported.includes(
-      LocalAuthentication.AuthenticationType.FINGERPRINT
-    );
-
-    const supportFaceId = sopported.includes(
-      LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION
-    );
-
-    return {
-      hasHardware,
-      isEnrolled,
-      supportFingerPrint,
-      supportFaceId,
-    };
-  };
-
   const validateBiometricsLogin = async () => {
-    const { hasHardware, isEnrolled } = await validateBiometrics();
+    if (!biometrics) {
+      return;
+    }
+
+    const { hasHardware, isEnrolled } = biometrics;
 
     if (!hasHardware || !isEnrolled) {
+      await setStorageItemAsync(
+        StorageKeys.blockByBiometric,
+        LogicStringValue.false
+      );
       handleClickLoginWithPassword();
       return;
     }
 
-    const result = await LocalAuthentication.authenticateAsync({
+    await setStorageItemAsync(
+      StorageKeys.blockByBiometric,
+      LogicStringValue.true
+    );
+
+    const result = await authenticateAsync({
       cancelLabel: 'Cancel',
       promptMessage: 'Verify your fingerprint or face ID to log in.',
       requireConfirmation: true,
     });
 
-    if (result.success) {
-      setShouldReAuth?.(true);
-      router.replace('/main/home');
+    if (!result.success) {
+      Toast.show({
+        type: 'error',
+        text1: 'Authentication failed',
+      });
+
+      return;
     }
+
+    setShouldReAuth?.(true);
+    router.replace('/main/home');
   };
 
   const handleClickLoginWithPassword = async () => {
@@ -86,7 +93,7 @@ function ValidateSessionScreen() {
   }, []);
 
   return (
-    <FetchWrapper loading={loading}>
+    <FetchWrapper loading={loading || loadingBiometrics}>
       <View style={styles.container}>
         <SafeAreasSetting
           statusBarBgColor={theme.Colors.violet_100}

@@ -34,11 +34,11 @@ const config = {
     icon: './assets/images/icon.png',
     scheme: 'myapp',
     userInterfaceStyle: 'automatic',
-    splash: {
-      image: './assets/images/splash.png',
-      resizeMode: 'contain',
-      backgroundColor: '#7F3DFF',
-    },
+    // splash: {
+    //   image: './assets/images/splash.png',
+    //   resizeMode: 'contain',
+    //   backgroundColor: '#7F3DFF',
+    // },
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
@@ -68,9 +68,18 @@ const config = {
             'The app accesses your photos to let you save invoice images',
         },
       ],
+      [
+        'expo-splash-screen',
+        {
+          backgroundColor: '#7F3DFF',
+          image: './assets/images/splash.png',
+          imageWidth: 500,
+        },
+      ],
     ],
     experiments: {
       typedRoutes: true,
+      reactCompiler: true,
     },
     extra: {
       router: {

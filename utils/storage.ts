@@ -49,3 +49,8 @@ export async function removeStorageItem(key: string) {
   }
 }
 
+export const LogicStringValue = {
+  true: 'true',
+  false: 'false',
+};
+

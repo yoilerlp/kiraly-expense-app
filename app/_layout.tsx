@@ -19,6 +19,10 @@ const queryClient = new QueryClient();
 
 export { ErrorBoundary } from 'expo-router';
 
+SplashScreen.setOptions({
+  fade: true,
+});
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {

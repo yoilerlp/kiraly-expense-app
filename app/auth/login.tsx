@@ -14,15 +14,15 @@ import useAuth from '@/hooks/useAuth';
 import { StorageKeys } from '@/constants/storageKeys';
 import { USER_NO_ACTIVE } from '@/utils/user';
 import { UserService } from '@/services';
-import { IS_DEV } from '@/constants/app';
+import { IS_DEV, DEV_PASSWORD, DEV_USERNAME } from '@/constants/app';
 
 export default function LoginScreen() {
   const auth = useAuth();
 
   const { control, formState, handleSubmit } = useForm({
     defaultValues: {
-      email: IS_DEV ? 'yoylerqs@gmail.com' : '',
-      password: IS_DEV ? 'qwerty' : '',
+      email: IS_DEV ? DEV_USERNAME : '',
+      password: IS_DEV ? DEV_PASSWORD : '',
     },
   });
   const { errors } = formState;
@@ -156,7 +156,7 @@ const loginStyles = createStyleSheet((theme) => ({
     ...theme.Typography.Title3,
     color: theme.Colors.violet_100,
     textAlign: 'center',
-    marginBottom: 38,
+    marginVertical: 38,
   },
   dontHaveAccount: {
     ...theme.Typography.Body2,
