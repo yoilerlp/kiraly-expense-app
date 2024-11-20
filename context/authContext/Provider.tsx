@@ -7,6 +7,8 @@ import { useRouter } from 'expo-router';
 export default function AuthContextProvider({ children }: PropsWithChildren) {
   const [shouldReAuth, setShouldReAuth] = useState(false);
 
+  const [appUnlocked, setAppUnlocked] = useState(false);
+
   const rotuer = useRouter();
 
   const { data, isError, isLoading, refetch, token, updateUserData } =
@@ -31,6 +33,8 @@ export default function AuthContextProvider({ children }: PropsWithChildren) {
         user: data!,
         isLoading: isLoading,
         shouldReAuth,
+        appUnlocked,
+        setAppUnlocked,
         setShouldReAuth,
         logOut,
         getUserToken() {

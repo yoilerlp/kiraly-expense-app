@@ -1,5 +1,4 @@
 import { fontNames } from '@/constants/assets';
-import type { TextStyle } from 'react-native';
 
 export const TypographyList = {
   TitleX: {

@@ -6,7 +6,7 @@ import { Link, Stack, router } from 'expo-router';
 import { View, Text } from 'react-native';
 import React from 'react';
 
-import { setStorageItemAsync } from '@/utils/storage';
+import { LogicStringValue, setStorageItemAsync } from '@/utils/storage';
 import { Input, Button } from '@/components';
 import { LoginUser } from '@/services/user';
 import ScreenHeader from '@/components/header';
@@ -15,9 +15,12 @@ import { StorageKeys } from '@/constants/storageKeys';
 import { USER_NO_ACTIVE } from '@/utils/user';
 import { UserService } from '@/services';
 import { IS_DEV, DEV_PASSWORD, DEV_USERNAME } from '@/constants/app';
+import useBiometricsDetails from '@/hooks/useBiometricsDetails';
 
 export default function LoginScreen() {
   const auth = useAuth();
+
+  const { biometrics } = useBiometricsDetails();
 
   const { control, formState, handleSubmit } = useForm({
     defaultValues: {
@@ -43,8 +46,15 @@ export default function LoginScreen() {
           email: data.user.email,
         })
       );
+      if (biometrics?.hasHardware && biometrics?.isEnrolled) {
+        await setStorageItemAsync(
+          StorageKeys.blockByBiometric,
+          LogicStringValue.true
+        );
+      }
       auth.updateUserData?.(data.user);
       if (!auth.shouldReAuth) auth?.setShouldReAuth?.(true);
+      auth?.setAppUnlocked?.(true);
       router.replace('/main/home');
     },
     onError: async (error: string, variables) => {

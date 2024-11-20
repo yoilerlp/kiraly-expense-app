@@ -25,6 +25,8 @@ export default function ValidateLoginView() {
 
   const isBlockByBiometric = blockByBiometrics === 'true';
 
+  console.log({ isBlockByBiometric });
+
   if (loadingOnBoarding || loadingToken || loadingBlockByBiometrics)
     return <LoadingScreen />;
 

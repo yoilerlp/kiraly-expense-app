@@ -8,7 +8,7 @@ import {
   removeStorageItem,
   setStorageItemAsync,
 } from '@/utils';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -17,7 +17,11 @@ import useBiometricsDetails from '@/hooks/useBiometricsDetails';
 import Toast from 'react-native-toast-message';
 
 function ValidateSessionScreen() {
-  const { setShouldReAuth } = useAuth();
+  const { from } = useLocalSearchParams<{
+    from: string;
+  }>();
+
+  const { setShouldReAuth, setAppUnlocked } = useAuth();
 
   const {
     biometrics,
@@ -79,6 +83,10 @@ function ValidateSessionScreen() {
     }
 
     setShouldReAuth?.(true);
+    setAppUnlocked?.(true);
+    if (from) {
+      router.push(from as any);
+    }
     router.replace('/main/home');
   };
 
@@ -90,7 +98,7 @@ function ValidateSessionScreen() {
 
   useEffect(() => {
     validateBiometricsLogin();
-  }, []);
+  }, [biometrics]);
 
   return (
     <FetchWrapper loading={loading || loadingBiometrics}>

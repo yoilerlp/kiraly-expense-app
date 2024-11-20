@@ -24,6 +24,25 @@ export default function ScreenHeader({
   const router = useRouter();
   const { styles, theme } = useStyles(hedaerStyles);
   const tintColor = textColor || theme.Colors.dark_50;
+
+  const handleClickGoBack = () => {
+    if (onClickGoBack) {
+      onClickGoBack();
+      return;
+    }
+
+    if (returnUrl) {
+      router.push(returnUrl as any);
+      return;
+    }
+
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+    router.push('/main/home');
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
       <View style={styles.rowContent}>
@@ -31,18 +50,7 @@ export default function ScreenHeader({
           name='ArrowBack'
           size={24}
           color={tintColor}
-          onPress={() => {
-            if (onClickGoBack) {
-              onClickGoBack();
-              return;
-            }
-
-            if (returnUrl) {
-              router.push(returnUrl as any);
-              return;
-            }
-            router.back();
-          }}
+          onPress={handleClickGoBack}
         />
         <Text style={[styles.title, { color: tintColor }]}>{title}</Text>
         {rightIcon ? rightIcon : <View />}
@@ -69,3 +77,4 @@ const hedaerStyles = createStyleSheet((theme) => ({
     alignSelf: 'center',
   },
 }));
+

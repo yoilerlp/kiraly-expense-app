@@ -1,11 +1,21 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import usePageContainer from '@/hooks/usePageContainer';
 import { StatusBar } from 'expo-status-bar';
+import { usePathname, useRouter } from 'expo-router';
+import useAuth from '@/hooks/useAuth';
+
+// const authRoute = '/auth';
 
 export default function PageContainer({ children }: PropsWithChildren) {
+  // const router = useRouter();
+
+  // const { appUnlocked, shouldReAuth, setAppUnlocked } = useAuth();
+
+  // const path = usePathname();
+
   const { top, bottom, left, right } = useSafeAreaInsets();
 
   const { statusBarStyles } = usePageContainer();
@@ -15,6 +25,16 @@ export default function PageContainer({ children }: PropsWithChildren) {
     statusBarContainerStyles,
     statusBarProps,
   } = statusBarStyles;
+
+  // useEffect(() => {
+  //   if (!path.startsWith(authRoute) && !appUnlocked && shouldReAuth) {
+  //     console.log('path auth', path);
+  //     router.replace(`/auth/validateSession?from=${path}` as any);
+  //   }
+  // }, [path]);
+
+  console.log('por aqui');
+
 
   return (
     <View

@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import ScreenHeader from '@/components/header';
 import { Stack, useLocalSearchParams } from 'expo-router';
