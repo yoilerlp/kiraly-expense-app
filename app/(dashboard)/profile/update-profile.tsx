@@ -12,7 +12,7 @@ import { UserService } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { convertLoadedFilesToFiles } from '@/utils';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 import { CURRENT_USER_QUERY_KEY } from '@/hooks/useUserLogged';
 
 type IUpdateProfileForm = {

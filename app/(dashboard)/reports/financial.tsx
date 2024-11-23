@@ -24,7 +24,7 @@ import BarChart from '@/components/graph/BarChart';
 import { generateFinancialReportData } from '@/utils/reports';
 import FetchWrapper from '@/components/FetchWrapper';
 import SafeAreasSetting from '@/components/SafeAreasSetting';
-import { formatCurrency } from '../../utils/currency';
+import { formatCurrency } from '../../../utils/currency';
 
 const graphTypesList: {
   icon: IconName;

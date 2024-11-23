@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import ScreenHeader from '@/components/header';
 import { Colors } from '@/theme/Colors';
 import useSetPageContainerStyles from '@/hooks/useSetPageContainerStyles';
-import CreateTransferScreen from '../../components/screens/CreateTransferScreen';
+import CreateTransferScreen from '../../../components/screens/CreateTransferScreen';
 
 export default function ExpenseView() {
   useSetPageContainerStyles({

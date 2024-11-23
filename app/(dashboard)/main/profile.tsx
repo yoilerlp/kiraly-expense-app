@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import SafeAreasSetting from '../../components/SafeAreasSetting';
+import SafeAreasSetting from '../../../components/SafeAreasSetting';
 import ProfileDetails from '@/components/ui/profile/ProfileDetails';
 import ProfileActionItem from '@/components/ui/profile/ProfileActionItem';
 import { IconName } from '@/components/icon';

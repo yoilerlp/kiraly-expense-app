@@ -4,6 +4,7 @@ import { Redirect } from 'expo-router';
 import LoadingScreen from '@/components/LoadingScreen';
 import useStorageValue from '@/hooks/useStorageValue';
 import { StorageKeys } from '@/constants/storageKeys';
+import { Text } from 'react-native';
 
 const defaultToken = '';
 const defaultOnBoardingVisited = '';
