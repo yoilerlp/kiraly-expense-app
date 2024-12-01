@@ -32,10 +32,6 @@ export default function PageContainer({ children }: PropsWithChildren) {
   //     router.replace(`/auth/validateSession?from=${path}` as any);
   //   }
   // }, [path]);
-
-  console.log('por aqui');
-
-
   return (
     <View
       style={{

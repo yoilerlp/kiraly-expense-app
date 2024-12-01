@@ -2,7 +2,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
-import { Link, Stack, router } from 'expo-router';
+import { Link, Stack, router, useLocalSearchParams } from 'expo-router';
 import { View, Text } from 'react-native';
 import React from 'react';
 
@@ -19,6 +19,10 @@ import useBiometricsDetails from '@/hooks/useBiometricsDetails';
 
 export default function LoginScreen() {
   const auth = useAuth();
+
+  const { from } = useLocalSearchParams<{
+    from: string;
+  }>();
 
   const { biometrics } = useBiometricsDetails();
 
@@ -55,6 +59,11 @@ export default function LoginScreen() {
       auth.updateUserData?.(data.user);
       if (!auth.shouldReAuth) auth?.setShouldReAuth?.(true);
       auth?.setAppUnlocked?.(true);
+
+      if (from) {
+        router.replace(from as any);
+        return;
+      }
       router.replace('/main/home');
     },
     onError: async (error: string, variables) => {

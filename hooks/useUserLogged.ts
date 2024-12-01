@@ -4,13 +4,11 @@ import useStorageValue from './useStorageValue';
 import { StorageKeys } from '@/constants/storageKeys';
 
 export const CURRENT_USER_QUERY_KEY = 'currentUser';
-export default function useUserLogged(
-  {
-    enabledQuery = false,
-  }: {
-    enabledQuery?: boolean;
-  } = { enabledQuery: false }
-) {
+export default function useUserLogged({
+  enabledQuery = false,
+}: {
+  enabledQuery?: boolean;
+} = {}) {
   const queryClinet = useQueryClient();
 
   const { value: token, loading: loadingToken } = useStorageValue(
@@ -21,7 +19,8 @@ export default function useUserLogged(
   const userQuery = useQuery({
     queryKey: [CURRENT_USER_QUERY_KEY, token],
     queryFn: () => UserService.GetTokenInfo(token),
-    enabled: enabledQuery ? !!token : false,
+    enabled: !!token && enabledQuery,
+    staleTime: 1,
     retry: 1,
   });
 

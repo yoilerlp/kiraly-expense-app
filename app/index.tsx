@@ -4,39 +4,30 @@ import { Redirect } from 'expo-router';
 import LoadingScreen from '@/components/LoadingScreen';
 import useStorageValue from '@/hooks/useStorageValue';
 import { StorageKeys } from '@/constants/storageKeys';
-import { Text } from 'react-native';
+import useAuth from '@/hooks/useAuth';
+import { LogicStringValue } from '@/utils';
 
-const defaultToken = '';
 const defaultOnBoardingVisited = '';
-const defaultBlockByBiometrics = '';
-
 export default function ValidateLoginView() {
-  const { value: token, loading: loadingToken } = useStorageValue(
-    StorageKeys.authToken,
-    defaultToken
-  );
+  // const { isLoading: loadingSession, user } = useAuth();
+
   const { value, loading: loadingOnBoarding } = useStorageValue(
     StorageKeys.onBoardingVisited,
     defaultOnBoardingVisited
   );
-  const { value: blockByBiometrics, loading: loadingBlockByBiometrics } =
-    useStorageValue(StorageKeys.blockByBiometric, defaultBlockByBiometrics);
 
-  const isOnBoardingVisited = value === 'true';
-
-  const isBlockByBiometric = blockByBiometrics === 'true';
-
-  console.log({ isBlockByBiometric });
-
-  if (loadingOnBoarding || loadingToken || loadingBlockByBiometrics)
+  if (loadingOnBoarding) {
     return <LoadingScreen />;
-
-  if (token && isBlockByBiometric) {
-    return <Redirect href={'/auth/validateSession'} />;
   }
 
+  // if (user?.id) {
+  //   return <Redirect href={'/auth/validateSession'} />;
+  // }
+
+  const isOnBoardingVisited = value === LogicStringValue.true;
+
   return (
-    <Redirect href={isOnBoardingVisited ? '/auth/login' : '/auth/onboarding'} />
+    <Redirect href={isOnBoardingVisited ? '/main/home' : '/auth/onboarding'} />
   );
 }
 

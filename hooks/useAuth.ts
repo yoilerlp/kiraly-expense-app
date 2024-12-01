@@ -4,3 +4,4 @@ import AuthContext from '@/context/authContext';
 export default function useAuth() {
   return useContext(AuthContext);
 }
+

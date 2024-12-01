@@ -101,13 +101,12 @@ export const LoginUser = async (data: { email: string; password: string }) => {
 };
 
 export const GetTokenInfo = async (tokenP?: string) => {
-  const token = await getStorageItem(StorageKeys.authToken);
-
+  // const token = await getStorageItem(StorageKeys.authToken);
   try {
     const responseBody = await fetch(`${API_URL}/auth/token-info`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokenP}`,
       },
     });
 
@@ -119,7 +118,10 @@ export const GetTokenInfo = async (tokenP?: string) => {
 
     return responseData.data;
   } catch (error: any) {
-    throw getErrorMsgFromResponse(error);
+    const errorMsg = getErrorMsgFromResponse(error, {
+      validateUnauthorized: false,
+    });
+    throw errorMsg;
   }
 };
 

@@ -8,7 +8,7 @@ import {
   removeStorageItem,
   setStorageItemAsync,
 } from '@/utils';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -86,6 +86,7 @@ function ValidateSessionScreen() {
     setAppUnlocked?.(true);
     if (from) {
       router.push(from as any);
+      return;
     }
     router.replace('/main/home');
   };
@@ -93,7 +94,12 @@ function ValidateSessionScreen() {
   const handleClickLoginWithPassword = async () => {
     await removeStorageItem(StorageKeys.authToken);
 
-    router.replace('/auth/login');
+    router.replace({
+      pathname: '/auth/login',
+      params: {
+        from,
+      },
+    });
   };
 
   useEffect(() => {

@@ -1,4 +1,22 @@
-export const getErrorMsgFromResponse = (error: ServiceErrorResponse) => {
+import { router } from 'expo-router';
+import { removeStorageItem } from './storage';
+import { StorageKeys } from '@/constants/storageKeys';
+
+type Options = {
+  validateUnauthorized?: boolean;
+};
+
+export const getErrorMsgFromResponse = (
+  error: ServiceErrorResponse,
+  options: Options = {
+    validateUnauthorized: true,
+  }
+) => {
+  if (options?.validateUnauthorized && error.statusCode === 401) {
+    router.replace('/auth/login');
+    removeStorageItem(StorageKeys.authToken);
+  }
+
   let errorMsg: string;
 
   if (typeof error.message === 'string') {
