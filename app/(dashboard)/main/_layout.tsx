@@ -14,10 +14,17 @@ export default function MainLayout() {
       tabBar={(props) => {
         return <TabBar {...props} />;
       }}
+      initialRouteName='home'
       screenOptions={{
         headerShown: false,
       }}
-    />
+    >
+      <Tabs.Screen name='index' />
+      <Tabs.Screen name='home' />
+      <Tabs.Screen name='transaction' />
+      <Tabs.Screen name='budget' />
+      <Tabs.Screen name='profile' />
+    </Tabs>
   );
 }
 

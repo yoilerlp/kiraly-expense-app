@@ -10,7 +10,6 @@ import { Stack, useRouter } from 'expo-router';
 import useAuth from '@/hooks/useAuth';
 import { CustomBottomSheetComp } from '@/components';
 import BottomSheetDecision from '@/components/bottomSheet/BottomSheetDecision';
-import ScreenHeader from '@/components/header';
 
 const profileActions: {
   text: string;

@@ -46,6 +46,10 @@ const tabBarItemsRight: TabScreenData[] = [
 export default function TabBar({ navigation, state }: TabBarProps) {
   const { styles } = useStyles(TabBarStyles);
 
+  console.log({
+    state,
+  })
+
   const [itemsLeft, itemsRight] = useMemo(() => {
     function createSubArrays(array: any[], chunkSize: number) {
       const subArrays = [];

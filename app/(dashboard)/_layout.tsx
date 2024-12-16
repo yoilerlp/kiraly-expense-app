@@ -11,7 +11,6 @@ function DashboardLayout() {
   if (!appUnlocked) {
     return (
       <Redirect
-        withAnchor
         href={{
           pathname: '/auth/validateSession',
           params: {

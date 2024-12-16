@@ -4,7 +4,6 @@ import { Redirect } from 'expo-router';
 import LoadingScreen from '@/components/LoadingScreen';
 import useStorageValue from '@/hooks/useStorageValue';
 import { StorageKeys } from '@/constants/storageKeys';
-import useAuth from '@/hooks/useAuth';
 import { LogicStringValue } from '@/utils';
 
 const defaultOnBoardingVisited = '';

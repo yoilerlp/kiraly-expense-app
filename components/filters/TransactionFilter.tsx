@@ -38,7 +38,7 @@ function TransactionFilter({
 }: TransactionFilterProps) {
   const { styles, theme } = useStyles(StylesSheet);
 
-  const [showModalSelectCategory, setShowModalSelectCategory] = useState(false);
+  const [showModalSelectCategory, setShowModalSelectCategory] = useState(true);
 
   const [showModalSelectAccount, setShowModalSelectAccount] = useState(false);
 

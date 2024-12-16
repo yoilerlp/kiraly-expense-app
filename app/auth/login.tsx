@@ -64,7 +64,7 @@ export default function LoginScreen() {
         router.replace(from as any);
         return;
       }
-      router.replace('/main/home');
+      router.replace('/(dashboard)/main');
     },
     onError: async (error: string, variables) => {
       if (error === USER_NO_ACTIVE) {

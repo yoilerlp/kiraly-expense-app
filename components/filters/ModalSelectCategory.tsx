@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, ScrollView, View } from 'react-native';
-import Typography from '../typography';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import { Modal, ScrollView, View } from 'react-native';
+
+import Typography from '../typography';
 import CustomCheckBox from '../checkbox';
 import Button from '../button';
 import Icon from '../icon';
@@ -94,7 +95,7 @@ const StylesSheet = createStyleSheet((theme) => ({
     paddingHorizontal: 8,
   },
   modalBody: {
-    flex: 0.5,
+    maxHeight: 450,
     backgroundColor: theme.Colors.light_100,
     padding: 24,
     borderRadius: 24,

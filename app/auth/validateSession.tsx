@@ -88,7 +88,7 @@ function ValidateSessionScreen() {
       router.push(from as any);
       return;
     }
-    router.replace('/main/home');
+    router.replace('/(dashboard)/main');
   };
 
   const handleClickLoginWithPassword = async () => {

@@ -79,7 +79,7 @@ const config = {
     ],
     experiments: {
       typedRoutes: true,
-      reactCompiler: true,
+      // reactCompiler: true,
     },
     extra: {
       router: {
