@@ -5,17 +5,18 @@ import LoadingScreen from '@/components/LoadingScreen';
 import useStorageValue from '@/hooks/useStorageValue';
 import { StorageKeys } from '@/constants/storageKeys';
 import { LogicStringValue } from '@/utils';
+import useAuth from '@/hooks/useAuth';
 
 const defaultOnBoardingVisited = '';
 export default function ValidateLoginView() {
-  // const { isLoading: loadingSession, user } = useAuth();
+  const { isLoading: loadingSession } = useAuth();
 
   const { value, loading: loadingOnBoarding } = useStorageValue(
     StorageKeys.onBoardingVisited,
     defaultOnBoardingVisited
   );
 
-  if (loadingOnBoarding) {
+  if (loadingOnBoarding || loadingSession) {
     return <LoadingScreen />;
   }
 

@@ -1,6 +1,6 @@
 import LoadingScreen from '@/components/LoadingScreen';
 import useAuth from '@/hooks/useAuth';
-import { Redirect, Slot, usePathname } from 'expo-router';
+import { Redirect, Slot, Stack, usePathname } from 'expo-router';
 import React from 'react';
 
 function DashboardLayout() {
@@ -25,7 +25,15 @@ function DashboardLayout() {
     return <LoadingScreen />;
   }
 
-  return <Slot />;
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: 'white' },
+        animation: 'fade_from_bottom',
+      }}
+    />
+  );
 }
 
 export default DashboardLayout;

@@ -12,10 +12,10 @@ export const getErrorMsgFromResponse = (
     validateUnauthorized: true,
   }
 ) => {
-  if (options?.validateUnauthorized && error.statusCode === 401) {
-    router.replace('/auth/login');
-    removeStorageItem(StorageKeys.authToken);
-  }
+  // if (options?.validateUnauthorized && error.statusCode === 401) {
+  //   router.replace('/auth/login');
+  //   removeStorageItem(StorageKeys.authToken);
+  // }
 
   let errorMsg: string;
 
