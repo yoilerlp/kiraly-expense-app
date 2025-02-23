@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from 'react-native';
-import React, { useMemo, useState } from 'react';
+import React, { Fragment, useMemo, useState } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import SafeAreasSetting from '@/components/SafeAreasSetting';
 import { Stack } from 'expo-router';
@@ -81,89 +81,91 @@ export default function LoansView() {
 
   return (
     <FetchWrapper loading={isLoading} error={error}>
-      <FlatList
-        data={loans}
-        keyExtractor={(item) => item.accountId}
-        contentContainerStyle={{
-          paddingHorizontal: 16,
-        }}
-        ListHeaderComponent={() => (
-          <>
-            <View style={styles.container}>
-              <Stack.Screen
-                options={{
-                  headerShown: true,
-                  header: () => (
-                    <ScreenHeader
-                      title='Loans'
-                      bgColor={theme.Colors.violet_100}
-                      textColor={theme.Colors.light_100}
-                    />
-                  ),
-                }}
-              />
-              <SafeAreasSetting
-                statusBarBgColor={theme.Colors.violet_100}
-                bottomBgColor={theme.Colors.violet_100}
-              />
-              <View style={styles.section}>
-                <TabNavigationContainer>
-                  <TabNavigationItem
-                    isActive={!showMyDebts}
-                    text={'Owes me'}
-                    onPress={() => {
-                      setShowMyDebts(false);
-                    }}
+      <View style={{ flex: 1 }}>
+        <Fragment>
+          <View style={styles.container}>
+            <Stack.Screen
+              options={{
+                headerShown: true,
+                header: () => (
+                  <ScreenHeader
+                    title='Loans'
+                    bgColor={theme.Colors.violet_100}
+                    textColor={theme.Colors.light_100}
                   />
-                  <TabNavigationItem
-                    isActive={showMyDebts}
-                    text={'I owe'}
-                    onPress={() => {
-                      setShowMyDebts(true);
-                    }}
-                  />
-                </TabNavigationContainer>
-              </View>
+                ),
+              }}
+            />
+            <SafeAreasSetting
+              statusBarBgColor={theme.Colors.violet_100}
+              bottomBgColor={theme.Colors.violet_100}
+            />
+            <View style={styles.section}>
+              <TabNavigationContainer>
+                <TabNavigationItem
+                  isActive={!showMyDebts}
+                  text={'Owes me'}
+                  onPress={() => {
+                    setShowMyDebts(false);
+                  }}
+                />
+                <TabNavigationItem
+                  isActive={showMyDebts}
+                  text={'I owe'}
+                  onPress={() => {
+                    setShowMyDebts(true);
+                  }}
+                />
+              </TabNavigationContainer>
+            </View>
 
-              <View style={[styles.section, styles.form]}>
-                <View style={styles.input}>
-                  <Input
-                    placeholder='Add new loan account'
-                    value={accountName}
-                    onChangeText={(text) => {
-                      setAccountName(text);
-                    }}
-                  />
-                </View>
-                <Button
-                  disabled={
-                    createAccountMutation.isPending || accountName?.length < 5
-                  }
-                  isLoading={createAccountMutation.isPending}
-                  onPress={handleCreateAccount}
-                  text='Add'
-                  size='small'
-                  style={{
-                    alignSelf: 'flex-end',
+            <View style={[styles.section, styles.form]}>
+              <View style={styles.input}>
+                <Input
+                  placeholder='Add new loan account'
+                  value={accountName}
+                  onChangeText={(text) => {
+                    setAccountName(text);
                   }}
                 />
               </View>
-
-              {/* <View style={styles.section}></View> */}
+              <Button
+                disabled={
+                  createAccountMutation.isPending || accountName?.length < 5
+                }
+                isLoading={createAccountMutation.isPending}
+                onPress={handleCreateAccount}
+                text='Add'
+                size='small'
+                style={{
+                  alignSelf: 'flex-end',
+                }}
+              />
             </View>
-          </>
-        )}
-        renderItem={({ item }) => {
-          return <LoanCard loan={item} />;
-        }}
-      />
+
+            {/* <View style={styles.section}></View> */}
+          </View>
+        </Fragment>
+        <FlatList
+          style={{ flex: 1 }}
+          data={loans}
+          keyExtractor={(item) => item.accountId}
+          contentContainerStyle={{
+            paddingHorizontal: 16,
+          }}
+          ListHeaderComponent={() => null}
+          renderItem={({ item }) => {
+            return <LoanCard loan={item} />;
+          }}
+        />
+      </View>
     </FetchWrapper>
   );
 }
 
 const StylesSheet = createStyleSheet((theme) => ({
   container: {
-    flex: 1,
+    // flex: 1,
     paddingTop: 24,
     paddingHorizontal: 16,
   },
