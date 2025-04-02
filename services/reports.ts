@@ -35,3 +35,33 @@ export const GetUserBasicExpensesReport = async ({
     throw getErrorMsgFromResponse(error);
   }
 };
+
+export const GetUserTotalIncomeAndExpenses = async () => {
+  try {
+    const token = await getStorageItem(StorageKeys.authToken);
+
+    const responseBody = await fetch(
+      `${API_URL}/statistics/expense-general-balance`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const responseData: ServiceResponse<{
+      total_income: number;
+      total_expense: number;
+    }> = await responseBody.json();
+
+    if (!responseBody.ok) {
+      throw responseData;
+    }
+
+    return responseData.data;
+  } catch (error: any) {
+    throw getErrorMsgFromResponse(error);
+  }
+};
+

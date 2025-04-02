@@ -4,13 +4,20 @@ import Select from '@/components/select';
 import Typography from '@/components/typography';
 import BalanceCard from '@/components/ui/BalanceCard';
 import UserAvatar from '@/components/ui/UserAvatar';
+import useGeneralExpenseAndIconme from '@/hooks/data/useBasicExpensesBalance';
+import useBasicExpensesReport from '@/hooks/data/useBasicExpensesReport';
 import useAuth from '@/hooks/useAuth';
 import { useDebounce } from '@/hooks/useDebounce';
 import { TransactionService } from '@/services';
-import { BALANCE_QUERY_KEY } from '@/utils';
+import {
+  BALANCE_QUERY_KEY,
+  BasicDateFilters,
+  BasicDateFiltersEnum,
+} from '@/utils';
 import { removeDuplicateByKey } from '@/utils/array';
 import { formatCurrency } from '@/utils/currency';
 import {
+  generateMinAndMaxDateBasedOnFilters,
   generateMonthObject,
   getMinAndMaxDateInMonthUTCFromLocalTime,
   getMonthsInRange,
@@ -95,6 +102,14 @@ function UserBalance({
     enabled: !!balanceFilterData,
   });
 
+  // year balance
+  const { data: yearReportData, isLoading: isLoadingYearReport } =
+    useGeneralExpenseAndIconme();
+
+  console.log({
+    yearReportData,
+  });
+
   const lineChartData = useMemo(() => {
     if (!balanceData) return [];
     return balanceData?.transactions?.map(({ createdAt, amount }) => ({
@@ -165,10 +180,28 @@ function UserBalance({
           >
             $
             {formatCurrency(
+              Number(yearReportData?.total_income || 0) -
+                Number(yearReportData?.total_expense || 0)
+            )}
+          </Typography>
+          <Typography color={theme.Colors.light_20} center type='Body3'>
+            Month Balance
+          </Typography>
+          <Typography
+            color={theme.Colors.dark_75}
+            center
+            type='Title1'
+            style={[styles.balanceValue, { marginBottom: 16 }]}
+            numberOfLines={1}
+            ellipsizeMode='tail'
+          >
+            $
+            {formatCurrency(
               Number(balanceData?.balance?.income || 0) -
                 Number(balanceData?.balance?.expense || 0)
             )}
           </Typography>
+
           <View style={styles.balanceCardsContainer}>
             <BalanceCard
               type='income'
@@ -230,9 +263,7 @@ const StylesSheet = createStyleSheet((theme) => ({
     width: 100,
   },
   balanceValue: {
-    fontSize: 40,
-    marginTop: 8,
-    marginBottom: 24,
+    marginBlock: 8,
     textAlign: 'center',
   },
   balanceCardsContainer: {
