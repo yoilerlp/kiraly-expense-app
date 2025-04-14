@@ -26,6 +26,7 @@ type SelectProps<T = string> = {
   };
 
   iconProps?: Partial<IconProps>;
+  mode?: "dialog" | "dropdown" | undefined
 } & Pick<PickerSelectProps, 'onOpen' | 'onClose' | 'disabled'>;
 
 export default function Select<T>({
@@ -40,6 +41,7 @@ export default function Select<T>({
   style: customStyle = {},
   iconProps = {},
   placeholderDefaultValue,
+  mode = "dialog"
 }: SelectProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -64,7 +66,7 @@ export default function Select<T>({
           color: theme.Colors.light_20,
         }}
         pickerProps={{
-          mode: 'dropdown',
+          mode
         }}
         Icon={
           Platform.OS === 'android'

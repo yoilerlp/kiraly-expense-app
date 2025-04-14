@@ -26,12 +26,6 @@ export default function PageContainer({ children }: PropsWithChildren) {
     statusBarProps,
   } = statusBarStyles;
 
-  // useEffect(() => {
-  //   if (!path.startsWith(authRoute) && !appUnlocked && shouldReAuth) {
-  //     console.log('path auth', path);
-  //     router.replace(`/auth/validateSession?from=${path}` as any);
-  //   }
-  // }, [path]);
   return (
     <View
       style={{

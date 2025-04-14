@@ -106,9 +106,6 @@ function UserBalance({
   const { data: yearReportData, isLoading: isLoadingYearReport } =
     useGeneralExpenseAndIconme();
 
-  console.log({
-    yearReportData,
-  });
 
   const lineChartData = useMemo(() => {
     if (!balanceData) return [];
@@ -145,6 +142,7 @@ function UserBalance({
               </TouchableOpacity>
             </Link>
             <Select
+              mode='dialog'
               value={selectedMonth}
               onChange={setSelectedMonth}
               items={monthsList?.map((month) => ({
