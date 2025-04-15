@@ -47,3 +47,6 @@ expo-env.d.ts
 # @end expo-cli
 
 .vscode/
+kiraly-expense-tracker-firebase-adminsdk-fbsvc-1389020b77.json
+google-services.json
+google-services.dev.json

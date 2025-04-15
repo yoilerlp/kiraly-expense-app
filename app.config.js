@@ -25,6 +25,15 @@ const getAppName = () => {
   return 'Kiraly(Dev)';
 };
 
+const getGoogleServiceFile = () => {
+  if (IS_DEV) {
+    return './google-services.dev.json';
+  }
+
+  return './google-services.json';
+};
+
+
 const config = {
   expo: {
     name: getAppName(),
@@ -51,6 +60,7 @@ const config = {
       },
       package: getUniqueIdentifier(),
       usesCleartextTraffic: true,
+      googleServicesFile: getGoogleServiceFile(),
     },
     web: {
       bundler: 'metro',
@@ -79,7 +89,7 @@ const config = {
     ],
     experiments: {
       typedRoutes: true,
-      // reactCompiler: true,
+      reactCompiler: true,
     },
     extra: {
       router: {
