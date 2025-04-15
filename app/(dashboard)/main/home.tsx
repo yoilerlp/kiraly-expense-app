@@ -2,7 +2,7 @@ import { View, Text, FlatList, RefreshControl } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import React, { useMemo, useState } from 'react';
 import useSetPageContainerStyles from '@/hooks/useSetPageContainerStyles';
-import { Typography } from '@/components';
+import { Icon, Typography } from '@/components';
 import TabsBasicDateFilter from '@/components/filters/TabsBasicDateFilter';
 import { BasicDateFiltersEnum, BasicDateFiltersList } from '@/utils/filters';
 import PillTab from '@/components/ui/PillTab';
@@ -150,14 +150,17 @@ export default function HomeScreen() {
           `${item.pagination.page}-${item.pagination.limit}-${item.pagination.total}`
         }
         ListEmptyComponent={() => (
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
+          <View style={styles.emptyContainer}>
             {isLoading ? (
-              <LoadingSpinner />
+              <View style={styles.loaderContainer}>
+                <LoadingSpinner />
+              </View>
             ) : (
-              <View style={{ alignItems: 'center', flex: 1, minHeight: 200 }}>
-                <Text>No transactions found</Text>
+              <View style={styles.emptyContent}>
+                <Icon name='Document' size={80} color={theme.Colors.dark_100} />
+                <Typography center type='Title3'>
+                  No transactions found
+                </Typography>
               </View>
             )}
           </View>
@@ -238,5 +241,17 @@ const HomeStyles = createStyleSheet((theme) => ({
     marginBottom: 8,
     paddingHorizontal: 16,
   },
+  emptyContainer: {
+    height: '100%',
+    backgroundColor: theme.Colors.yellowGradient.start,
+  },
+  loaderContainer: {
+    height: '40%',
+  },
+  emptyContent: {
+    height: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 }));
 

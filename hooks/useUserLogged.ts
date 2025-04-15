@@ -21,7 +21,7 @@ export default function useUserLogged({
     queryFn: () => UserService.GetTokenInfo(token),
     enabled: !!token && enabledQuery,
     staleTime: 1,
-    retry: 1,
+    retry: 3,
   });
 
   return {

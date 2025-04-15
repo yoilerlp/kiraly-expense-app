@@ -32,7 +32,7 @@ const tabBarItemsLeft: TabScreenData[] = [
 
 const tabBarItemsRight: TabScreenData[] = [
   {
-    key: 'budget',
+    key: 't_budget',
     title: 'Budget',
     iconName: 'Budget',
   },

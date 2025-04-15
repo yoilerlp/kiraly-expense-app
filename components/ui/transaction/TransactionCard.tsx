@@ -72,12 +72,12 @@ function TransactionCard({
                 color={theme.Colors.dark_25}
                 numberOfLines={1}
                 ellipsizeMode='tail'
-                style={{ width: '40%' }}
+                style={{ width: '50%' }}
               >
                 {transaction.description}
               </Typography>
               <Typography
-                type='Body3'
+                type='Tiny'
                 color={theme.Colors.dark_25}
                 numberOfLines={1}
                 ellipsizeMode='tail'
