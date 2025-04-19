@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import * as SplashScreen from 'expo-splash-screen';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import * as Notifications from 'expo-notifications';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 
@@ -21,6 +22,17 @@ import '@/unistyles';
 const queryClient = new QueryClient();
 
 export { ErrorBoundary } from 'expo-router';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    const config: Notifications.NotificationBehavior = {
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    };
+    return config;
+  },
+});
 
 SplashScreen.setOptions({
   fade: true,
@@ -56,9 +68,9 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NotificationProvider>
-        <QueryClientProvider client={queryClient}>
-          <AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
+          <NotificationProvider>
             <PageContextProvider>
               <PageContainer>
                 <Stack
@@ -71,9 +83,9 @@ function RootLayoutNav() {
               </PageContainer>
               <CustomToast />
             </PageContextProvider>
-          </AuthContextProvider>
-        </QueryClientProvider>
-      </NotificationProvider>
+          </NotificationProvider>
+        </AuthContextProvider>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }

@@ -79,7 +79,7 @@ export default function CreateBadgetForm({
         text2: 'Budget created successfully',
       });
 
-      router.replace(`/main/budget?month=${month}` as any);
+      router.replace(`/(dashboard)/main/t_budget?month=${month}` as any);
     },
     onError(error: string) {
       Toast.show({
@@ -99,7 +99,7 @@ export default function CreateBadgetForm({
         text2: 'Budget updated successfully',
       });
 
-      router.replace(`/main/budget?month=${month}` as any);
+      router.replace(`/(dashboard)/main/t_budget?month=${month}` as any);
     },
     onError(error: string) {
       Toast.show({

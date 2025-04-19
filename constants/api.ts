@@ -7,8 +7,8 @@ export const BASE_API = process.env.EXPO_PUBLIC_API_URL;
 
 export const NINJA_API_KEY = process.env.EXPO_PUBLIC_NINJA_API_KEY!;
 
-// const localApiURl = 'http://192.168.1.32:3000/api';
-const localApiURl = 'https://apis.yoyler.dev/kiraly/api';
+const localApiURl = 'http://192.168.1.26:3000/api';
+// const localApiURl = 'https://apis.yoyler.dev/kiraly/api';
 // const localApiURl = 'http://localhost:3000/api/v1';
 
 const getApiURL = () => {

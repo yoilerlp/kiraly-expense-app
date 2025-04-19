@@ -10,6 +10,8 @@ import { Stack, useRouter } from 'expo-router';
 import useAuth from '@/hooks/useAuth';
 import { CustomBottomSheetComp } from '@/components';
 import BottomSheetDecision from '@/components/bottomSheet/BottomSheetDecision';
+import { useNotification } from '@/context/NotificationContext';
+import { DeleteToken } from '@/services/notification';
 
 const profileActions: {
   text: string;
@@ -60,9 +62,19 @@ export default function ProfileView() {
 
   const auth = useAuth();
 
+  const { expoPushToken } = useNotification();
+
   const { styles, theme } = useStyles(StylesSheet);
 
   const router = useRouter();
+
+  const handleLogout = async () => {
+    auth.logOut();
+
+    if (expoPushToken) {
+      await DeleteToken(expoPushToken);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -120,9 +132,7 @@ export default function ProfileView() {
           onCancel={() => {
             setBottomSheetIndex(-1);
           }}
-          onConfirm={() => {
-            auth.logOut();
-          }}
+          onConfirm={handleLogout}
         />
       </CustomBottomSheetComp>
     </View>

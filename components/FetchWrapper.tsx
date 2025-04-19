@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { PropsWithChildren } from 'react';
 import LoadingScreen from './LoadingScreen';
 import ErrorScreen from './ErrorScreen';

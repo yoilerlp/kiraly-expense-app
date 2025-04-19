@@ -7,7 +7,11 @@ import React, {
   ReactNode,
 } from 'react';
 import * as Notifications from 'expo-notifications';
+import { useRouter } from 'expo-router';
+
 import { registerForPushNotificationsAsync } from '@/utils/registerForPushNotificationsAsync';
+import { SavePushToken } from '@/services/notification';
+import useAuth from '@/hooks/useAuth';
 
 interface NotificationContextType {
   expoPushToken: string | null;
@@ -36,34 +40,54 @@ interface NotificationProviderProps {
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
 }) => {
+  const { user } = useAuth();
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
   const [notification, setNotification] =
     useState<Notifications.Notification | null>(null);
   const [error, setError] = useState<Error | null>(null);
+  const router = useRouter();
 
   const notificationListener = useRef<Notifications.EventSubscription>();
   const responseListener = useRef<Notifications.EventSubscription>();
 
+  const handleClickNotification = (
+    response: Notifications.NotificationResponse
+  ) => {
+    const { data: notificationData } = response.notification.request.content;
+
+    const isForBudget =
+      notificationData?.type === 'budget-alert' && notificationData?.budgetId;
+
+    if (isForBudget) {
+      const { budgetId } = notificationData;
+      router.push(`/budget/${budgetId}`);
+    }
+  };
+
   useEffect(() => {
     registerForPushNotificationsAsync().then(
-      (token) => setExpoPushToken(token),
+      async (token) => {
+        setExpoPushToken(token);
+
+        if (user && user?.id) {
+          const result = await SavePushToken({
+            token,
+            userId: user.id,
+          });
+          console.log(result);
+        }
+      },
       (error) => setError(error)
     );
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        console.log('🔔 Notification Received: ', notification);
         setNotification(notification);
       });
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(
-          '🔔 Notification Response: ',
-          JSON.stringify(response, null, 2),
-          JSON.stringify(response.notification.request.content.data, null, 2)
-        );
-        // Handle the notification response here
+        handleClickNotification(response);
       });
 
     return () => {
@@ -76,6 +100,23 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         Notifications.removeNotificationSubscription(responseListener.current);
       }
     };
+  }, [user]);
+
+  // recover last noficiation
+  useEffect(() => {
+    const handleRedirectToPageByNotification = async () => {
+      try {
+        const lastResponse =
+          await Notifications.getLastNotificationResponseAsync();
+        if (lastResponse) {
+          handleClickNotification(lastResponse);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handleRedirectToPageByNotification();
   }, []);
 
   return (

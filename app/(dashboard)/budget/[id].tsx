@@ -91,6 +91,7 @@ export default function BudgetDetailsView() {
             return (
               <ScreenHeader
                 title={'Detail Budget'}
+                returnUrl='/main/t_budget'
                 rightIcon={
                   <Icon.WithOpacity
                     name='Trash'
@@ -105,20 +106,6 @@ export default function BudgetDetailsView() {
         }}
       />
       <View style={styles.container}>
-        {/* <View style={styles.categorySection}>
-          <View
-            style={[
-              styles.iconContainer,
-              {
-                backgroundColor:
-                  categoryColorConfig?.containerColor || theme.Colors.light_100,
-              },
-            ]}
-          >
-            <Icon name={categoryColorConfig?.name || 'Other'} size={18} />
-          </View>
-          <Typography type='Title3'>{budget?.category?.name}</Typography>
-        </View> */}
         <CategoryIconCard
           containerColor={categoryColorConfig?.containerColor}
           iconName={categoryColorConfig?.name}

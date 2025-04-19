@@ -6,7 +6,7 @@ export default function CreateBadgetView() {
     month: string;
   }>();
 
-  if (!month || isNaN(Number(month))) return <Redirect href='/main/budget' />;
+  if (!month || isNaN(Number(month))) return <Redirect href='/(dashboard)/main/t_budget' />;
 
   return (
     <>

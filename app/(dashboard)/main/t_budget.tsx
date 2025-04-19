@@ -1,5 +1,5 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import React, { useState } from 'react';
 import {
   Link,
@@ -39,6 +39,8 @@ export default function BadgeView() {
     return availableMonths[currentMonthIdx];
   });
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const { styles, theme } = useStyles(StylesSheet);
 
   useSetPageContainerStyles({
@@ -58,7 +60,11 @@ export default function BadgeView() {
     delay: 300,
   });
 
-  const { data: budgets, isLoading } = useBudgets({
+  const {
+    data: budgets,
+    isLoading,
+    refetch,
+  } = useBudgets({
     month: debounceSelectedMonth + 1,
     year: new Date().getFullYear(),
   });
@@ -73,6 +79,16 @@ export default function BadgeView() {
     const previousMonth = availableMonths[selectedMonth.value - 1];
     if (!previousMonth) return;
     setSelectedMonth(previousMonth);
+  };
+
+  const handleReflesh = () => {
+    setIsRefreshing(true);
+
+    setTimeout(() => {
+      refetch();
+
+      setIsRefreshing(false);
+    }, 1000);
   };
 
   return (
@@ -108,6 +124,12 @@ export default function BadgeView() {
         style={{ backgroundColor: theme.Colors.light_100, paddingBottom: 24 }}
       >
         <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleReflesh}
+            />
+          }
           data={budgets}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
