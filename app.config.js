@@ -33,7 +33,6 @@ const getGoogleServiceFile = () => {
   return './google-services.json';
 };
 
-
 const config = {
   expo: {
     name: getAppName(),
@@ -84,6 +83,25 @@ const config = {
           backgroundColor: '#7F3DFF',
           image: './assets/images/splash.png',
           imageWidth: 500,
+        },
+      ],
+      [
+        'expo-quick-actions',
+        {
+          androidIcons: {
+            expense: {
+              foregroundImage: './assets/icons/expense.png',
+              backgroundColor: '#FFFFFF',
+            },
+            income: {
+              foregroundImage: './assets/icons/income.png',
+              backgroundColor: '#FFFFFF',
+            },
+          },
+          iosIcons: {
+            expense: './assets/icons/expense.png',
+            income: './assets/icons/income.png',
+          },
         },
       ],
     ],

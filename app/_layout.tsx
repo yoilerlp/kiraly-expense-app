@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 
+import { useQuickActionRouting } from 'expo-quick-actions/router';
 import * as SplashScreen from 'expo-splash-screen';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import * as QuickActions from 'expo-quick-actions';
 import * as Notifications from 'expo-notifications';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -18,6 +20,7 @@ import { assets } from '../constants/assets';
 import CustomToast from '@/components/toast';
 
 import '@/unistyles';
+import { AppQuickActions } from '@/utils/app';
 
 const queryClient = new QueryClient();
 
@@ -53,10 +56,23 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
+    const setupQuickActions = async () => {
+      const isSupported = await QuickActions.isSupported();
+
+      if (!isSupported) return;
+
+      QuickActions.setItems(AppQuickActions).catch((err) => console.log(err));
+    };
+    setupQuickActions();
+  }, []);
+
+  useEffect(() => {
     if (appIsReady) {
       SplashScreen.hideAsync();
     }
   }, [appIsReady]);
+
+  useQuickActionRouting((action) => {});
 
   if (!appIsReady) {
     return <LoadingSpinner />;

@@ -5,7 +5,9 @@ import React from 'react';
 
 function DashboardLayout() {
   const path = usePathname();
-
+  console.log({
+    path
+  })
   const { appUnlocked, isLoading } = useAuth();
 
   if (!appUnlocked) {
